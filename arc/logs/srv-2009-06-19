@@ -1,0 +1,33 @@
+1245381344 127.0.0.1 3 1  get  nil nil
+1245381344 127.0.0.1 1 0  get favicon.ico nil nil
+1245381347 127.0.0.1 4 0  get favicon.ico nil nil
+1245383160 127.0.0.1 3 5  get login nil nil
+1245383166 127.0.0.1 2 219  post x nil nil
+1245448095 127.0.0.1 3 2  get guess nil ((user UM4U0J6r))
+1245449430 127.0.0.1 2 2  get guess nil ((user UM4U0J6r))
+1245449434 127.0.0.1 3 0  post x nil ((user UM4U0J6r))
+1245449483 127.0.0.1 2 0  post x nil ((user UM4U0J6r))
+1245451145 127.0.0.1 2 1  post x nil ((user UM4U0J6r))
+1245451192 127.0.0.1 2 0  post x nil ((user UM4U0J6r))
+1245451223 127.0.0.1 2 0  post x nil ((user UM4U0J6r))
+1245451618 127.0.0.1 1 2  get arf nil ((user UM4U0J6r))
+1245451619 127.0.0.1 3 0  post r nil ((user UM4U0J6r))
+1245451620 127.0.0.1 4 0  get foo nil ((user UM4U0J6r))
+1245451662 127.0.0.1 2 0  get foo nil ((user UM4U0J6r))
+1245451664 127.0.0.1 3 0  post r nil ((user UM4U0J6r))
+1245451664 127.0.0.1 2 0  get foo nil ((user UM4U0J6r))
+1245451748 127.0.0.1 1 2  get arf nil ((user UM4U0J6r))
+1245451749 127.0.0.1 2 0  post r nil ((user UM4U0J6r))
+1245451749 127.0.0.1 2 1  get arf nil ((user UM4U0J6r))
+1245451750 127.0.0.1 2 1  post r nil ((user UM4U0J6r))
+1245451750 127.0.0.1 1 2  get arf nil ((user UM4U0J6r))
+1245451751 127.0.0.1 2 1  post r nil ((user UM4U0J6r))
+1245451751 127.0.0.1 2 2  get arf nil ((user UM4U0J6r))
+1245451888 127.0.0.1 2 0  post r nil ((user UM4U0J6r))
+1245451945 127.0.0.1 2 0  post r nil ((user UM4U0J6r))
+1245451948 127.0.0.1 2 1  post r nil ((user UM4U0J6r))
+1245451972 127.0.0.1 2 1  post r nil ((user UM4U0J6r))
+1245452120 127.0.0.1 2 2  get guess nil ((user UM4U0J6r))
+1245452121 127.0.0.1 2 1  get guess nil ((user UM4U0J6r))
+1245452122 127.0.0.1 2 1  post r nil ((user UM4U0J6r))
+1245452205 127.0.0.1 3 0  post x nil ((user UM4U0J6r))
