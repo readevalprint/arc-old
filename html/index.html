@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Bubblefresh</title>
+
+    <style type="text/css" charset="utf-8">
+/*
+dark yellow 	#808000
+light yellow	#ffff81
+
+dark magenta 	#800080
+light magenta	#ff81ff
+
+dark cyan 	#008080
+light cyan	#81ffff
+
+*/
+
+	body {
+    background:transparent url(http://static.bubblefresh.com/img/bg2.gif) repeat fixed 0 0;
+    color:#FFFFFF;
+    margin:0;
+    text-align:left;
+    font:arial;
+    padding:1em;
+	}
+	a {
+    background:transparent url(http://static.bubblefresh.com/img/bg.gif) repeat fixed 0 0;
+    color:#aaa;
+    text-decoration:none;
+	}
+	a:hover {
+	    background: #fff;
+	    color:#444
+	}
+  a.apparel:hover {
+	    background: orange;
+  }
+  a.news:hover {
+	    background: cyan;
+  }
+  a.magazine:hover {
+	    background: magenta;
+  }
+  a.bonus:hover {
+	    background: #00ff00;
+  }
+  
+	body.home #pageTitle {
+  	  border:3px solid #fff; 
+	}
+	body.apparel #pageTitle {
+  	  border:3px solid orange; 
+	}
+	body.magazine #pageTitle {
+  	  border:3px solid magenta; 
+	}
+	body.bonus #pageTitle {
+  	  border:3px solid #00ff00; 
+	}
+	body.news #pageTitle {
+  	  border:3px solid cyan; 
+	}
+	ul{
+    font-size:2em;
+    list-style-type:none;
+    margin:0;
+    padding:0;
+	}
+	.info {
+    background:transparent url(http://static.bubblefresh.com/img/bg.gif) repeat fixed 0 0;
+    color:#FFFFFF;
+    font-size:0.5em;
+    left:0;
+    padding:1em;
+    position:fixed;
+    top:18em;
+    width:19em;
+	}
+	.info img {
+	    width: 100px;
+	    height: 100px;
+	    border: 0;
+	    float:right;
+	}
+	#pageTitle {
+      float:left;
+	    font-size:3.5em;
+	    margin:0;
+	}
+
+
+	h2 {
+	    background-color:#444444;
+	    font-size:1em;
+	    margin:0;
+	    padding:1em;
+	}
+
+	p {
+	    padding:1em;
+	    background-color:#444444;
+	    font-size: 14px;
+	    line-height: 20px;
+	}
+	h1 a {
+	    /*font-size: 3em;*/
+	}
+	h1 {
+	    letter-spacing: -1px;
+	    color: #444;
+	    margin: 0 0 0 0;
+	    padding: 0 0 0 0;
+	    font-weight: bold;
+	}
+	.tagline {
+	    color: #fff;
+
+	}
+	.tagline .get { color:orange }
+	.tagline .stay { color:cyan }
+	.content {
+    margin:0 0 0 24em;
+    padding:0;
+
+  }
+	#magazine .sponser {
+	    color:#aaa;
+	    display:block;
+	    font-size:0.5em;
+	    padding:3px;
+	}
+	#magazine .sponser a {
+	    background-color:transparent;
+	}
+
+	.group {
+	    background-repeat:repeat;
+	    color:#fff;
+	    font-family:serif;
+	    font-style:italic;
+	}
+
+
+	.toolbar {
+	    margin-left:0em;
+	    margin-top:0em;
+	    float:left;
+	}
+	#home {
+	    margin:0;
+	    padding-left:0em;
+	    float:left;
+      clear: left;
+	}
+	.panel {
+
+	    color:#fff;
+	}
+	.option a {
+  	  background:transparent;
+
+  	}
+  	li .info {
+  	  display:none;
+  	}
+  	li:hover .info {
+  	  display:block;
+  	}
+
+    </style>
+</head>
+<body class="<!--bodyclass-->" >
+  <h1 id="pageTitle"><a href="/">Bubblefresh</a></h1>
+  <ul id="home" title="Bubblefresh" level="1" selected="true">
+      <li><a href="apparel" class="apparel">apparel</a><div class="info">Be nude no longer.</div></li>
+      <li><a href="news" class="news">news</a><div class="info">Word on the street.</div></li>
+      <li><a href="magazine" class="magazine">magazine</a><div class="info">Creme de la creme.</div></li>
+      <li><a href="bonus" class="bonus">bonus level</a><div class="info">+1 (login required)</div></li>
+      <li class="tagline"><span class="get">Get</span> Fresh. <span class="stay">Stay</span> Fresh.&trade;</li>
+  </ul>
+  <div class="content">
+    <!--content-->
+  </div>
+</body>
+</html>

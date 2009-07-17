@@ -1,0 +1,4 @@
+<ul id="apparel" class="content" title="Apparel">
+    <li><a href="shirts">Shirts <span class="count">(4)</span></a><div class="info">Guaranteed to improve your love life while making you rich.</div></li>
+    <li><a href="leggings">Leggings <span class="count">(0)</span></a><div class="info">Stand up and stand out with these fine leggings brought to you by Chicle de Anya.</div></li>
+</ul>

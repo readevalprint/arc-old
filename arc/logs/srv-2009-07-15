@@ -1,0 +1,280 @@
+1247668030 127.0.0.1 4 5  get  nil ((user lwTkFpiA) (show_filter true) (filter downloading))
+1247668030 127.0.0.1 3 0  get favicon.ico nil ((user lwTkFpiA) (show_filter true) (filter downloading))
+1247668033 127.0.0.1 3 0  get favicon.ico nil ((user lwTkFpiA) (show_filter true) (filter downloading))
+1247668038 127.0.0.1 3 4  get  nil ((user lwTkFpiA) (show_filter true) (filter downloading))
+1247668049 127.0.0.1 3 33  get  nil ((user Z3sjWNgY))
+1247668053 127.0.0.1 2 0  get favicon.ico nil ((user Z3sjWNgY))
+1247668057 127.0.0.1 3 3  get  nil ((user lwTkFpiA) (show_filter true) (filter downloading))
+1247668058 127.0.0.1 3 2  get  nil ((user lwTkFpiA) (show_filter true) (filter downloading))
+1247668062 127.0.0.1 3 3  get  (dfsf ) ((user lwTkFpiA) (show_filter true) (filter downloading))
+1247668071 127.0.0.1 4 226  post y nil ((user lwTkFpiA) (show_filter true) (filter downloading))
+1247668071 127.0.0.1 4 4  get x  ((user lwTkFpiA) (show_filter true) (filter downloading))
+1247668074 127.0.0.1 12 16  post y nil ((user lwTkFpiA) (show_filter true) (filter downloading))
+1247668088 127.0.0.1 2 5  get  nil ((user Z3sjWNgY))
+1247668099 127.0.0.1 3 5  get  nil ((user 4KHMtWih) (show_filter true) (filter downloading))
+1247668108 127.0.0.1 3 5  get  nil ((user 4KHMtWih) (show_filter true) (filter downloading))
+1247668142 127.0.0.1 3 0  get apparel (ajax 0.5243795499672379) ((user Z3sjWNgY))
+1247668144 127.0.0.1 3 15  get news (ajax 0.4859225985265503) ((user Z3sjWNgY))
+1247668144 127.0.0.1 3 0  get img/blank-shirt-200.png nil ((user Z3sjWNgY))
+1247668248 192.168.1.103 3 3  get  nil nil
+1247668249 192.168.1.103 2 1  get favicon.ico nil nil
+1247668275 192.168.1.103 22 3  get  nil nil
+1247668275 192.168.1.103 4 0  get favicon.ico nil nil
+1247668279 192.168.1.103 7 3  get  nil nil
+1247668279 192.168.1.103 3 0  get favicon.ico nil nil
+1247668287 127.0.0.1 3 1  get logout nil ((user Z3sjWNgY))
+1247668290 127.0.0.1 3 3  get  nil ((user Z3sjWNgY))
+1247668318 127.0.0.1 2 5  get  nil ((user Z3sjWNgY))
+1247668319 127.0.0.1 3 1  get news (ajax 0.022887223020529812) ((user Z3sjWNgY))
+1247668319 127.0.0.1 2 0  get img/blank-shirt-200.png nil ((user Z3sjWNgY))
+1247668330 192.168.1.103 3 5  get  nil nil
+1247668334 192.168.1.103 9 0  get favicon.ico nil nil
+1247668373 192.168.1.103 3 0  get apparel (ajax 0.9653984786130356) nil
+1247668376 192.168.1.103 4 1  get news (ajax 0.6151700186656714) nil
+1247668376 192.168.1.103 4 0  get img/blank-shirt-200.png nil nil
+1247668414 127.0.0.1 2 0  get img/blank-shirt-200.png nil ((user Z3sjWNgY))
+1247668500 127.0.0.1 3 5  get  nil ((user Z3sjWNgY))
+1247668500 127.0.0.1 3 1  get news (ajax 0.04210699949443908) ((user Z3sjWNgY))
+1247668522 192.168.1.103 4 0  get fakenews (ajax 0.41935169439999864) nil
+1247668526 192.168.1.103 3 1  get news (ajax 0.7606723158234714) nil
+1247668900 127.0.0.1 2 3  get m nil ((user Z3sjWNgY))
+1247668900 127.0.0.1 3 0  get iui/iui.js nil ((user Z3sjWNgY))
+1247668910 192.168.1.103 3 5  get  nil nil
+1247668916 192.168.1.103 4 1  get news (ajax 0.5029580173283419) nil
+1247668917 192.168.1.103 3 0  get favicon.ico nil nil
+1247668920 192.168.1.103 2 2  get m nil nil
+1247668920 192.168.1.103 3 0  get iui/iui.js nil nil
+1247668924 192.168.1.103 10 1  get news nil nil
+1247668957 192.168.1.103 2 3  get m nil nil
+1247668958 192.168.1.103 3 0  get favicon.ico nil nil
+1247668961 192.168.1.103 3 1  get news nil nil
+1247668971 127.0.0.1 7 1  get news nil ((user Z3sjWNgY))
+1247668973 127.0.0.1 3 0  get news nil ((user Z3sjWNgY))
+1247668974 127.0.0.1 3 2  get m nil ((user Z3sjWNgY))
+1247668975 127.0.0.1 3 2  get m nil ((user Z3sjWNgY))
+1247668977 127.0.0.1 3 1  get news nil ((user Z3sjWNgY))
+1247669080 192.168.1.103 4 2  get m nil nil
+1247669081 192.168.1.103 5 0  get favicon.ico nil nil
+1247669083 192.168.1.103 3 1  get news nil nil
+1247669092 192.168.1.103 3 3  get m nil nil
+1247669093 192.168.1.103 4 0  get favicon.ico nil nil
+1247669095 192.168.1.103 4 1  get news nil nil
+1247669129 192.168.1.103 3 7  get m nil nil
+1247669131 192.168.1.103 8 0  get favicon.ico nil nil
+1247669133 192.168.1.103 3 1  get news nil nil
+1247669176 192.168.1.103 3 1  get news nil nil
+1247669193 127.0.0.1 2 3  get m nil ((user Z3sjWNgY))
+1247669195 127.0.0.1 2 1  get news nil ((user Z3sjWNgY))
+1247669201 127.0.0.1 3 1  get news (ajax 0.7241240275887616) ((user Z3sjWNgY))
+1247669246 127.0.0.1 3 5  get  nil ((user Z3sjWNgY))
+1247669248 127.0.0.1 3 1  get news (ajax 0.07318951303102472) ((user Z3sjWNgY))
+1247669267 127.0.0.1 2 5  get  nil ((user Z3sjWNgY))
+1247669267 127.0.0.1 6 1  get news (ajax 0.3787042429891947) ((user Z3sjWNgY))
+1247669271 127.0.0.1 3 5  get  nil ((user Z3sjWNgY))
+1247669273 127.0.0.1 3 1  get news (ajax 0.670087501044906) ((user Z3sjWNgY))
+1247669356 127.0.0.1 3 5  get  nil ((user Z3sjWNgY))
+1247669358 127.0.0.1 3 1  get news (ajax 0.6706731714330968) ((user Z3sjWNgY))
+1247669374 127.0.0.1 2 5  get  nil ((user Z3sjWNgY))
+1247669374 127.0.0.1 3 1  get news (ajax 0.36085440518399603) ((user Z3sjWNgY))
+1247669392 127.0.0.1 2 5  get  nil ((user Z3sjWNgY))
+1247669392 127.0.0.1 6 1  get news (ajax 0.3653081288801123) ((user Z3sjWNgY))
+1247669394 127.0.0.1 2 5  get  nil ((user Z3sjWNgY))
+1247669413 127.0.0.1 3 1  get apparel (ajax 0.47951320238637696) ((user Z3sjWNgY))
+1247669415 127.0.0.1 3 1  get news (ajax 0.04282670656704546) ((user Z3sjWNgY))
+1247669469 127.0.0.1 3 5  get  nil ((user Z3sjWNgY))
+1247669490 192.168.1.103 4 5  get  nil nil
+1247669501 192.168.1.103 3 5  get  nil nil
+1247669518 192.168.1.103 7 0  get apparel (ajax 0.4458643110155034) nil
+1247669529 192.168.1.103 7 1  get news (ajax 0.1389051584743275) nil
+1247669577 192.168.1.103 5 0  get apparel (ajax 0.20975980212777467) nil
+1247669587 192.168.1.103 3 3  get m nil nil
+1247669589 192.168.1.103 3 0  get favicon.ico nil nil
+1247669591 192.168.1.103 4 0  get apparel nil nil
+1247669593 192.168.1.103 25 1  get news nil nil
+1247669647 192.168.1.103 6 0  get fakenews nil nil
+1247669654 192.168.1.103 2 0  get fakenews nil nil
+1247669659 192.168.1.103 3 0  get fakenews nil nil
+1247669661 192.168.1.103 183 0  get fakenews nil nil
+1247670460 192.168.1.103 3 0  get magazine nil nil
+1247670463 192.168.1.103 4 1  get news nil nil
+1247670666 127.0.0.1 3 1  get news nil ((user Z3sjWNgY))
+1247670725 127.0.0.1 2 3  get m nil ((user Z3sjWNgY))
+1247670741 127.0.0.1 6 3  get m nil ((user Z3sjWNgY))
+1247670746 192.168.1.103 12 3  get m nil nil
+1247670748 192.168.1.103 4 0  get favicon.ico nil nil
+1247670752 192.168.1.103 4 1  get news nil nil
+1247670805 192.168.1.103 3 3  get m nil nil
+1247670806 192.168.1.103 4 0  get favicon.ico nil nil
+1247673882 127.0.0.1 2 10  get  nil ((user Z3sjWNgY))
+1247677819 127.0.0.1 3 5  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247677862 127.0.0.1 3 5  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247677864 127.0.0.1 3 6  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247677924 127.0.0.1 3 0  get apparel nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247677935 127.0.0.1 3 3  get m nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247677961 127.0.0.1 3 1  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247679906 127.0.0.1 3 0  get apparel nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247679907 127.0.0.1 3 1  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247680736 127.0.0.1 3 6  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247680738 127.0.0.1 7 1  get news (ajax 0.6660474561541441) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247682037 127.0.0.1 4 1  get news (ajax 0.9011402226026111) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247682387 127.0.0.1 4 69  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247682417 127.0.0.1 3 61  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247682423 127.0.0.1 3 44  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247682496 127.0.0.1 3 52  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247682724 127.0.0.1 3 49  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247682818 127.0.0.1 8 60  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247682850 127.0.0.1 3 73  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247683059 127.0.0.1 2 74  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247683097 127.0.0.1 3 66  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247683691 127.0.0.1 3 69  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247683711 127.0.0.1 3 52  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247683748 127.0.0.1 3 88  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247683752 127.0.0.1 4 0  get magazine (ajax 0.9572016992693467) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247683754 127.0.0.1 4 0  get apparel (ajax 0.8382931093680857) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247683754 127.0.0.1 7 1  get apparel (ajax 0.9032089741415916) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247683755 127.0.0.1 3 63  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247683768 127.0.0.1 3 111  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247683779 127.0.0.1 3 1  get magazine (ajax 0.9998742819711207) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247683781 127.0.0.1 3 0  get apparel (ajax 0.7559251206010154) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247683834 127.0.0.1 3 60  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247685846 127.0.0.1 3 69  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686544 127.0.0.1 3 2  get m nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686547 127.0.0.1 3 5  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686551 127.0.0.1 4 0  get news (ajax 0.03418148410216271) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686572 127.0.0.1 3 4  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686573 127.0.0.1 3 1  get news (ajax 0.35500936939039474) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686585 127.0.0.1 3 1  get news (ajax 0.6256690901106874) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686587 127.0.0.1 3 1  get news (ajax 0.6411539444083112) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686659 127.0.0.1 3 40  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686660 127.0.0.1 3 1  get news (ajax 0.9524584228033238) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686662 127.0.0.1 4 1  get news (ajax 0.7724087044116336) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686663 127.0.0.1 4 0  get apparel (ajax 0.391173855856369) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686664 127.0.0.1 3 1  get news (ajax 0.3847921614644443) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686821 127.0.0.1 3 4  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686822 127.0.0.1 4 0  get news (ajax 0.31215059364051667) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686825 127.0.0.1 3 1  get news (ajax 0.06756674631120818) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686827 127.0.0.1 3 1  get news (ajax 0.7756097714003904) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686830 127.0.0.1 3 4  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686831 127.0.0.1 3 1  get news (ajax 0.40648418437332123) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686844 127.0.0.1 9 5  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247686844 127.0.0.1 3 7  get news (ajax 0.09793886782503436) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689011 127.0.0.1 3 4  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689012 127.0.0.1 4 6  get news (ajax 0.11830049140193599) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689141 127.0.0.1 3 0  get apparel (ajax 0.15725914617299563) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689143 127.0.0.1 3 7  get news (ajax 0.9288813206069995) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689369 127.0.0.1 3 7  get news (ajax 0.48333897249096514) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689400 127.0.0.1 10 4  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689402 127.0.0.1 3 8  get news (ajax 0.005325635500194603) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689477 127.0.0.1 3 4  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689478 127.0.0.1 3 7  get news (ajax 0.14139917142573666) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689495 127.0.0.1 3 7  get news (ajax 0.7759258471292625) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689524 127.0.0.1 4 7  get news (ajax 0.022191128442331398) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689562 127.0.0.1 3 5  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689564 127.0.0.1 3 7  get news (ajax 0.9458626464283452) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689579 127.0.0.1 3 0  get apparel (ajax 0.5902252227371712) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689580 127.0.0.1 3 7  get news (ajax 0.8198373267933122) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689580 127.0.0.1 4 0  get magazine (ajax 0.6287882781147602) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689581 127.0.0.1 4 6  get news (ajax 0.4492832764776138) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689583 127.0.0.1 3 0  get submit (ajax 0.17242532123408938) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689587 127.0.0.1 3 7  get news (ajax 0.8444538647298525) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689618 127.0.0.1 3 7  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689620 127.0.0.1 7 0  get submit nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689624 127.0.0.1 3 0  get submit nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689626 127.0.0.1 3 0  get fakenews nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689628 127.0.0.1 3 0  get submit nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689633 127.0.0.1 3 0  get submit nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689638 127.0.0.1 3 7  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689643 127.0.0.1 3 0  get submit nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689643 127.0.0.1 4 0  get submit nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689647 127.0.0.1 3 1  get submit nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689650 127.0.0.1 3 0  get submit nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689708 127.0.0.1 3 0  get submit nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689722 127.0.0.1 3 4  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689722 127.0.0.1 4 7  get news (ajax 0.9099369197597851) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689849 127.0.0.1 7 7  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689887 127.0.0.1 3 2  get m nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689889 127.0.0.1 3 7  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247689910 127.0.0.1 3 0  get submit nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690047 127.0.0.1 3 7  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690087 127.0.0.1 3 2  get m nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690089 127.0.0.1 3 7  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690104 192.168.1.103 4 10  get news nil nil
+1247690109 192.168.1.103 4 2  get m nil nil
+1247690111 192.168.1.103 4 0  get favicon.ico nil nil
+1247690112 192.168.1.103 23 7  get news nil nil
+1247690162 192.168.1.103 4 0  get submit nil nil
+1247690165 192.168.1.103 21 0  get submit nil nil
+1247690168 192.168.1.103 3 0  get submit nil nil
+1247690220 127.0.0.1 3 4  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690221 127.0.0.1 3 7  get news (ajax 0.712182437371033) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690223 127.0.0.1 3 5  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690223 127.0.0.1 3 12  get news (ajax 0.5559120499624014) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690233 127.0.0.1 3 5  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690234 127.0.0.1 3 7  get news (ajax 0.340170824976453) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690703 192.168.1.103 3 7  get news nil nil
+1247690706 192.168.1.103 4 2  get m nil nil
+1247690708 192.168.1.103 8 0  get favicon.ico nil nil
+1247690710 192.168.1.103 3 7  get news nil nil
+1247690721 192.168.1.103 4 0  get submit nil nil
+1247690842 127.0.0.1 3 0  get magazine (ajax 0.08876142765328154) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690844 127.0.0.1 3 6  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690851 127.0.0.1 3 0  get post=4 (ajax 0.739137928847002) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690872 127.0.0.1 3 1  get post (ajax 0.9231976355311449) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690881 127.0.0.1 4 0  get pdost (ajax 0.7443058102313242) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690901 127.0.0.1 3 1  get d (ajax 0.9495473700533344) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690909 127.0.0.1 3 0  get d=3 (ajax 0.13471313392012574) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690916 127.0.0.1 4 0  get d (ajax 0.06330481092169904) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690923 127.0.0.1 3 0  get d (d 3) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690943 127.0.0.1 3 0  get post (qd 1) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690953 127.0.0.1 3 7  get news (ajax 0.46548097092959695) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690968 127.0.0.1 7 0  get post (ajax 0.9080481520095447) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247690982 127.0.0.1 4 0  get post (ajax 0.8240678853213939) ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247691395 192.168.1.103 4 0  get submit nil nil
+1247691401 192.168.1.103 3 0  get fakenews nil nil
+1247691471 127.0.0.1 3 4  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247691477 127.0.0.1 3 0  get apparel nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247691489 127.0.0.1 2 8  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247691493 127.0.0.1 3 0  get submit nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247691495 127.0.0.1 2 1  get apparel nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247691496 127.0.0.1 6 7  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247691499 127.0.0.1 3 0  get fakenews nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247691691 127.0.0.1 3 7  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247692093 127.0.0.1 3 3  get m nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247692097 127.0.0.1 3 7  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247692104 127.0.0.1 3 0  get apparel nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247692105 127.0.0.1 6 7  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247692206 127.0.0.1 3 5  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247692207 127.0.0.1 3 7  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247692243 127.0.0.1 3 2  get m nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247692245 127.0.0.1 3 7  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247692259 127.0.0.1 6 2  get m nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247692261 127.0.0.1 3 7  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247692287 127.0.0.1 4 0  get submit nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247692533 127.0.0.1 3 2  get m nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247692542 192.168.1.103 3 7  get news nil nil
+1247692546 192.168.1.103 3 3  get m nil nil
+1247692548 192.168.1.103 18 0  get favicon.ico nil nil
+1247692550 192.168.1.103 3 7  get news nil nil
+1247692563 127.0.0.1 3 7  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247692571 127.0.0.1 3 1  get submit nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247692930 192.168.1.103 3 3  get m nil nil
+1247692932 192.168.1.103 3 0  get favicon.ico nil nil
+1247692934 192.168.1.103 2 10  get news nil nil
+1247692953 127.0.0.1 3 2  get m nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247692955 127.0.0.1 3 7  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247692961 127.0.0.1 4 0  get submit nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247693034 192.168.1.103 3 3  get m nil nil
+1247693039 192.168.1.103 4 7  get news nil nil
+1247693039 192.168.1.103 17 0  get favicon.ico nil nil
+1247693042 192.168.1.103 182 14  get news nil nil
+1247693062 192.168.1.103 3 0  get submit nil nil
+1247693241 192.168.1.103 3 3  get m nil nil
+1247693243 192.168.1.103 4 0  get favicon.ico nil nil
+1247693245 192.168.1.103 3 7  get news nil nil
+1247693250 192.168.1.103 4 0  get submit nil nil
+1247694926 127.0.0.1 3 4  get  nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247694927 127.0.0.1 3 11  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247694930 127.0.0.1 3 7  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))
+1247694938 192.168.1.103 3 7  get news nil nil
+1247694968 192.168.1.103 4 7  get news nil nil
+1247695039 127.0.0.1 2 10  get news nil ((user Z3sjWNgY) (_vt_sess 1247673884629VdN4GeI) (_vt_store))

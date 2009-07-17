@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Bubblefresh</title>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+    <style type="text/css" media="screen">@import "../iui/iui.css";</style>
+    <script type="application/x-javascript" src="../iui/iui.js"></script>
+    <style type="text/css" charset="utf-8">
+/*
+dark yellow 	#808000
+light yellow	#ffff81
+
+dark magenta 	#800080
+light magenta	#ff81ff
+
+dark cyan 	#008080
+light cyan	#81ffff
+*/
+
+
+	#backButton {
+
+	}
+
+	body .toolbar h1 {
+	    color: #aaa;
+	}
+	body .toolbar {
+	    background: #000;
+	    border: none;
+	}
+	.tagline {
+	    color: #aaa;
+	    background: #000;
+	    text-align: center;
+	}
+	.tagline .get { color:orange }
+	.tagline .stay { color:cyan }
+	.info, .description {
+	    color: #333;
+	    font-size: smaller;
+	    margin-top:2px;
+	    font-weight:normal;
+	}
+	#shirts li {
+	    overflow:hidden;
+	}
+	li img {
+	    width: 100px;
+	    height: 100px;
+	    border: 0;
+	    float:left;
+	}
+	li form{
+	    display: inline;
+	}
+	.buynow {
+	    width:200px;
+	}
+	#shirts .heading, #shirts form {
+	    float: left;
+	}
+	#shirts form {
+	    padding-top:5px
+	}
+	#shirt .description {
+	    float: left;
+	}
+	#magazine .sponser {
+	    color:#bbb;
+	    font-size:.5em;
+	}
+    </style>
+</head>
+<body>
+<div class="toolbar">
+    <h1 id="pageTitle"></h1>
+    <a id="backButton" class="button" href="#"></a>
+    <a class="button" href="#searchForm">Search</a>
+</div>
+
+<ul id="home" title="Music" selected="true">
+    <li><a href="#artists">Artists</a>
+    </li>
+    <li><a href="#settings">Settings</a></li>
+    <li><a href="stats.php">Stats</a></li>
+    <li><a href="http://code.google.com/p/iui/" target="_self">About</a></li>
+    <li>Nothing</li>
+
+</ul>
+<ul id="artists" title="Artists">
+    <li class="group">B</li>
+    <li><a href="#TheBeatles">The Beatles</a></li>
+    <li><a href="#BelleSebastian">Belle & Sebastian</a></li>
+    <li class="group">C</li>
+    <li><a href="#CrowdedHouse">Crowded House</a></li>
+    <li class="group">J</li>
+    <li><a href="#JennyLewis">Jenny Lewis</a></li>
+    <li><a href="#JohnMayer">John Mayer</a></li>
+    <li class="group">Z</li>
+    <li><a href="#Zero7">Zero 7</a></li>
+
+</ul>
+
+</body>
+</html>
