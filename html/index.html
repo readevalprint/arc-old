@@ -34,34 +34,27 @@ light cyan	#81ffff
 	    background: #fff;
 	    color:#444
 	}
-  a.apparel:hover {
+  body.home a.home, a.home:hover {
+	    background: #fff;
+	    color:#444
+  }
+  body.apparel a.apparel, a.apparel:hover {
 	    background: orange;
+	    color:#444
   }
-  a.news:hover {
+  body.news a.news, a.news:hover {
 	    background: cyan;
+	    color:#444
   }
-  a.magazine:hover {
+  body.magazine a.magazine, a.magazine:hover {
 	    background: magenta;
+	    color:#444
   }
-  a.bonus:hover {
+  body.bonus a.bonus, a.bonus:hover {
 	    background: #00ff00;
+	    color:#444
   }
   
-	body.home #pageTitle {
-  	  border:3px solid #fff; 
-	}
-	body.apparel #pageTitle {
-  	  border:3px solid orange; 
-	}
-	body.magazine #pageTitle {
-  	  border:3px solid magenta; 
-	}
-	body.bonus #pageTitle {
-  	  border:3px solid #00ff00; 
-	}
-	body.news #pageTitle {
-  	  border:3px solid cyan; 
-	}
 	ul{
     font-size:2em;
     list-style-type:none;
@@ -172,7 +165,7 @@ light cyan	#81ffff
     </style>
 </head>
 <body class="<!--bodyclass-->" >
-  <h1 id="pageTitle"><a href="/">Bubblefresh</a></h1>
+  <h1 id="pageTitle"><a class="home" href="/">Bubblefresh</a></h1>
   <ul id="home" title="Bubblefresh" level="1" selected="true">
       <li><a href="apparel" class="apparel">apparel</a><div class="info">Be nude no longer.</div></li>
       <li><a href="news" class="news">news</a><div class="info">Word on the street.</div></li>

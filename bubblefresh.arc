@@ -29,13 +29,13 @@
       (accfn (tostring (link ((cadr x) 'title) (string "news?id=" (car x))))))))
 
 (defop || req
-  (pr (render "html/index.html" '(("<!--bodyclass-->" "home")))))
+  (pr (render "html/index.html" '("<!--bodyclass-->" "home"))))
 
 (defop m req
   (pr (render "html/mobile.html" )))
 
 (defop apparel req
-  (pr (render "html/index.html" '(("<!--bodyclass-->" "apparel")))))
+  (pr (render "html/index.html" '("<!--bodyclass-->" "apparel"))))
   
   
 (attribute ul class opstring)
@@ -43,24 +43,34 @@
 
 (defop news req
   (let content 
-    (if (req 'args)
-        ((posts* (alref (req 'args) "id")) 'body)
+    (aif (posts* (alref (req 'args) "id"))
+        (it 'body)
         (tostring (tag (ul class "news") (pr (apply li (post-list))))))
-  (pr (render "html/index.html" 
-        `(("<!--content-->" ,content)
-          ("<!--bodyclass-->" "news"))))))
+    (pr (render "html/index.html" 
+          (list "<!--content-->" content)
+          (list "<!--bodyclass-->" "news")))))
 
 (defop magazine req
-  (pr (render "html/index.html" '(("<!--bodyclass-->" "magazine")))))
+  (pr (render "html/index.html" '("<!--bodyclass-->" "magazine"))))
 
 (defop bonus req
   (pr (render "html/index.html" 
-        `(
-          ("<!--bodyclass-->" "bonus")
-          ("<!--content-->"
-          ,(if (get-user req)
+        (list"<!--bodyclass-->" "bonus")
+        (list "<!--content-->"
+          (if (get-user req)
             "BONUS"
             (tostring (login-page 'login
                         "You need to be logged in to do that."
                         (list (fn (u ip))
-                              (string 'bonus (reassemble-args req)))))))))))
+                              (string 'bonus (reassemble-args req))))))))))
+                              
+                              
+                              
+; overwritten arc defs
+(def failed-login (switch msg afterward)
+  (if (acons afterward)
+      (flink (fn ignore (pr (render "html/index.html" 
+        (list "<!--content-->"
+            (tostring (login-page switch msg afterward)))))))
+      (do (prn)
+          (login-page switch msg afterward))))

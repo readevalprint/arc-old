@@ -22,7 +22,7 @@
 ;"<html>\n  <body><h1>Acme Co</h1>\n\n</html>\n"
 
 
-(def render (file (o vars))
+(def render (file . vars)
   (if vars
     (multisubst vars (filechars file))
     (filechars file)))
