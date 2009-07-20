@@ -119,7 +119,7 @@
   (w/table b (table) 
     (maptable (fn (key val) 
                 (let x (val 0) 
-                  (if (x 'games) (= (b key)(avg (x 'games))))))
+                  (if (< 4 (len (x 'games))) (= (b key)(avg (x 'games))))))
                 guesslist*)))
 ;b contains the average game of each user mapped to user name
 
@@ -140,7 +140,7 @@
     ("number of games: " ,(gamesplayed))
     ("<br> most played: " ,(let b (firstn 10 (rev (bestof (list-most))))
                                 (map [list "<br>" (_ 0) " " (_ 1) ] b)))
-    ("<br> best average guesses: " ,(let b (firstn 10 (bestof (list-avg))) 
+    ("<br> best average after 4 games: " ,(let b (firstn 10 (bestof (list-avg))) 
                                 (map [list "<br>" (_ 0) " " (nearest (_ 1) .01) ] b)))
     ("<br> best game: " ,(let b (firstn 10 (bestof (list-best))) 
                                 (map [list "<br>" (_ 0) " " (nearest(_ 1) .01) ] b)))))

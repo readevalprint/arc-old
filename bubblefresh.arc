@@ -13,6 +13,9 @@
   body "" 
   by "")
 
+(attribute ul class opstring)
+(attribute ul id    opstring)
+
 (def load-posts ()
   (each id (map string (dir bubblefreshdir*))
       (= (posts* id) (temload 'post (string bubblefreshdir* id)))))
@@ -28,49 +31,58 @@
     (each x posts* 
       (accfn (tostring (link ((cadr x) 'title) (string "news?id=" (car x))))))))
 
-(defop || req
-  (pr (render "html/index.html" '("<!--bodyclass-->" "home"))))
+(def is-ajax (req)
+  (errsafe (or (alref (req 'args) "ajax") (is (alref (req 'cooks) "ajax") "1"))))
 
-(defop m req
-  (pr (render "html/mobile.html" )))
-
-(defop apparel req
-  (pr (render "html/index.html" '("<!--bodyclass-->" "apparel"))))
-  
-  
-(attribute ul class opstring)
-(attribute ul id    opstring)
-
-(defop news req
-  (let content 
-    (aif (posts* (alref (req 'args) "id"))
-        (it 'body)
-        (tostring (tag (ul class "news") (pr (apply li (post-list))))))
+(def render-content (content (o class "home") (o title "home") (o req))
+  (pr (render (if (is-ajax req) "html/ajax.html" "html/index.html")
+        (list "<!--content-->" content)
+        (list "<!--title-->" title)
+        (list "<!--class-->" class))))
+          
+          
+(defop-raw || (str req) (w/stdout str
+  (prn "Set-Cookie: ajax=0")
+  (prn)
+  (with (content "" class "home")
     (pr (render "html/index.html" 
           (list "<!--content-->" content)
-          (list "<!--bodyclass-->" "news")))))
+          (list "<!--class-->" class))))))
+
+(defop-raw m (str req) (w/stdout str
+  (prn "Set-Cookie: ajax=1")
+  (prn)
+  (pr (render "html/mobile.html" ))))
+
+
+
+(defop apparel req
+  (render-content "<ul><li><a href=\"\">123</a></li></ul>" "apparel" "Apparel" req))
+  
+(defop news req
+  (aif (posts* (alref (req 'args) "id"))
+        (render-content (it 'body) "news" (it 'title) req) ;if id is specified use that
+        (render-content (string "<ul>" (apply li (post-list)) "</ul>") "news" "News" req)))
 
 (defop magazine req
-  (pr (render "html/index.html" '("<!--bodyclass-->" "magazine"))))
+  (render-content "<ul><li><a href=\"\">123</a></li></ul>" "magazine" "Magazine" req))
 
 (defop bonus req
-  (pr (render "html/index.html" 
-        (list"<!--bodyclass-->" "bonus")
-        (list "<!--content-->"
-          (if (get-user req)
-            "BONUS"
-            (tostring (login-page 'login
-                        "You need to be logged in to do that."
-                        (list (fn (u ip))
-                              (string 'bonus (reassemble-args req))))))))))
+  (if (get-user req)
+      (render-content "<div class=\"panel\">BONUS BODY<div>" "bonus" "Bonus title" req)
+      (login-page 'login
+          "You need to be logged in to do that."
+          (list (fn (u ip))
+                (string 'bonus (reassemble-args req))) req)))
+;TODO make fix form redirect error in ajax                              
+;FIXED                              
                               
-                              
-                              
-; overwritten arc defs
-(def failed-login (switch msg afterward)
-  (if (acons afterward)
-      (flink (fn ignore (pr (render "html/index.html" 
-        (list "<!--content-->"
-            (tostring (login-page switch msg afterward)))))))
-      (do (prn)
-          (login-page switch msg afterward))))
+;==overwritten arc defs==
+;html.arc:241
+;-
+;(mac whitepage body
+;  `(tag html 
+;     (tag (body bgcolor white alink linkblue) ,@body)))
+;+
+;(mac whitepage content
+;  `(render-content "" (tostring ,@content) "home" "Home" req))

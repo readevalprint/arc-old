@@ -238,11 +238,15 @@
       (tag (option selected (is i sel))
         (pr i)))))
 
-(mac whitepage body
-  `(tag html 
-     (tag (body bgcolor white alink linkblue) ,@body)))
-
-(def errpage args (whitepage (apply prn args)))
+;orig
+;(mac whitepage body
+;  `(tag html 
+;     (tag (body bgcolor white alink linkblue) ,@body)))
+;overridden
+(mac whitepage content
+  `(render-content (tostring ,@content) "home" "Home" req))
+  
+(def errpage args (whitepage (apply prn args) req))
 
 (def blank-url () "s.gif")
 

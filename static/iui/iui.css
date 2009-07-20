@@ -141,7 +141,7 @@ body[orient="landscape"] > .toolbar > h1 {
 
 /************************************************************************************************/
 
-body > ul > li {
+body > ul > li , .content > ul > li{
     position: relative;
     margin: 0;
     border-bottom: 1px solid #E0E0E0;
@@ -192,7 +192,7 @@ a[target="_replace"] {
 
 /************************************************************************************************/
 
-body > .dialog {
+.dialog {
     top: 0;
     width: 100%;
     min-height: 417px;
@@ -242,7 +242,7 @@ input:not(input[type|=radio]):not(input[type|=checkbox]) {
 
 /************************************************************************************************/
 
-body > .panel {
+.panel {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;

@@ -527,14 +527,14 @@ Connection: close"))
                              requests/ip*)
                    leaders)
           (let n (requests/ip* ip)
-            (row ip n (pr (num (* 100 (/ n requests*)) 1)))))))))
+            (row ip n (pr (num (* 100 (/ n requests*)) 1)))))) req)))
 
 (defop spurned req
   (when (admin (get-user req))
     (whitepage
       (sptab
         (map (fn ((ip n)) (row ip n))
-             (sortable spurned*))))))
+             (sortable spurned*))) req)))
 
 ; eventually promote to general util
 

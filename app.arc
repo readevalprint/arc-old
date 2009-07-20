@@ -147,7 +147,7 @@
 ; classic example of something that should just "return" a val
 ; via a continuation rather than going to a new page.
 
-(def login-page (switch (o msg nil) (o afterward hello-page))
+(def login-page (switch (o msg nil) (o afterward hello-page) (o req ""))
   (whitepage
     (pagemessage msg)
     (when (in switch 'login 'both)
@@ -155,7 +155,7 @@
       (hook 'login-form afterward)
       (br2))
     (when (in switch 'register 'both)
-      (login-form "Create Account" switch create-handler afterward))))
+      (login-form "Create Account" switch create-handler afterward)) req))
 
 (def login-form (label switch handler afterward)
   (prbold label)
@@ -168,13 +168,13 @@
   (logout-user (get-user req))
   (aif (good-login (arg req "u") (arg req "p") req!ip)
        (login it req!ip (user->cookie* it) afterward)
-       (failed-login switch "Bad login." afterward)))
+       (failed-login switch "Bad login." afterward req)))
 
 (def create-handler (req switch afterward)
   (logout-user (get-user req))
   (with (user (arg req "u") pw (arg req "p"))
     (aif (bad-newacct user pw)
-         (failed-login switch it afterward)
+         (failed-login switch it afterward req)
          (do (create-acct user pw)
              (login user req!ip (cook-user user) afterward)))))
 
@@ -188,11 +188,11 @@
       (do (prn)
           (afterward user ip))))
 
-(def failed-login (switch msg afterward)
+(def failed-login (switch msg afterward req)
   (if (acons afterward)
-      (flink (fn ignore (login-page switch msg afterward)))
+      (flink (fn ignore (login-page switch msg afterward req)))
       (do (prn)
-          (login-page switch msg afterward))))
+          (login-page switch msg afterward req))))
 
 (def prcookie (cook)
   (prn "Set-Cookie: user=" cook "; expires=Sun, 17-Jan-2038 19:14:07 GMT"))
