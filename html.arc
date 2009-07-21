@@ -248,7 +248,7 @@
   
 (def render-content (content . rest ) 
   (tag html 
-     (tag (content bgcolor white alink linkblue))))
+     (content bgcolor white alink linkblue)))
 
 (def errpage args (whitepage (apply prn args) req))
 
