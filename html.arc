@@ -246,7 +246,7 @@
 (mac whitepage content
   `(render-content (tostring ,@content) "home" "Home" req))
   
-(def render-content (content) 
+(def render-content (content . rest ) 
   (tag html 
      (tag (content bgcolor white alink linkblue))))
 
