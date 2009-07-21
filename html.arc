@@ -246,6 +246,10 @@
 (mac whitepage content
   `(render-content (tostring ,@content) "home" "Home" req))
   
+(def render-content (content) 
+  (tag html 
+     (tag (content bgcolor white alink linkblue))))
+
 (def errpage args (whitepage (apply prn args) req))
 
 (def blank-url () "s.gif")
