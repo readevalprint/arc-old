@@ -69,19 +69,19 @@
        (when-umatch ,user ,req ,@body))))
 
 
-(defop admin req (admin-gate (get-user req)))
+(defop admin req (admin-gate req (get-user req)))
 
-(def admin-gate (u)
+(def admin-gate (req u)
   (if (admin u)
-      (admin-page u)
-      (login-page nil 'login nil
-                  (fn (u ip)  (admin-gate u)))))
+      (admin-page req u)
+      (login-page req 'login nil
+                  (fn (u ip)  (admin-gate req u)))))
 
 (def admin (u) (and u (mem u admins*)))
 
 (def user-exists (u) (and u (hpasswords* u) u))
 
-(def admin-page (user . msg)
+(def admin-page (req user . msg)
   (whitepage 
     (prbold "Admin: ")
     (hspace 20)
@@ -97,9 +97,9 @@
                  (if (or (no u) (no p) (is u "") (is p ""))
                       (pr "Bad data.")
                      (user-exists u)
-                      (admin-page user "User already exists: " u)
+                      (admin-page user req "User already exists: " u)
                       (do (create-acct u p)
-                          (admin-page user))))))
+                          (admin-page req user))))))
       (pwfields "create (server) account"))))
 
 (def cook-user (user)
@@ -135,8 +135,7 @@
 (def hello-page (user ip)
   (whitepage (prs "hello" user "at" ip)))
 
-(defop login req (login-page req 'login "" (list (fn (u ip))
-                           (if (is-ajax req) "/m" "/"))))
+(defop login req (login-page req 'login))
 
 ; switch is one of: register, login, both
 
@@ -263,7 +262,7 @@
   (aif (get-user req)
        (prs it 'at req!ip)
        (do (pr "You are not logged in. ")
-           (w/link (login-page req 'both) (pr "Log in"))
+           (w/link (login-page 'both) (pr "Log in"))
            (pr "."))))
 
 
@@ -650,7 +649,7 @@
   `(defop ,name ,parm
      (if (get-user ,parm)
          (do ,@body) 
-         (login-page req 'both
+         (login-page 'both
                      "You need to be logged in to do that."
                      (list (fn (u ip))
                            (string ',name (reassemble-args ,parm)))))))
