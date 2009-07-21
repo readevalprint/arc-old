@@ -247,8 +247,7 @@
   `(render-content (tostring ,@content) "home" "Home" req))
   
 (def render-content (content . rest ) 
-  (tag html 
-     (content bgcolor white alink linkblue)))
+  (tag html content))
 
 (def errpage args (whitepage (apply prn args) req))
 
