@@ -1,7 +1,16 @@
 <div class="<!--class--> content" title="<!--title-->">
+
 <script type="text/javascript">
-  if(document.location.pathname != "/m" & document.location.pathname != "/x"){
-    window.location.href = "/m";
+var path = document.location.pathname;
+alert(path.substr(0,6));
+if(path.substr(0,2)  != "/m" 
+  && path.substr(0,2) != "/x"
+  && path.substr(0,2) != "/y"
+  && path.substr(0,6) != "/login"
+  && path.substr(0,7) != "/logout"
+  && path.substr(0,6) != "/admin"
+  ){
+    window.location.href = "/m?next=" + <!--class-->;
   };
 </script>   
 <!--content-->

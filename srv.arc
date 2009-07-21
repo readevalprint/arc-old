@@ -260,7 +260,7 @@ Connection: close"))
                             (errsafe:coerce (cadr (tokens s)) 'int)))
                      (cdr lines)))
           (some (fn (s)
-                  (and (begins s "Cookie:")
+                  (and (begins (downcase s) "cookie:")
                        (parsecookies s)))
                 (cdr lines)))))
 

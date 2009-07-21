@@ -197,7 +197,7 @@ addEventListener("click", function(event)
         else if (link.target == "_replace")
         {
             link.setAttribute("selected", "progress");
-            iui.showPageByHref(link.href, null, null, link, unselect);
+            iui.showPageByHref(link.href, ["ajax"], null, link, unselect);
         }
         else if (iui.isNativeUrl(link.href))
         {
@@ -206,7 +206,7 @@ addEventListener("click", function(event)
         else if (!link.target)
         {
             link.setAttribute("selected", "progress");
-            iui.showPageByHref(link.href, null, null, null, unselect);
+            iui.showPageByHref(link.href, ["ajax"], null, null, unselect);
         }
         else
             return;

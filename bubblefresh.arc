@@ -32,7 +32,7 @@
       (accfn (tostring (link ((cadr x) 'title) (string "news?id=" (car x))))))))
 
 (def is-ajax (req)
-  (errsafe (or (alref (req 'args) "ajax") (is (alref (req 'cooks) "ajax") "1"))))
+  (errsafe (or (alref (req 'args) "ajax") (is (string (alref (req 'cooks) "ajax")) "1"))))
 
 (def render-content (content (o class "home") (o title "home") (o req))
   (pr (render (if (is-ajax req) "html/ajax.html" "html/index.html")
@@ -45,14 +45,16 @@
   (prn "Set-Cookie: ajax=0")
   (prn)
   (with (content "" class "home")
-    (pr (render "html/index.html" 
+    (prn (render "html/index.html" 
           (list "<!--content-->" content)
           (list "<!--class-->" class))))))
 
 (defop-raw m (str req) (w/stdout str
   (prn "Set-Cookie: ajax=1")
   (prn)
-  (pr (render "html/mobile.html" ))))
+  (prn (render "html/mobile.html" 
+          (list "<!--news-->" (string "<ul title=\"News\" id=\"news\">" (apply li (post-list)) "</ul>"))
+          (list "<!--apparel-->" (string "<ul title=\"Apparel\" id=\"apparel\">" "<li><a href=\"\">123</a></li>" "</ul>"))))))
 
 
 
@@ -70,10 +72,10 @@
 (defop bonus req
   (if (get-user req)
       (render-content "<div class=\"panel\">BONUS BODY<div>" "bonus" "Bonus title" req)
-      (login-page 'login
+      (login-page req 'login
           "You need to be logged in to do that."
           (list (fn (u ip))
-                (string 'bonus (reassemble-args req))) req)))
+                (string 'bonus (reassemble-args req))) )))
 ;TODO make fix form redirect error in ajax                              
 ;FIXED                              
                               

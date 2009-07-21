@@ -74,7 +74,7 @@
 (def admin-gate (u)
   (if (admin u)
       (admin-page u)
-      (login-page 'login nil
+      (login-page nil 'login nil
                   (fn (u ip)  (admin-gate u)))))
 
 (def admin (u) (and u (mem u admins*)))
@@ -135,7 +135,8 @@
 (def hello-page (user ip)
   (whitepage (prs "hello" user "at" ip)))
 
-(defop login req (login-page 'login))
+(defop login req (login-page req 'login "" (list (fn (u ip))
+                           (if (is-ajax req) "/m" "/"))))
 
 ; switch is one of: register, login, both
 
@@ -147,7 +148,7 @@
 ; classic example of something that should just "return" a val
 ; via a continuation rather than going to a new page.
 
-(def login-page (switch (o msg nil) (o afterward hello-page) (o req ""))
+(def login-page (req switch (o msg nil) (o afterward hello-page) )
   (whitepage
     (pagemessage msg)
     (when (in switch 'login 'both)
@@ -190,9 +191,8 @@
 
 (def failed-login (switch msg afterward req)
   (if (acons afterward)
-      (flink (fn ignore (login-page switch msg afterward req)))
-      (do (prn)
-          (login-page switch msg afterward req))))
+      (flink (fn ignore (login-page req switch msg afterward )))
+      (login-page req switch msg afterward )))
 
 (def prcookie (cook)
   (prn "Set-Cookie: user=" cook "; expires=Sun, 17-Jan-2038 19:14:07 GMT"))
@@ -263,7 +263,7 @@
   (aif (get-user req)
        (prs it 'at req!ip)
        (do (pr "You are not logged in. ")
-           (w/link (login-page 'both) (pr "Log in"))
+           (w/link (login-page req 'both) (pr "Log in"))
            (pr "."))))
 
 
@@ -650,7 +650,7 @@
   `(defop ,name ,parm
      (if (get-user ,parm)
          (do ,@body) 
-         (login-page 'both
+         (login-page req 'both
                      "You need to be logged in to do that."
                      (list (fn (u ip))
                            (string ',name (reassemble-args ,parm)))))))
