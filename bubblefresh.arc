@@ -34,10 +34,10 @@
 (def is-ajax (req)
   (errsafe (or (alref (req 'args) "ajax") (is (string (alref (req 'cooks) "ajax")) "1"))))
 
-(def render-content (content (o class "home") (o title "home") (o req))
+(def render-content (content (o class "home") (o title) (o req))
   (pr (render (if (is-ajax req) "html/ajax.html" "html/index.html")
         (list "<!--content-->" content)
-        (list "<!--title-->" title)
+        (and title (list "<!--title-->"  title))
         (list "<!--class-->" class))))
           
           
@@ -47,6 +47,7 @@
   (with (content "" class "home")
     (prn (render "html/index.html" 
           (list "<!--content-->" content)
+          (list "<!--title-->" "")
           (list "<!--class-->" class))))))
 
 (defop-raw m (str req) (w/stdout str
@@ -57,21 +58,24 @@
           (list "<!--apparel-->" (string "<ul title=\"Apparel\" id=\"apparel\">" "<li><a href=\"\">123</a></li>" "</ul>"))))))
 
 
-
 (defop apparel req
-  (render-content "<ul><li><a href=\"\">123</a></li></ul>" "apparel" "Apparel" req))
+  (case (caar (req 'args))
+    "leggings" (render-content (render "html/leggings.html") "leggings" "Apparel > Leggings" req)
+    "shirts" (render-content (render "html/shirts.html") "shirts" "Shirts" req)
+    (render-content (render "html/apparel.html") "apparel" "Apparel" req)))
+    
   
 (defop news req
   (aif (posts* (alref (req 'args) "id"))
         (render-content (it 'body) "news" (it 'title) req) ;if id is specified use that
-        (render-content (string "<ul>" (apply li (post-list)) "</ul>") "news" "News" req)))
+        (render-content (string "<ul>" (apply li (post-list)) "</ul>") "news" ": News" req)))
 
 (defop magazine req
-  (render-content "<ul><li><a href=\"\">123</a></li></ul>" "magazine" "Magazine" req))
+  (render-content "<ul><li><a href=\"\">123</a></li></ul>" "magazine" ": Magazine" req))
 
 (defop bonus req
   (if (get-user req)
-      (render-content "<div class=\"panel\">BONUS BODY<div>" "bonus" "Bonus title" req)
+      (render-content "<div class=\"panel\">BONUS BODY<div>" "bonus" ": Bonus" req)
       (login-page req 'login
           "You need to be logged in to do that."
           (list (fn (u ip))
