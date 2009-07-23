@@ -59,23 +59,23 @@
 
 
 (defop apparel req
-  (case (caar (req 'args))
-    "leggings" (render-content (render "html/leggings.html") "leggings" "Apparel > Leggings" req)
-    "shirts" (render-content (render "html/shirts.html") "shirts" "Shirts" req)
-    (render-content (render "html/apparel.html") "apparel" "Apparel" req)))
+  (let f (file-exists (+ "html/product/" (caar (req 'args))))
+    (if f
+      (render-content (render f) "apparel" " Shirts" req)
+      (render-content (render "html/apparel.html") "apparel" " Apparel" req))))
     
   
 (defop news req
   (aif (posts* (alref (req 'args) "id"))
         (render-content (it 'body) "news" (it 'title) req) ;if id is specified use that
-        (render-content (string "<ul>" (apply li (post-list)) "</ul>") "news" ": News" req)))
+        (render-content (string "<ul>" (apply li (post-list)) "</ul>") "news" " News" req)))
 
 (defop magazine req
-  (render-content "<ul><li><a href=\"\">123</a></li></ul>" "magazine" ": Magazine" req))
+  (render-content "<ul><li><a href=\"\">123</a></li></ul>" "magazine" " Magazine" req))
 
 (defop bonus req
   (if (get-user req)
-      (render-content "<div class=\"panel\">BONUS BODY<div>" "bonus" ": Bonus" req)
+      (render-content "<div class=\"panel\">BONUS BODY<div>" "bonus" " Bonus" req)
       (login-page req 'login
           "You need to be logged in to do that."
           (list (fn (u ip))

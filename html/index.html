@@ -42,82 +42,101 @@ light cyan	#81ffff
 	    background: orange;
 	    color:#444
   }
+  .apparel ul > li.group {
+    color: orange;
+  }
+
   body.news div.content a:hover,body.news a.news, a.news:hover {
 	    background: cyan;
 	    color:#444
   }
+  .news ul > li.group {
+    color: cyan;
+  }
+
+
   body.magazine div.content a:hover,body.magazine a.magazine, a.magazine:hover {
 	    background: magenta;
 	    color:#444
   }
+  .magazine ul > li.group {
+    color: magenta;
+  }
+
   body.bonus div.content a:hover,body.bonus a.bonus, a.bonus:hover {
 	    background: #00ff00;
 	    color:#444
   }
-  
-	ul{
-    font-size:2em;
-    list-style-type:none;
-    margin:0;
-    padding:0;
-	}
-	.info {
-    background:transparent url(http://static.bubblefresh.com/img/bg.gif) repeat fixed 0 0;
-    color:#FFFFFF;
-    font-size:0.5em;
-    left:0;
-    padding:1em;
-    position:absolute;
-    top:18em;
-    width:19em;
-	}
-	.info img {
-	    width: 100px;
-	    height: 100px;
-	    border: 0;
-	    float:right;
-	}
-	#pageTitle {
-      float:left;
-	    font-size:3.5em;
-	    margin:0;
-	}
-
-
-	h2 {
-	    background-color:#444444;
-	    font-size:1em;
-	    margin:0;
-	    padding:1em;
-	}
-
-	p {
-	    padding:1em;
-	    background-color:#444444;
-	    font-size: 14px;
-	    line-height: 20px;
-	}
-	h1 a {
-	    /*font-size: 3em;*/
-	}
-	h1 {
-	    letter-spacing: -1px;
-	    color: #444;
-	    margin: 0 0 0 0;
-	    padding: 0 0 0 0;
-	    font-weight: bold;
-	}
-	.tagline {
-	    color: #fff;
-
-	}
-	.tagline .get { color:orange }
-	.tagline .stay { color:cyan }
-	.content {
-    margin:0 0 0 24em;
-    padding:0;
-
+  .bonus ul > li.group {
+    color: #00ff00;
   }
+
+    ul{
+	font-size:2em;
+	list-style-type:none;
+	margin:0;
+	padding:0;
+    }
+    .info {
+	background:transparent url(http://static.bubblefresh.com/img/bg.gif) repeat fixed 0 0;
+	color:#FFFFFF;
+	font-size:0.5em;
+	left:0;
+	padding:1em;
+	position:absolute;
+	top:18em;
+	width:19em;
+    }
+    .info img {
+	width: 100px;
+	height: 100px;
+	border: 0;
+	float:right;
+	padding-left:1em;
+    }
+    #pageTitle {
+  float:left;
+	font-size:3.5em;
+	margin:0;
+    }
+
+
+    h2 {
+	background-color:#444444;
+	font-size:1em;
+	margin:0;
+	padding:1em;
+    }
+
+    p , .description{
+	padding:1em;
+	background:transparent url(http://static.bubblefresh.com/img/bg.gif) repeat fixed 0 0;
+	font-size: 14px;
+	line-height: 20px;
+	overflow:hidden;
+	margin-bottom:1em;
+    }
+    h1 a {
+	/*font-size: 3em;*/
+    }
+    h1 {
+	letter-spacing: -1px;
+	color: #444;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	font-weight: bold;
+    }
+    .tagline {
+	color: #fff;
+
+    }
+    .tagline .get { color:orange }
+    .tagline .stay { color:cyan }
+    .content {
+	margin:0 0 0 24em;
+	padding:0;
+
+    }
 	#magazine .sponser {
 	    color:#aaa;
 	    display:block;
@@ -131,8 +150,6 @@ light cyan	#81ffff
 	.group {
 	    background-repeat:repeat;
 	    color:#fff;
-	    font-family:serif;
-	    font-style:italic;
 	}
 
 
@@ -158,10 +175,21 @@ light cyan	#81ffff
   	li .info {
   	  display:none;
   	}
-  	li:hover .info {
+  	li:hover .info, li.group .info {
   	  display:block;
   	}
-
+    .group > .info {
+      background:transparent none repeat scroll 0 0;
+      padding:0;
+      position:relative;
+      top:-7px;
+      width:auto;
+    }
+    .price{
+	float:left;
+	padding-right:1em;
+	text-align:center;
+    }
     </style>
 </head>
 <body class="<!--class-->" >
