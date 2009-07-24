@@ -1,10 +1,9 @@
-<div id="breadcrumb"><a href="/apparel">apparel</a> &lt; <a href="/">home</a></div>
+<div id="breadcrumb">Beetle Bailey leggings &lt; <a href="/apparel">apparel</a> &lt; <a href="/">home</a></div>
 
 <h3>Beetle Bailey leggings</h3>
 <div class="description">
-viverra. Suspendisse diam urna, fermentum nec tempus ac, sodales ut ligula. Morbi volutpat scelerisque ultrices. Vivamus condimentum volutpat nibh, ac viverra lacus condimentum non. Fusce sollicitudin tortor sed augue rutrum in consectetur
+        Always waiting for the bell to ring or to get off work? Amuse yourself with these comic strip leggings! Not only can you entertain yourself, you can to it with style!
 </div>
-
 <div class="description">
 <div class="price">
 $34.00 + s&amp;h
@@ -12,7 +11,8 @@ $34.00 + s&amp;h
 <div class="checkout">
 <form action="https://checkout.google.com/api/checkout/v2/checkoutForm/Merchant/252004905562069" id="BB_BuyButtonForm" method="post" name="BB_BuyButtonForm">
     <input name="item_name_1" type="hidden" value="Leggings 1"/>
-    <input name="item_description_1" type="hidden" value=" Maecenas id quam velit, sit amet sollicitudin enim"/>
+    <input name="item_description_1" type="hidden" value="Always waiting for the bell to ring or to get off work? Amuse yourself with these comic strip leggings! Not only can you entertain yourself, you can to it with style!
+"/>
     <input name="item_quantity_1" type="hidden" value="1"/>
     <input name="item_price_1" type="hidden" value="34.0"/>
     <input name="item_currency_1" type="hidden" value="USD"/>
