@@ -20,7 +20,7 @@
 
 ;arc> (render "html/test.html")
 ;"<html>\n  <body><h1>Acme Co</h1>\n\n</html>\n"
-
+(def file-ero (file char) (prn (cut (filechars file) (- char 100) char) ">>>" (cut (filechars file) char (+ char 100)) ) nil)
 
 (def render (file . vars)
   (if vars

@@ -1,5 +1,6 @@
 (load "ssdt.arc")
 (load "erp.arc")
+
 (= bubblefreshdir* "arc/bubblefresh/" )
   
 (def init ()
@@ -25,52 +26,64 @@
   (each id (map string (dir bubblefreshdir*))
       (= (posts* id) (temload 'post (string bubblefreshdir* id)))))
 
-(def save-post (id post)
-    (save-table post (string bubblefreshdir* id))
-    (= (posts* id) (list post))
-    id)
+(def save-post (item)
+    (save-table (item 1) (string bubblefreshdir* (item 0)))
+    (= (posts* (item 0)) (item 1)))
 
 (def new-post (post)
   (let id (string (datestring) "_" post!title)
-    (save-post (id post))))
+    (save-post (list id post))))
 
 (def add-msg args
   (ero args)
   (pushnew args messages*)) ;TODO
 
-
-(def up-vote (user item)
-  (if (some user (item 'down))
-    (do 
-      (pull user (item 'down))
-      (add-msg user "your downvote was removed"))
-    (if (no (some user (item 'up)))
+(def item-viewed (req item)
+  (with (user (get-user req))
+    (pushnew user ((item 1) 'view)))
+  (save-post item))
+  
+(def up-vote (req item)
+  (with (user (get-user req))
+    (if (some user ((item 1) 'down))
       (do 
-        (pushnew user (item 'up))
-        (add-msg user "your upvote was added")))))
-
-(def down-vote (user item)
-    (if (some user (item 'up))
-      (do 
-        (pull user (item 'up))
-        (add-msg user "your upvote was removed"))
-      (if (no (some user (item 'down)))
+        (pull user ((item 1) 'down))
+        (add-msg user "your downvote was removed"))
+      (if (no (some user ((item 1) 'up)))
         (do 
-          (pushnew user (item 'down))
-          (add-msg user "your downvote was added")))))
+          (pushnew user ((item 1) 'up))
+          (add-msg user "your upvote was added"))))
+    (save-post item)))
 
-(def vote-links (req href item)
+(def down-vote (req item)
+  (with (user (get-user req))
+    (if (some user ((item 1) 'up))
+      (do 
+        (pull user ((item 1) 'up))
+        (add-msg user "your upvote was removed"))
+      (if (no (some user ((item 1) 'down)))
+        (do 
+          (pushnew user ((item 1) 'down))
+          (add-msg user "your downvote was added"))))
+  (save-post item)))
+
+(def vote-link (req href item)
   (with (user (get-user req))
     (if user
-      (string
-        (rlinkf " &and; " (req) (up-vote user item) href)
-        (rlinkf " &or; " (req) (down-vote user item) href)))))
+      (tostring 
+        (spanclass "vote" 
+          (if (some user ((item 1) 'up))
+            (pr "<span class=\"up\">&and;</span>")
+            (rlinkf "<span class=\"up\">&and;</span>" (req) (up-vote req item) href))
+          (if (some user ((item 1) 'down))
+            (pr "<span class=\"down\">&or;</span>")
+           (rlinkf "<span class=\"down\">&or;</span>" (req) (down-vote req item) href)))))))
 
 (def post-list (req)
   (accum accfn  
     (each x posts* 
-      (let href (string "news?id=" (car x))
-        (accfn (tostring (vote-links req href (x 1)) (link ((cadr x) 'title) href) ))))))
+      (let href (string "/news?id=" (car x))
+        (accfn (tostring (string (pr (vote-link req "/news" x))) (link ((cadr x) 'title) href) ))))))
 
 (def is-ajax (req)
   (errsafe (or (alref (req 'args) "ajax") (is (string (alref (req 'cooks) "ajax")) "1"))))
@@ -108,9 +121,18 @@
     
   
 (defop news req
-  (aif (posts* (alref (req 'args) "id"))
-        (render-content (it 'body) "news" (string " News: "(it 'title)) req) ;if id is specified use that
-        (render-content (string "<ul>" (apply li (post-list req)) "</ul>") "news" " News" req)))
+  (aif (posts* (arg req "id"))
+    (with (item (list (arg req "id") it))
+    
+     (iflet user (get-user req)
+        (item-viewed req item))
+      (render-content 
+        (render "html/news.html" 
+          (list "<!--vote-->" (vote-link req (string "/news?id=" (item 0)) item))
+          (list "<!--title-->" ((item 1) 'title))
+          (list "<!--body-->" ((item 1) 'body)))
+          "news" (string " News: " ((item 1) 'title)) req))
+    (render-content (string "<ul>" (apply li (post-list req)) "</ul>") "news" " News" req)))
 
 (defop magazine req
   (render-content "<ul><li><a href=\"\">123</a></li></ul>" "magazine" " Magazine" req))
@@ -122,8 +144,6 @@
           "You need to be logged in to do that."
           (list (fn (u ip))
                 (string 'bonus (reassemble-args req))) )))
-;TODO make fix form redirect error in ajax                              
-;FIXED                              
                               
 ;==overwritten arc defs==
 ;html.arc:241
