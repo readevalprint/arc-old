@@ -3,15 +3,10 @@
 (= bubblefreshdir* "arc/bubblefresh/" )
   
 (def init ()
-  (= posts* (table) )
+  (= posts* (table) 
+    messages* (list))
   (ensure-dir bubblefreshdir*)
   (load-posts))
-
-(deftem
-  message
-  user ""
-  class "message"
-  body "")
 
 (deftem 
   post 
@@ -40,7 +35,8 @@
     (save-post (id post))))
 
 (def add-msg args
-  (ero args)) ;TODO
+  (ero args)
+  (pushnew args messages*)) ;TODO
 
 
 (def up-vote (user item)
@@ -79,11 +75,12 @@
 (def is-ajax (req)
   (errsafe (or (alref (req 'args) "ajax") (is (string (alref (req 'cooks) "ajax")) "1"))))
 
-(def render-content (content (o class "home") (o title) (o req))
+(def render-content (content (o class "home") (o title "") (o req))
   (pr (render (if (is-ajax req) "html/ajax.html" "html/index.html")
         (list "<!--content-->" content)
-        (and title (list "<!--title-->"  title))
-        (list "<!--class-->" class))))
+        (list "<!--title-->" title)
+        (list "<!--class-->" class)
+        (list "<!--message-->" messages*))))
           
           
 (defop-raw || (str req) (w/stdout str
@@ -112,7 +109,7 @@
   
 (defop news req
   (aif (posts* (alref (req 'args) "id"))
-        (render-content (it 'body) "news" (it 'title) req) ;if id is specified use that
+        (render-content (it 'body) "news" (string " News: "(it 'title)) req) ;if id is specified use that
         (render-content (string "<ul>" (apply li (post-list req)) "</ul>") "news" " News" req)))
 
 (defop magazine req
