@@ -244,7 +244,7 @@
 ;     (tag (body bgcolor white alink linkblue) ,@body)))
 ;overridden
 (mac whitepage content
-  `(render-content (tostring ,@content) "home" "Home" req))
+  `(render-content (tostring ,@content) "home" " Home" req))
   
 (def render-content (content . rest ) 
   (tag html content))

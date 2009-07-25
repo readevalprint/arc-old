@@ -73,17 +73,17 @@
       (tostring 
         (spanclass "vote" 
           (if (some user ((item 1) 'up))
-            (pr "<span class=\"up\">&and;</span>")
-            (rlinkf "<span class=\"up\">&and;</span>" (req) (up-vote req item) href))
+            (pr "<span class=\"up\">&and;" (len ((item 1) 'up)) "</span>")
+            (rlinkf (string "<span class=\"up\">&and;" (len ((item 1) 'up)) "</span>") (req) (up-vote req item) href))
           (if (some user ((item 1) 'down))
-            (pr "<span class=\"down\">&or;</span>")
-           (rlinkf "<span class=\"down\">&or;</span>" (req) (down-vote req item) href)))))))
+            (pr "<span class=\"down\">&or;"  (len ((item 1) 'down)) "</span>")
+           (rlinkf (string "<span class=\"down\">&or;" (len ((item 1) 'down)) "</span>") (req) (down-vote req item) href)))))))
 
 (def post-list (req)
   (accum accfn  
     (each x posts* 
       (let href (string "/news?id=" (car x))
-        (accfn (tostring (string (pr (vote-link req "/news" x))) (link ((cadr x) 'title) href) ))))))
+        (accfn (string (vote-link req "/news" x) (tostring (link ((cadr x) 'title) href) )))))))
 
 (def is-ajax (req)
   (errsafe (or (alref (req 'args) "ajax") (is (string (alref (req 'cooks) "ajax")) "1"))))
@@ -128,7 +128,7 @@
         (item-viewed req item))
       (render-content 
         (render "html/news.html" 
-          (list "<!--vote-->" (vote-link req (string "/news?id=" (item 0)) item))
+          (list "<!--vote-->" (string (vote-link req (string "/news?id=" (item 0)) item)))
           (list "<!--title-->" ((item 1) 'title))
           (list "<!--body-->" ((item 1) 'body)))
           "news" (string " News: " ((item 1) 'title)) req))
