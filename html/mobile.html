@@ -5,7 +5,6 @@
     <title>Bubblefresh</title>
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
     <link REL="StyleSheet" HREF="http://static.bubblefresh.com/iui/iui.css" TYPE="text/css" MEDIA="screen">
-    <script type="application/x-javascript" src="http://static.bubblefresh.com/iui/iui.js"></script>
     <style type="text/css" charset="utf-8">
 /*
 dark yellow 	#808000
@@ -138,6 +137,27 @@ light cyan	#81ffff
      .checkout input[type="image"] {
 	width:auto;
      }
+     span.vote {
+	float:left;
+	margin-right:1em;
+     }
+     span.vote span {
+	padding:1em;
+     }
+         a:hover>span.up {
+	background:cyan;
+    }
+    a:hover>span.up, span.up {
+	color:cyan;
+    }
+    a:hover>span.down {
+	background:red;
+    }
+    a:hover>span.down, span.down {
+	color:red;
+    }
+
+    span.vote>a>span{color:#444;}
     </style>
 </head>
 <div class="toolbar" id="content">
@@ -147,12 +167,11 @@ light cyan	#81ffff
 
 
 <ul id="home" title="Bubblefresh" level="1" selected="true">
-    <li><a href="apparel">Apparel</a><div class="info">Be nude no longer.</div></li>
-    <li><a href="#news">News</a><div class="info">Word on the street.</div></li>
-    <li><a href="magazine">Magazine</a><div class="info">Creme de la creme.</div></li>
-    <li><a href="bonus">Bonus Level</a></li>
-    <li class="tagline"><span class="get">Get</span> Fresh. <span class="stay">Stay</span> Fresh.&trade;
+    <!--vote-->
+    <!--content-->
 </ul>
-<!--news-->
+  <div class="content">
+
+  </div>
 </body>
 </html>

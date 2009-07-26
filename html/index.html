@@ -177,7 +177,7 @@ light cyan	#81ffff
   	li .info {
   	  display:none;
   	}
-  	li:hover .info, li.group .info {
+  	li:hover > .info, li.group .info {
   	  display:block;
   	}
     .group > .info {
@@ -208,11 +208,27 @@ light cyan	#81ffff
     a:hover>span.down, span.down {
 	color:red;
     }
+    .content > ul > li {
+	float:left;
+	margin:.5em
+    }
+    .content > ul > li > a > img {
+	width:3em;
+	height:3em;
+
+    }
 
     span.vote>a>span{color:#444;}
+    img.up {
+	border:solid 3px cyan;
+    }
+    img.down{
+	border:solid 3px red;
+    }
     </style>
 </head>
 <body class="<!--class-->" >
+<div id="left">
   <h1 id="pageTitle"><a class="home" href="/">Bubblefresh</a></h1>
   <ul id="home" title="Bubblefresh" level="1" selected="true">
       <li><a href="apparel" class="apparel">apparel</a><div class="info">Be nude no longer.</div></li>
@@ -221,6 +237,7 @@ light cyan	#81ffff
       <li><a href="bonus" class="bonus">bonus level</a><div class="info">+1 (login required)</div></li>
       <li class="tagline"><span class="get">Get</span> Fresh. <span class="stay">Stay</span> Fresh.&trade;</li>
   </ul>
+  </div>
   <div class="content">
     <!--vote-->
     <!--content-->
