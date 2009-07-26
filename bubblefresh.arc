@@ -45,14 +45,14 @@
   (mz:regexp-replace* "[^A-Za-z0-9/_:?#&.]+" url "")) ;is this safe?
   
 (def clean-title (title)
-  (mz:regexp-replace* "[^A-Za-z0-9]+" title ""))
+  (mz:regexp-replace* "[^A-Za-z0-9]+" title "_"))
   
 (def new-post (img link title);TODO add xss safty
     (save-post 
-      (let id (string title "-" (len posts*))
+      (let id (string (clean-title title) "-" (len posts*))
         (list id (inst 'post 
                   'id id
-                  'title (clean-title title)
+                  'title (eschtml (striptags title))
                   'link (clean-url link)
                   'img (clean-url img)
                   'cached (cache-img (clean-url img)))))))
