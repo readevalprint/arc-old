@@ -4,6 +4,15 @@
 <head>
     <title>Bubblefresh<!--title--></title>
 
+    <script src="http://static.bubblefresh.com/js/jquery.min.js"></script>
+    <script src="http://static.bubblefresh.com/js/jquery.Jcrop.js"></script>
+    <script>
+	if(typeof console === "undefined") {
+	    console = { log: function() { } };
+	}
+    </script>
+    <link rel="stylesheet" href="http://static.bubblefresh.com/css/jquery.Jcrop.css" type="text/css" />
+
     <style type="text/css" charset="utf-8">
 /*
 dark yellow 	#808000
@@ -219,11 +228,11 @@ light cyan	#81ffff
     }
 
     span.vote>a>span{color:#444;}
-    img.up {
-	border:solid 3px cyan;
+    a.up {
+	background:cyan;
     }
-    img.down{
-	border:solid 3px red;
+    a.down{
+	background: red;
     }
     </style>
 </head>

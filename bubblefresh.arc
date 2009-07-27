@@ -2,19 +2,21 @@
 (load "erp.arc")
 
 (= bubblefreshdir* "arc/bubblefresh/" )
+(= base-img-url* "http://127.0.0.1/img/posts/")
   
 (def init ()
   (= posts* (table) 
     messages* (list))
   (ensure-dir bubblefreshdir*)
-  (load-posts))
+  (load-posts)
+  (= maxpost* (len posts*)))
 
 (deftem 
   post 
   id ""
   title "" 
   img ""
-  cached ""
+  folder ""
   link "" 
   by ""
   up '(nil)
@@ -35,27 +37,34 @@
     (save-table (item 1) (string bubblefreshdir* (item 0)))
     (= (posts* (item 0)) (item 1)))
 
-(def cache-img (src)
-  (with (to (string (rand-string 20) ".png")
-         from (cut src 0 (urlend src 0)))
-    (system (erp:string "convert " from " ./static/" to))
-    to))
+(def cache-img (src x y w h (o folder (string (rand-string 20))))
+  (if (begins src "http://")
+    (with (from (cut src 0 (urlend src 0))
+            folder (clean-title folder))
+      (ensure-dir (string "./static/img/posts/"folder))
+      (system (erp:string "cd ./static/img/posts/"folder";\
+        convert "from" \\( +clone -resize 500x500 -write orig.png +delete \\) -crop "w"x"h"+"x"+"y" -resize 150x150 thumb.png"))
+      folder)))
     
+    
+(def clean-int (i)
+  (coerce (mz:regexp-replace* "[^0-9]+" i "") 'int))
+  
 (def clean-url (url)
   (mz:regexp-replace* "[^A-Za-z0-9/_:?#&.]+" url "")) ;is this safe?
   
 (def clean-title (title)
   (mz:regexp-replace* "[^A-Za-z0-9]+" title "_"))
   
-(def new-post (img link title);TODO add xss safty
+(def new-post (title link img (o x 0) (o y 0) (o w 300) (o h 300));TODO add xss safty
     (save-post 
-      (let id (string (clean-title title) "-" (len posts*))
+      (let id (string (++ maxpost*) "-" (clean-title title))
         (list id (inst 'post 
                   'id id
                   'title (eschtml (striptags title))
                   'link (clean-url link)
                   'img (clean-url img)
-                  'cached (cache-img (clean-url img)))))))
+                  'folder (cache-img (clean-url img) x y w h id ))))))
 
 (def add-msg args
   (ero args)
@@ -115,11 +124,20 @@
         
 (attribute img class opstring)
 
+(def post-thumb (x)
+  (string base-img-url* ((x 1) 'folder) "/thumb.png"))
+  
+(def post-img (x)
+  (string base-img-url* ((x 1) 'folder) "/orig.png"))
+  
+  
 (def post-list (req)
   (accum accfn  
     (each x posts* 
-      (let href (string "/news?id=" (car x))
-        (accfn (string (tostring (link (tostring (gentag img src (string "/" ((cadr x) 'cached)) class (link-class req x))) href) )))))))
+      (let href (string "/news?id=" ((x 1) 'id))
+        (accfn (string "<a href=\""href"\" class=\""(link-class req x)"\">" 
+                "<img src=\""(post-thumb x)"\"/>"
+                "</a>"))))))
 
 (def is-ajax (req)
   (errsafe (or (alref (req 'args) "ajax") (is (string (alref (req 'cooks) "ajax")) "1"))))
@@ -165,26 +183,43 @@
           (list "<!--vote-->" (string (vote-link req (string "/news?id=" (item 0)) item)))
           (list "<!--title-->" ((item 1) 'title))
           (list "<!--body-->" (erp:string "<a href=\"" ((item 1) 'link) "\">" 
-                                "<img src=\"" (string "/" ((item 1) 'cached)) "\"/>"
+                                "<img src=\"" (post-img item) "\"/>"
                               "</a>")))
           "news" (string " News: " ((item 1) 'title)) req))
     (render-content 
       (render "html/news.html" (list "<!--body-->" (string "<ul>" (apply li (post-list req)) "</ul>")))
         "news" " News" req)))
 
-(defopl submit req
-  (let user (get-user req)
-    (urform user req
-      (do
-        (new-post (alref (req 'args) "img") (alref (req 'args) "link") (alref (req 'args) "title"))
-        "news")
-      (render-content (tostring 
-        (inputs 
-          title "title" 30 ""
-          img "image url" 30 ""
-          link "source link" 30 "")
-        (submit))))))
-
+(defop submit req
+   (if (get-user req)
+     (let user (get-user req)
+       (urform user req
+          (do
+            (new-post 
+              (alref (req 'args) "title") 
+              (alref (req 'args) "link") 
+              (alref (req 'args) "img") 
+              (clean-int (alref (req 'args) "x"))
+              (clean-int (alref (req 'args) "y"))
+              (clean-int (alref (req 'args) "w"))
+              (clean-int (alref (req 'args) "h")))
+            "news")
+          (render-content 
+             (render "html/submit.html" 
+              (list "<!--body-->" (tostring 
+                (inputs
+                  title "title" 30 ""
+                  link "source link" 30 "" 
+                  img "image url" 30 "")
+                (pr "<input type=\"hidden\" name=x value=0>")
+                (pr "<input type=\"hidden\" name=y value=0>")
+                (pr "<input type=\"hidden\" name=w value=0>")
+                (pr "<input type=\"hidden\" name=h value=0>")
+                (submit)))))))
+  (login-page req 'login
+          "You need to be logged in to do that."
+          (list (fn (u ip))
+                (string 'submit (reassemble-args req))) )))
 
 (defop magazine req
   (render-content "<ul><li><a href=\"\">123</a></li></ul>" "magazine" " Magazine" req))

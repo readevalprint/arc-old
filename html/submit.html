@@ -1,6 +1,85 @@
-<form method=post action="/submit">
-    Image Url: <input name="image"><br/>
-    Source Link: <input name="link"><br/>
-    Title: <input name="title"><br/>
-    <input type=submit value="Submit">
-</form>
+
+<script language="Javascript">
+
+     function nothing(e)
+     {
+     e.stopPropagation();
+     e.preventDefault();
+     return false;
+     };
+    // Remember to invoke within jQuery(window).load(...)
+    // If you don't, Jcrop may not initialize properly
+    jQuery(window).load(function(){
+	var jcrop_api;
+	var i, ac;
+	initJcrop();
+	var sleep = function(duration, callback) {
+	    if(!callback)callback=function(){return false;}
+	    $(this).animate({dummy:1}, duration, callback);
+	    return this;
+	};
+	function initJcrop(){
+
+	    console.log($('input[name=img]').attr("value"));
+	    console.log($("#cropbox").attr("width"));
+	    $("#cropbox").attr("src", $('input[name=img]').attr("value"));
+	    $("#preview").attr("src", $('input[name=img]').attr("value"));
+	    console.log($("#cropbox").attr("width"));
+	    jcrop_api = $.Jcrop('#cropbox',{
+		onChange: showPreview,
+		onSelect: upDate,
+		aspectRatio: 1,
+		sideHandles: false});
+	    console.log($("#cropbox").attr("width"));
+	};
+    $("input[name=img]").focus(function () {
+	    $("#cropbox").show();
+	    $("#preview").hide();
+	    $(".jcrop-holder").remove();
+	    jcrop_api.destroy();
+    });
+
+	$("input[name=img]").blur(function () {
+	    $("#preview").show();
+
+	    initJcrop();
+	});
+    });
+
+
+
+
+    // Our simple event handler, called from onChange and onSelect
+    // event handlers, as per the Jcrop invocation above
+    function upDate(coords){
+	showPreview(coords)
+	$('input[name=x]').attr("value",coords.x);
+	$('input[name=y]').attr("value",coords.y);
+	$('input[name=w]').attr("value",coords.w);
+	$('input[name=h]').attr("value",coords.h);
+    }
+    function showPreview(coords)
+    {
+	if (parseInt(coords.w) > 0)
+	{
+
+	    var rx = 150 / coords.w;
+	    var ry = 150 / coords.h;
+
+	    jQuery('#preview').css({
+		width: Math.round(rx * $("#cropbox").attr("width")) + 'px',
+		height: Math.round(ry * $("#cropbox").attr("height")) + 'px',
+		marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+		marginTop: '-' + Math.round(ry * coords.y) + 'px'
+	    });
+
+	}
+    }
+
+</script>
+<!--body-->
+
+<img src="" id="cropbox" />
+<div style="width:150px;height:150px;overflow:hidden;">
+	<img src="" id="preview" />
+</div>
