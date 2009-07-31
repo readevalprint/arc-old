@@ -26,6 +26,7 @@
 	    $("#preview").attr("src", $('input[name=img]').attr("value"));
 	    console.log($("#cropbox").attr("width"));
 	    jcrop_api = $.Jcrop('#cropbox',{
+		boxWidth: 500, boxHeight: 500,
 		onChange: showPreview,
 		onSelect: upDate,
 		aspectRatio: 1,

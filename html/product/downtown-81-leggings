@@ -19,7 +19,18 @@ $34.00 + s&amp;h
     <input name="item_currency_1" type="hidden" value="USD"/>
     <input name="_charset_" type="hidden" value="utf-8"/>
     <input type="image" src="https://checkout.google.com/buttons/buy.gif?merchant_id=252004905562069&amp;w=117&amp;h=48&amp;style=trans&amp;variant=text&amp;loc=en_US" alt=""/></form>
+    <div>Only 3 Left!</div>
+
 </div>
 </div>
 
-<img src="http://static.bubblefresh.com/img/products/P7228456-web.JPG"/>
+<div id="img1" style="display:none;">
+<img src="http://static.bubblefresh.com/img/leggings/graf1.jpg"/>
+</div>
+<a href="#img1" class="img"><img src="http://static.bubblefresh.com/img/leggings/graf1-thumb.jpg"></a>
+
+<div id="img2" style="display:none;">
+<img src="http://static.bubblefresh.com/img/leggings/graf2.jpg"/>
+</div>
+<a href="#img2" class="img"><img src="http://static.bubblefresh.com/img/leggings/graf2-thumb.jpg"></a>
+

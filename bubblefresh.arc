@@ -1,41 +1,90 @@
 (load "ssdt.arc")
 (load "erp.arc")
+;(load "bubblefresh.arc")(thread (asv))(init 'dev)
+(= bubblefresh-posts-dir* "arc/bubblefresh/posts/" )
+(= bubblefresh-comments-dir* "arc/bubblefresh/comments/" )
 
-(= bubblefreshdir* "arc/bubblefresh/" )
-(= base-img-url* "http://127.0.0.1/img/posts/")
-  
-(def init ()
+(def init ((o env 'live))
   (= posts* (table) 
-    messages* (list))
-  (ensure-dir bubblefreshdir*)
-  (load-posts)
-  (= maxpost* (len posts*)))
+    comments* (table) 
+    messages* '())
+  (ensure-dir bubblefresh-posts-dir*)
+  (ensure-dir bubblefresh-comments-dir*)
+  (if (is env 'live)
+    (= base-img-url* "http://static.bubblefresh.com/img/posts/"))
+  (if (is env 'dev)
+    (= base-img-url* "http://127.0.0.1/img/posts/"))
+
+  (= maxpost* 0)
+  (= maxcomment* 0)
+  (load-comments)  
+  (load-posts))
 
 (deftem 
   post 
-  id ""
+  id 0
+  parent 0
   title "" 
   img ""
+  text ""
   folder ""
   link "" 
   by ""
-  up '(nil)
-  down '(nil)
-  view '(nil)
-  flag '(nil)
-  dead '(nil)
+  up '()
+  down '()
+  view '()
+  flag '()
+  dead '()
+  children '()
+  
+  pending #t
   )
 
+
+(deftem 
+  comment 
+  id 0
+  parent 0
+  text ""
+  by ""
+  up '()
+  down '()
+  flag '()
+  children '()
+  )  
+
+(deftem
+  profile
+  user ""
+  g 1
+  m 1
+  posts '()
+  comments '()
+  warns '()
+  email ""
+  body "")
+  
+  
 (attribute ul class opstring)
 (attribute ul id    opstring)
 
 (def load-posts ()
-  (each id (map string (dir bubblefreshdir*))
-      (= (posts* id) (temload 'post (string bubblefreshdir* id)))))
+  (each id (map string (dir bubblefresh-posts-dir*))
+      (= maxpost* (max maxpost* (coerce id 'int)))
+      (= (posts* id) (temload 'post (string bubblefresh-posts-dir* id)))))
+      
+(def load-comments ()
+  (each id (map string (dir bubblefresh-comments-dir*))
+      (= maxcomment* (max maxcomment* (coerce id 'int)))
+      (= (comments* id) (temload 'comment (string bubblefresh-comments-dir* id)))))
 
 (def save-post (item)
-    (save-table (item 1) (string bubblefreshdir* (item 0)))
+    (save-table (item 1) (string bubblefresh-posts-dir* (item 0)))
     (= (posts* (item 0)) (item 1)))
+
+(def save-comment (item)
+    (save-table (item 1) (string bubblefresh-comments-dir* (item 0)))
+    (= (comments* (item 0)) (item 1)))
 
 (def cache-img (src x y w h (o folder (string (rand-string 20))))
   (if (begins src "http://")
@@ -43,7 +92,7 @@
             folder (clean-title folder))
       (ensure-dir (string "./static/img/posts/"folder))
       (system (erp:string "cd ./static/img/posts/"folder";\
-        convert "from" \\( +clone -resize 500x500 -write orig.png +delete \\) -crop "w"x"h"+"x"+"y" -resize 150x150 thumb.png"))
+        convert "from" \\( +clone -resize 500x500 -write orig.jpg +delete \\) -crop "w"x"h"+"x"+"y" -resize 150x150 thumb.jpg"))
       folder)))
     
     
@@ -51,20 +100,36 @@
   (coerce (mz:regexp-replace* "[^0-9]+" i "") 'int))
   
 (def clean-url (url)
-  (mz:regexp-replace* "[^A-Za-z0-9/_:?#&.]+" url "")) ;is this safe?
+  (mz:regexp-replace* "[^A-Za-z0-9+/_:?#posts*&.]+" url "")) ;is this safe?
   
 (def clean-title (title)
-  (mz:regexp-replace* "[^A-Za-z0-9]+" title "_"))
+(let title (coerce title 'string)
+  (mz:regexp-replace* "[^A-Za-z0-9+]+" title "_")))
   
-(def new-post (title link img (o x 0) (o y 0) (o w 300) (o h 300));TODO add xss safty
+(def new-post (parent title link body by img (o x 0) (o y 0) (o w 300) (o h 300))
     (save-post 
-      (let id (string (++ maxpost*) "-" (clean-title title))
+      (let id (string (++ maxpost*))
         (list id (inst 'post 
                   'id id
+                  'parent 0
+                  'by by
                   'title (eschtml (striptags title))
+                  'body (eschtml (striptags body))
                   'link (clean-url link)
                   'img (clean-url img)
                   'folder (cache-img (clean-url img) x y w h id ))))))
+
+(def new-comment (parent text by)
+    (save-comment 
+      (let id (string (++ maxcomment*))
+        (push id ((parent 1) 'children))
+        (if ((parent 1) 'title)
+          (save-post parent)
+          (save-comment parent))
+        (list id (inst 'post 
+                  'id id
+                  'by by
+                  'text (eschtml (striptags text)))))))
 
 (def add-msg args
   (ero args)
@@ -105,12 +170,12 @@
       (tostring 
         (spanclass "vote" 
           (if (some user ((item 1) 'up))
-            (pr "<span class=\"up\">&and;" (- (len ((item 1) 'up)) 1) "</span>")
-            (rlinkf (string "<span class=\"up\">&and;" (- (len ((item 1) 'up)) 1) "</span>") (req) (up-vote req item) href))
+            (pr "<span class=\"up\">&and;" (len ((item 1) 'up)) "</span>")
+            (rlinkf (string "<span class=\"up\">&and;" (len ((item 1) 'up)) "</span>") (req) (up-vote req item) href))
           (if (some user ((item 1) 'down))
-            (pr "<span class=\"down\">&or;"  (- (len ((item 1) 'down)) 1)"</span>")
+            (pr "<span class=\"down\">&or;"  (len ((item 1) 'down))"</span>")
            (rlinkf 
-            (string "<span class=\"down\">&or;" (- (len ((item 1) 'down)) 1) "</span>") 
+            (string "<span class=\"down\">&or;" (len ((item 1) 'down)) "</span>") 
             (req) 
             (down-vote req item) 
             href)))))))
@@ -119,25 +184,42 @@
   (with (user (get-user req))
     (if user
       (string
+        "link "
         (if (some (get-user req) ((item 1) 'up)) "up")
         (if (some (get-user req) ((item 1) 'down)) "down")))))
         
 (attribute img class opstring)
 
 (def post-thumb (x)
-  (string base-img-url* ((x 1) 'folder) "/thumb.png"))
+  (string base-img-url* ((x 1) 'folder) "/thumb.jpg"))
   
 (def post-img (x)
-  (string base-img-url* ((x 1) 'folder) "/orig.png"))
-  
+  (string base-img-url* ((x 1) 'folder) "/orig.jpg"))
+
+(def comment-list (req items)
+  (ero items)
+  (if (comments* (car items))
+    (prn
+     "<li>"
+      ((comments* (car items)) 'text)
+      (comment-list req ((comments* (car items)) 'children))
+      "</li>"))
+    (if (cdr items)
+      (comment-list req (cdr items))))
   
 (def post-list (req)
   (accum accfn  
     (each x posts* 
-      (let href (string "/news?id=" ((x 1) 'id))
-        (accfn (string "<a href=\""href"\" class=\""(link-class req x)"\">" 
-                "<img src=\""(post-thumb x)"\"/>"
-                "</a>"))))))
+      (let href (string "/news?id=" (x 0))
+        (accfn (string 
+                  "<a href=\""href"#"((x 1) 'title)"\" class=\""(link-class req x)"\">" 
+                    "<div>"
+                      "<div class=\"up\">"(len ((x 1) 'up))"</div>"
+                      "<div class=\"down\">"(len((x 1) 'down))"</div>"
+                    "</div>"
+                    "<img src=\""(post-thumb x)"\"/>"
+                  "</a>"))))))
+
 
 (def is-ajax (req)
   (errsafe (or (alref (req 'args) "ajax") (is (string (alref (req 'cooks) "ajax")) "1"))))
@@ -148,7 +230,9 @@
         (list "<!--title-->" title)
         (list "<!--class-->" class)
         (list "<!--message-->" messages*))))
-          
+(def submit-link (req)
+  (iflet user (get-user req)
+    "<li><a href=/submit>Add</a></li>"))
 ;==== pages ====          
 (defop-raw || (str req) (w/stdout str
   (prn "Set-Cookie: ajax=0")
@@ -175,20 +259,27 @@
 (defop news req
   (aif (posts* (arg req "id"))
     (with (item (list (arg req "id") it))
-    
-     (iflet user (get-user req)
-        (item-viewed req item))
+     ;TODO: not needed now
+     ;(iflet user (get-user req)
+     ;   (item-viewed req item))
       (render-content 
         (render "html/news.html" 
-          (list "<!--vote-->" (string (vote-link req (string "/news?id=" (item 0)) item)))
+          (list "<!--breadcrumbs-->" (string ((item 1) 'title)" &lt; <a href=/news>news</a> &lt; <a href=/>home</a>"))
+          (list "<!--vote-->" (string (vote-link req (string "/news?id=" (item 0) "#"((item 1) 'title)) item)))
           (list "<!--title-->" ((item 1) 'title))
-          (list "<!--body-->" (erp:string "<a href=\"" ((item 1) 'link) "\">" 
+          (list "<!--title-->" ((item 1) 'title))
+          (list "<!--comment-link-->" (comment-link req item (item 0) ))
+          (list "<!--comments-->" (tostring (comment-list req ((item 1) 'children))))
+          (list "<!--body-->" (string "<a href=\"" ((item 1) 'link) "\">" 
                                 "<img src=\"" (post-img item) "\"/>"
                               "</a>")))
           "news" (string " News: " ((item 1) 'title)) req))
     (render-content 
-      (render "html/news.html" (list "<!--body-->" (string "<ul>" (apply li (post-list req)) "</ul>")))
+      (render "html/news.html" 
+        (list "<!--breadcrumbs-->" "news &lt; <a href=/>home</a>")
+        (list "<!--body-->" (string "<ul>"(submit-link req) (apply li (post-list req)) "</ul>")))
         "news" " News" req)))
+
 
 (defop submit req
    (if (get-user req)
@@ -196,8 +287,11 @@
        (urform user req
           (do
             (new-post 
+              'news
               (alref (req 'args) "title") 
               (alref (req 'args) "link") 
+              (alref (req 'args) "body") 
+              user
               (alref (req 'args) "img") 
               (clean-int (alref (req 'args) "x"))
               (clean-int (alref (req 'args) "y"))
@@ -220,6 +314,22 @@
           "You need to be logged in to do that."
           (list (fn (u ip))
                 (string 'submit (reassemble-args req))) )))
+
+
+(def comment-link (req parent newsid)
+   (if (get-user req)
+     (let user (get-user req)
+       (tostring 
+        (urform user req
+          (do
+            (new-comment
+              parent ;parent
+              (alref (req 'args) "text") 
+              user);by
+            (string "/news?id="newsid))
+          (inputs text "Comment:" 30 "")
+          (submit))))))
+
 
 (defop magazine req
   (render-content "<ul><li><a href=\"\">123</a></li></ul>" "magazine" " Magazine" req))
