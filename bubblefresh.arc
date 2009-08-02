@@ -4,9 +4,6 @@
 (= bubblefresh-posts-dir* "arc/bubblefresh/posts/" )
 (= bubblefresh-comments-dir* "arc/bubblefresh/comments/" )
 
-(def bsv ()
-  (init)(thread (asv 42697)))
-
 (def init ((o env 'live))
   (= posts* (table) 
     comments* (table) 
@@ -210,20 +207,19 @@
     (let item (list (car items) comment)
       (prn
        "<li id="(item 0)">"
-        (vote-link req (string href"#"(item 0)) item)
-        " "
-        (score item)
-        " "
-        (item-by item)
-        "<div class=\"comment\">"
-          (comment 'text)
+        (vote-link req (string href"#"(item 0)) item) " "
+        (score item) " "
+        (item-by item) " "
+        "<div>"
+          (comment 'text) " "
         "</div>"
-       (if (get-user req)
-          (do
-            "<div class=\"reply\"><div class=\"over\">reply</div>"
-            "<div class=\"form\">"(comment-link req item (string href"#"(item 0)) )"</div>"
-            "</div>")
-          "")
+        (if (get-user req)
+        (string "<div class=\"reply\">
+          <div class=\"over\">reply</div>"
+          "<div class=\"form\">"(comment-link req item (string href"#"(item 0)) )"</div>"
+        "</div>"
+        )
+        "")
         (if (comment 'children)
           (string
             "<ul>"
@@ -300,7 +296,10 @@
           (list "<!--comments-->"     (tostring (comment-list req ((item 1) 'children) href)))
           (list "<!--body-->"         (string "<a href=\"" ((item 1) 'link) "\">" 
                                                 "<img src=\"" (post-img item) "\"/>"
-                                              "</a>")))
+                                              "</a>"
+                                              "<div>"
+                                                ((item 1) 'text)
+                                              "</div>")))
           "news" (string " News: " ((item 1) 'title)) req))
     (render-content 
       (render "html/news.html" 
@@ -355,7 +354,8 @@
               user);by
             href)
           (pr "Comment:<input type=\"text\" value=\"\" size=\"30\" name=\"text\" \\>")
-          (submit))))))
+          (submit)))))
+          "")
 
 
 (defop magazine req
