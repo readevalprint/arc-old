@@ -4,6 +4,9 @@
 (= bubblefresh-posts-dir* "arc/bubblefresh/posts/" )
 (= bubblefresh-comments-dir* "arc/bubblefresh/comments/" )
 
+(def bsv ()
+  (init)(thread (asv 42697)))
+
 (def init ((o env 'live))
   (= posts* (table) 
     comments* (table) 
