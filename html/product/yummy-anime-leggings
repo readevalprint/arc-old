@@ -1,3 +1,18 @@
+<script src="http://static.bubblefresh.com/js/jquery.min.js"></script>
+<script type="text/javascript" src="http://static.bubblefresh.com/js/fancyzoom.min.js"></script>
+
+
+<script type="text/javascript" charset="utf-8">
+    if(typeof console === "undefined") {
+    console = { log: function() { } };
+}
+$(document).ready(function() {
+  //  $('a.img').fancyZoom({directory: "http://127.0.0.1/images/",scaleImg: true, closeOnClick: true});
+    $('a.img').fancyZoom({directory: "http://static.bubblefresh.com/images/",scaleImg: true, closeOnClick: true});
+});
+</script>
+
+
 <div id="breadcrumb">Yummy Anime Leggings &lt; <a href="/apparel">apparel</a> &lt; <a href="/">home</a></div>
 
 <h3>Yummy Anime Leggings</h3>

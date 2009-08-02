@@ -24,12 +24,12 @@
   post 
   id 0
   parent 0
-  title "" 
-  img ""
-  text ""
-  folder ""
-  link "" 
-  by ""
+  title nil
+  img nil
+  text nil
+  folder nil
+  link nil 
+  by nil
   up '()
   down '()
   view '()
@@ -40,18 +40,6 @@
   pending #t
   )
 
-
-(deftem 
-  comment 
-  id 0
-  parent 0
-  text ""
-  by ""
-  up '()
-  down '()
-  flag '()
-  children '()
-  )  
 
 (deftem
   profile
@@ -76,7 +64,7 @@
 (def load-comments ()
   (each id (map string (dir bubblefresh-comments-dir*))
       (= maxcomment* (max maxcomment* (coerce id 'int)))
-      (= (comments* id) (temload 'comment (string bubblefresh-comments-dir* id)))))
+      (= (comments* id) (temload 'post (string bubblefresh-comments-dir* id)))))
 
 (def save-post (item)
     (save-table (item 1) (string bubblefresh-posts-dir* (item 0)))
@@ -91,7 +79,7 @@
     (with (from (cut src 0 (urlend src 0))
             folder (clean-title folder))
       (ensure-dir (string "./static/img/posts/"folder))
-      (system (erp:string "cd ./static/img/posts/"folder";\
+      (system (string "cd ./static/img/posts/"folder";\
         convert "from" \\( +clone -resize 500x500 -write orig.jpg +delete \\) -crop "w"x"h"+"x"+"y" -resize 150x150 thumb.jpg"))
       folder)))
     
@@ -138,7 +126,9 @@
 (def item-viewed (req item)
   (with (user (get-user req))
     (pushnew user ((item 1) 'view)))
-  (save-post item))
+    (if ((item 1) 'title)
+      (save-post item)
+      (save-comment item)))
   
 (def up-vote (req item)
   (with (user (get-user req))
@@ -150,19 +140,26 @@
         (do 
           (pushnew user ((item 1) 'up))
           (add-msg user "your upvote was added"))))
-    (save-post item)))
+        (if ((item 1) 'title)
+      (save-post item)
+      (save-comment item))))
 
 (def down-vote (req item)
   (with (user (get-user req))
     (if (some user ((item 1) 'up))
-      (do 
         (pull user ((item 1) 'up))
-        (add-msg user "your upvote was removed"))
       (if (no (some user ((item 1) 'down)))
-        (do 
-          (pushnew user ((item 1) 'down))
-          (add-msg user "your downvote was added"))))
-  (save-post item)))
+          (pushnew user ((item 1) 'down))))
+      (if ((item 1) 'title)
+      (save-post item)
+      (save-comment item))))
+
+(def score (item)
+  (- (len ((item 1) 'up))
+  (len ((item 1) 'down))))
+  
+(def user-link (item)
+  (string "<a href=\"/profile?id="((item 1) 'by)"\" >"((item 1) 'by)"</a>"))
 
 (def vote-link (req href item)
   (with (user (get-user req))
@@ -170,15 +167,20 @@
       (tostring 
         (spanclass "vote" 
           (if (some user ((item 1) 'up))
-            (pr "<span class=\"up\">&and;" (len ((item 1) 'up)) "</span>")
-            (rlinkf (string "<span class=\"up\">&and;" (len ((item 1) 'up)) "</span>") (req) (up-vote req item) href))
+            (pr "<span class=\"up\">&and;</span>")
+            (rlinkf (string "<span class=\"up\">&and;</span>") 
+              (req) 
+              (up-vote req item) 
+              href))
           (if (some user ((item 1) 'down))
-            (pr "<span class=\"down\">&or;"  (len ((item 1) 'down))"</span>")
+            (pr "<span class=\"down\">&or;</span>")
            (rlinkf 
-            (string "<span class=\"down\">&or;" (len ((item 1) 'down)) "</span>") 
+            (string "<span class=\"down\">&or;</span>") 
             (req) 
             (down-vote req item) 
-            href)))))))
+            href)))
+          (spanclass "score" (pr (score item) " points"))
+          (spanclass "by"  (pr " by " (user-link item)))))))
 
 (def link-class (req item)
   (with (user (get-user req))
@@ -196,28 +198,38 @@
 (def post-img (x)
   (string base-img-url* ((x 1) 'folder) "/orig.jpg"))
 
-(def comment-list (req items)
-  (ero items)
-  (if (comments* (car items))
+(def comment-list (req items (o href ""))
+  (iflet comment (comments* (car items))
     (prn
-     "<li>"
-      ((comments* (car items)) 'text)
-      (comment-list req ((comments* (car items)) 'children))
+     "<li id="(car items)">"
+        "<div class=\"vote-link\">"
+          (vote-link req (string href"#"(car items)) (list (car items) comment))
+        "</div>"
+      (comment 'text)
+      "<div class=\"reply\"><div class=\"over\">reply</div>"
+      "<div class=\"form\">"(comment-link req (list (car items) comment) (string href"#"(car items)) )"</div>"
+      "</div>"
+      (if (comment 'children)
+        (string
+          "<ul>"
+          (tostring (comment-list req (comment 'children) href))
+          "</ul>")
+        "")
       "</li>"))
     (if (cdr items)
-      (comment-list req (cdr items))))
+      (comment-list req (cdr items) href)))
   
 (def post-list (req)
   (accum accfn  
-    (each x posts* 
-      (let href (string "/news?id=" (x 0))
+    (each item posts* 
+      (let href (string "/news?id=" (item 0))
         (accfn (string 
-                  "<a href=\""href"#"((x 1) 'title)"\" class=\""(link-class req x)"\">" 
-                    "<div>"
-                      "<div class=\"up\">"(len ((x 1) 'up))"</div>"
-                      "<div class=\"down\">"(len((x 1) 'down))"</div>"
+                  "<a href=\""href"&"((item 1) 'title)"\" class=\""(link-class req item)"\">" 
+                    "<img src=\""(post-thumb item)"\"/>"
+                    "<div class=title>"
+                      ((item 1) 'title) 
                     "</div>"
-                    "<img src=\""(post-thumb x)"\"/>"
+
                   "</a>"))))))
 
 
@@ -258,21 +270,21 @@
   
 (defop news req
   (aif (posts* (arg req "id"))
-    (with (item (list (arg req "id") it))
+    (withs (item (list (arg req "id") it)
+          href (string "/news?id=" (item 0) "&"((item 1) 'title)))
      ;TODO: not needed now
      ;(iflet user (get-user req)
      ;   (item-viewed req item))
       (render-content 
         (render "html/news.html" 
-          (list "<!--breadcrumbs-->" (string ((item 1) 'title)" &lt; <a href=/news>news</a> &lt; <a href=/>home</a>"))
-          (list "<!--vote-->" (string (vote-link req (string "/news?id=" (item 0) "#"((item 1) 'title)) item)))
-          (list "<!--title-->" ((item 1) 'title))
-          (list "<!--title-->" ((item 1) 'title))
-          (list "<!--comment-link-->" (comment-link req item (item 0) ))
-          (list "<!--comments-->" (tostring (comment-list req ((item 1) 'children))))
-          (list "<!--body-->" (string "<a href=\"" ((item 1) 'link) "\">" 
-                                "<img src=\"" (post-img item) "\"/>"
-                              "</a>")))
+          (list "<!--breadcrumbs-->"  (string ((item 1) 'title)" &lt; <a href=/news>news</a> &lt; <a href=/>home</a>"))
+          (list "<!--vote-->"         (vote-link req href item))
+          (list "<!--title-->"        ((item 1) 'title) )
+          (list "<!--comment-link-->" (comment-link req item (string "/news?id="(item 0)) ))
+          (list "<!--comments-->"     (tostring (comment-list req ((item 1) 'children) href)))
+          (list "<!--body-->"         (string "<a href=\"" ((item 1) 'link) "\">" 
+                                                "<img src=\"" (post-img item) "\"/>"
+                                              "</a>")))
           "news" (string " News: " ((item 1) 'title)) req))
     (render-content 
       (render "html/news.html" 
@@ -315,8 +327,7 @@
           (list (fn (u ip))
                 (string 'submit (reassemble-args req))) )))
 
-
-(def comment-link (req parent newsid)
+(def reply-link (req parent newsid)
    (if (get-user req)
      (let user (get-user req)
        (tostring 
@@ -327,7 +338,22 @@
               (alref (req 'args) "text") 
               user);by
             (string "/news?id="newsid))
-          (inputs text "Comment:" 30 "")
+          "Comment:<input type=\"text\" value=\"\" size=\"30\" name=\"text\" style=\"width: 100%;\"\\>"
+          (submit))))))
+
+
+(def comment-link (req parent href)
+   (if (get-user req)
+     (let user (get-user req)
+       (tostring 
+        (urform user req
+          (do
+            (new-comment
+              parent ;parent
+              (alref (req 'args) "text") 
+              user);by
+            href)
+          (pr "Comment:<input type=\"text\" value=\"\" size=\"30\" name=\"text\" \\>")
           (submit))))))
 
 

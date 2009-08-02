@@ -9,16 +9,7 @@
 $34.00 + s&amp;h
 </div>
 <div class="checkout">
-<form action="https://checkout.google.com/api/checkout/v2/checkoutForm/Merchant/252004905562069" id="BB_BuyButtonForm" method="post" name="BB_BuyButtonForm">
-    <input name="item_name_1" type="hidden" value="Leggings 1"/>
-    <input name="item_description_1" type="hidden" value="Always waiting for the bell to ring or to get off work? Amuse yourself with these comic strip leggings! Not only can you entertain yourself, you can to it with style!
-"/>
-    <input name="item_quantity_1" type="hidden" value="1"/>
-    <input name="item_price_1" type="hidden" value="34.0"/>
-    <input name="item_currency_1" type="hidden" value="USD"/>
-    <input name="_charset_" type="hidden" value="utf-8"/>
-    <input type="image" src="https://checkout.google.com/buttons/buy.gif?merchant_id=252004905562069&amp;w=117&amp;h=48&amp;style=trans&amp;variant=text&amp;loc=en_US" alt=""/></form>
-    <div>Only 1 Left!</div>
+    <div><strike>Only 1 Left!</strike> SOLD OUT!</div>
 
 </div>
 </div>
