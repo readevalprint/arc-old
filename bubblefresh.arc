@@ -4,6 +4,9 @@
 (= bubblefresh-posts-dir* "arc/bubblefresh/posts/" )
 (= bubblefresh-comments-dir* "arc/bubblefresh/comments/" )
 
+(def bsv ()
+  (init)(thread (asv 42697)))
+  
 (def init ((o env 'live))
   (= posts* (table) 
     comments* (table) 
@@ -233,26 +236,26 @@
 (def post-list (req)
   (accum accfn  
     (each item posts* 
-      (let href (string "/news?id=" (item 0))
+      (withs (href (string "/news?id=" (item 0))
+            a (string "<a href=\""href"&"((item 1) 'title)"\" class=\""(link-class req item)"\">" ))
         (accfn (string 
-                  "<a href=\""href"&"((item 1) 'title)"\" class=\""(link-class req item)"\">" 
-                    "<img src=\""(post-thumb item)"\"/>"
-                    "<div class=title>"
+                  a "<img src=\""(post-thumb item)"\"/> </a>"
+                   "<span class=info>"
                       ((item 1) 'title) 
-                    "</div>"
-
-                  "</a>"))))))
+                    "</span>"
+                 ))))))
 
 
 (def is-ajax (req)
   (errsafe (or (alref (req 'args) "ajax") (is (string (alref (req 'cooks) "ajax")) "1"))))
 
-(def render-content (content (o class "home") (o title "") (o req))
-  (pr (render (if (is-ajax req) "html/mobile.html" "html/index.html")
+(def render-content (content (o class "home") (o title "") (o req ""))
+  (pr (render  "html/index.html"
         (list "<!--content-->" content)
         (list "<!--title-->" title)
         (list "<!--class-->" class)
         (list "<!--message-->" messages*))))
+        
 (def submit-link (req)
   (iflet user (get-user req)
     "<li><a href=/submit>Add</a></li>"))
@@ -290,6 +293,7 @@
         (render "html/news.html" 
           (list "<!--breadcrumbs-->"  (string ((item 1) 'title)" &lt; <a href=/news>news</a> &lt; <a href=/>home</a>"))
           (list "<!--vote-->"         (vote-link req href item))
+          (list "<!--score-->"        (score item))
           (list "<!--by-->"           (item-by item))
           (list "<!--title-->"        ((item 1) 'title) )
           (list "<!--comment-link-->" (comment-link req item (string "/news?id="(item 0)) ))
@@ -354,8 +358,8 @@
               user);by
             href)
           (pr "Comment:<input type=\"text\" value=\"\" size=\"30\" name=\"text\" \\>")
-          (submit)))))
-          "")
+          (submit))))
+          ""))
 
 
 (defop magazine req
@@ -363,18 +367,19 @@
 
 (defop bonus req
   (if (get-user req)
-      (render-content "<div class=\"panel\">BONUS BODY<div>" "bonus" " Bonus" req)
-      (login-page req 'login
-          "You need to be logged in to do that."
-          (list (fn (u ip))
-                (string 'bonus (reassemble-args req))) )))
-                              
-;==overwritten arc defs==
-;html.arc:241
-;-
-;(mac whitepage body
-;  `(tag html 
-;     (tag (body bgcolor white alink linkblue) ,@body)))
-;+
-;(mac whitepage content
-;  `(render-content "" (tostring ,@content) "home" "Home" req))
+      (render-content (render "html/bonus.html" ) "bonus" " Bonus" req)
+      (render-content (tostring  
+                        (login-form "Login" 'login login-handler (list (fn (a b))  "bonus"))
+                            ) "bonus" " Bonus" req)))
+     
+(defop login req 
+  (render-content (tostring  
+                        (login-form "Log in" 'login login-handler (list (fn (a b))  "/"))
+                            ) "home" " Login" req))
+                            
+(defop logout req
+  (aif (get-user req)
+     (do 
+        (logout-user it)
+          (render-content "Logged out." "home" " Logout" req) )
+          (render-content "You were not logged in." "home" " Logout" req) ))

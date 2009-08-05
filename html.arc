@@ -61,6 +61,9 @@
 (def opsel (key val)
   `(if ,val (pr " selected")))
 
+(def opcheck (key val)
+  `(if ,val (pr " checked")))
+
 (def opesc (key val)
   `(awhen ,val
      (pr ,(string " " key "=\""))
@@ -106,8 +109,9 @@
 (attribute input      size           opnum)
 (attribute input      type           opsym)
 (attribute input      value          opesc)
-(attribute option     selected       opsel)
+(attribute input      checked        opcheck)
 (attribute select     name           opstring)
+(attribute option     selected       opsel)
 (attribute table      bgcolor        opcolor)
 (attribute table      border         opnum)
 (attribute table      cellpadding    opnum)
@@ -238,18 +242,11 @@
       (tag (option selected (is i sel))
         (pr i)))))
 
-;orig
-;(mac whitepage body
-;  `(tag html 
-;     (tag (body bgcolor white alink linkblue) ,@body)))
-;overridden
-(mac whitepage content
-  `(render-content (tostring ,@content) "home" " Home" req))
-  
-(def render-content (content . rest ) 
-  (tag html content))
+(mac whitepage body
+  `(tag html 
+     (tag (body bgcolor white alink linkblue) ,@body)))
 
-(def errpage args (whitepage (apply prn args) req))
+(def errpage args (whitepage (apply prn args)))
 
 (def blank-url () "s.gif")
 
@@ -350,7 +347,7 @@
                   #\&  "&#38;"
                         c)))))
 
-(def esc<>& (str)
+(def esc-tags (str)
   (tostring 
     (each c str
       (pr (case c #\<  "&#60;" 

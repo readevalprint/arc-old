@@ -1,22 +1,24 @@
 <script src="http://static.bubblefresh.com/js/jquery.min.js"></script>
 <script src="http://static.bubblefresh.com/js/jquery.Jcrop.js"></script>
 
-<script type="text/javascript" charset="utf-8">
-    if(typeof console === "undefined") {
-	console = { log: function() { } };
-    }
-</script>
 <script language="Javascript">
 
-     function nothing(e)
-     {
-     e.stopPropagation();
-     e.preventDefault();
-     return false;
+     function nothing(e) {
+	 e.stopPropagation();
+	 e.preventDefault();
+	 return false;
      };
+
     // Remember to invoke within jQuery(window).load(...)
     // If you don't, Jcrop may not initialize properly
     jQuery(window).load(function(){
+
+	$.getJSON("http://127.0.0.1/static/ti.php?u="++"&callback=?"
+	    , function(data){
+		console.log(data['title']);
+		console.log(data['images']);
+	    });
+
 	var jcrop_api;
 	var i, ac;
 	initJcrop();
@@ -25,8 +27,8 @@
 	    $(this).animate({dummy:1}, duration, callback);
 	    return this;
 	};
-	function initJcrop(){
 
+	function initJcrop(){
 	    console.log($('input[name=img]').attr("value"));
 	    console.log($("#cropbox").attr("width"));
 	    $("#cropbox").attr("src", $('input[name=img]').attr("value"));

@@ -5,7 +5,7 @@
 ; arc> (bsv)
 ; go to http://localhost:8080/blog
 
-(= postdir* "arc/posts/"  maxid* 0  posts* (list))
+(= postdir* "arc/posts/"  maxid* 0  posts* (table))
 
 (= blogtitle* "A Blog")
 
@@ -13,8 +13,8 @@
 
 (def load-posts ()
   (each id (map int (dir postdir*))
-    (= maxid*      (max maxid* id))
-       (push (temload 'post (string postdir* id)) posts* )))
+    (= maxid*      (max maxid* id)
+       (posts* id) (temload 'post (string postdir* id)))))
 
 (def save-post (p) (save-table p (string postdir* p!id)))
 

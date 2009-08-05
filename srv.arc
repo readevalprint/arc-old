@@ -11,6 +11,7 @@
   (ensure-srvdirs)
   (map [apply new-bgthread _] pending-bgthreads*)
   (w/socket s port
+    (setuid 2) ; XXX switch from root to pg
     (prn "ready to serve port " port)
     (flushout)
     (= currsock* s)
@@ -260,7 +261,7 @@ Connection: close"))
                             (errsafe:coerce (cadr (tokens s)) 'int)))
                      (cdr lines)))
           (some (fn (s)
-                  (and (begins (downcase s) "cookie:")
+                  (and (begins s "Cookie:")
                        (parsecookies s)))
                 (cdr lines)))))
 
@@ -453,7 +454,7 @@ Connection: close"))
 ; Like aform except creates a fnid that will last for lasts seconds
 ; (unless the server is restarted).
 
-(mac timed-aform (lasts f . body)
+(mac taform (lasts f . body)
   (w/uniq (gl gf gi ga)
     `(withs (,gl ,lasts
              ,gf (fn (,ga) (prn) (,f ,ga)))
@@ -527,14 +528,14 @@ Connection: close"))
                              requests/ip*)
                    leaders)
           (let n (requests/ip* ip)
-            (row ip n (pr (num (* 100 (/ n requests*)) 1)))))) req)))
+            (row ip n (pr (num (* 100 (/ n requests*)) 1)))))))))
 
 (defop spurned req
   (when (admin (get-user req))
     (whitepage
       (sptab
         (map (fn ((ip n)) (row ip n))
-             (sortable spurned*))) req)))
+             (sortable spurned*))))))
 
 ; eventually promote to general util
 

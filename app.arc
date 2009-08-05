@@ -1,6 +1,6 @@
 ; Application Server.  Layer inserted 2 Sep 06.
 
-; ideas: 
+; ideas:
 ; def a general notion of apps of which prompt is one, news another
 ; give each user a place to store data?  A home dir?
 
@@ -27,7 +27,7 @@
 
 (= cookie->user* (table) user->cookie* (table) logins* (table))
 
-(def get-user (req) 
+(def get-user (req)
   (let u (aand (alref req!cooks "user") (cookie->user* (sym it)))
     (when u (= (logins* u) req!ip))
     u))
@@ -37,7 +37,7 @@
        (do ,@body)
        (mismatch-message)))
 
-(def mismatch-message () 
+(def mismatch-message ()
   (prn "Dead link: users don't match."))
 
 (mac when-umatch/r (user req . body)
@@ -55,34 +55,34 @@
 
 (mac urform (user req after . body)
   `(arform (fn (,req)
-             (when-umatch/r ,user ,req 
+             (when-umatch/r ,user ,req
                ,after))
      ,@body))
 
 ; Like onlink, but checks that user submitting the request is the
-; same it was generated for.  For extra protection could log the 
+; same it was generated for.  For extra protection could log the
 ; username and ip addr of every genlink, and check if they match.
 
-(mac ulink (user text . body)  
+(mac ulink (user text . body)
   (w/uniq req
-    `(linkf ,text (,req) 
+    `(linkf ,text (,req)
        (when-umatch ,user ,req ,@body))))
 
 
-(defop admin req (admin-gate req (get-user req)))
+(defop admin req (admin-gate (get-user req)))
 
-(def admin-gate (req u)
+(def admin-gate (u)
   (if (admin u)
-      (admin-page req u)
-      (login-page req 'login nil
-                  (fn (u ip)  (admin-gate req u)))))
+      (admin-page u)
+      (login-page 'login nil
+                  (fn (u ip)  (admin-gate u)))))
 
 (def admin (u) (and u (mem u admins*)))
 
 (def user-exists (u) (and u (hpasswords* u) u))
 
-(def admin-page (req user . msg)
-  (whitepage 
+(def admin-page (user . msg)
+  (whitepage
     (prbold "Admin: ")
     (hspace 20)
     (pr user " | ")
@@ -97,9 +97,9 @@
                  (if (or (no u) (no p) (is u "") (is p ""))
                       (pr "Bad data.")
                      (user-exists u)
-                      (admin-page user req "User already exists: " u)
+                      (admin-page user "User already exists: " u)
                       (do (create-acct u p)
-                          (admin-page req user))))))
+                          (admin-page user))))))
       (pwfields "create (server) account"))))
 
 (def cook-user (user)
@@ -127,7 +127,7 @@
 (def disable-acct (user)
   (set-pw user (rand-string 20))
   (logout-user user))
-  
+
 (def set-pw (user pw)
   (= (hpasswords* user) (and pw (shash pw)))
   (save-table hpasswords* hpwfile*))
@@ -135,19 +135,19 @@
 (def hello-page (user ip)
   (whitepage (prs "hello" user "at" ip)))
 
-(defop login req (login-page req 'login))
+(defop login req (login-page 'login))
 
 ; switch is one of: register, login, both
 
 ; afterward is either a function on the newly created username and
-; ip address, in which case it is called to generate the next page 
-; after a successful login, or a pair of (function url), which means 
+; ip address, in which case it is called to generate the next page
+; after a successful login, or a pair of (function url), which means
 ; call the function, then redirect to the url.
 
 ; classic example of something that should just "return" a val
 ; via a continuation rather than going to a new page.
 
-(def login-page (req switch (o msg nil) (o afterward hello-page) )
+(def login-page (switch (o msg nil) (o afterward hello-page))
   (whitepage
     (pagemessage msg)
     (when (in switch 'login 'both)
@@ -155,7 +155,7 @@
       (hook 'login-form afterward)
       (br2))
     (when (in switch 'register 'both)
-      (login-form "Create Account" switch create-handler afterward)) req))
+      (login-form "Create Account" switch create-handler afterward))))
 
 (def login-form (label switch handler afterward)
   (prbold label)
@@ -168,13 +168,13 @@
   (logout-user (get-user req))
   (aif (good-login (arg req "u") (arg req "p") req!ip)
        (login it req!ip (user->cookie* it) afterward)
-       (failed-login switch "Bad login." afterward req)))
+       (failed-login switch "Bad login." afterward)))
 
 (def create-handler (req switch afterward)
   (logout-user (get-user req))
   (with (user (arg req "u") pw (arg req "p"))
     (aif (bad-newacct user pw)
-         (failed-login switch it afterward req)
+         (failed-login switch it afterward)
          (do (create-acct user pw)
              (login user req!ip (cook-user user) afterward)))))
 
@@ -188,10 +188,11 @@
       (do (prn)
           (afterward user ip))))
 
-(def failed-login (switch msg afterward req)
+(def failed-login (switch msg afterward)
   (if (acons afterward)
-      (flink (fn ignore (login-page req switch msg afterward )))
-      (login-page req switch msg afterward )))
+      (flink (fn ignore (login-page switch msg afterward)))
+      (do (prn)
+          (login-page switch msg afterward))))
 
 (def prcookie (cook)
   (prn "Set-Cookie: user=" cook "; expires=Sun, 17-Jan-2038 19:14:07 GMT"))
@@ -213,7 +214,7 @@
         (do (enq-limit record bad-logins*)
             nil))))
 
-; Create a file in case people have quote chars in their pws.  I can't 
+; Create a file in case people have quote chars in their pws.  I can't
 ; believe there's no way to just send the chars.
 
 (def shash (str)
@@ -233,13 +234,13 @@
 
 (def bad-newacct (user pw)
   (if (no (goodname user 2 15))
-       "Usernames can only contain letters, digits, dashes and 
-        underscores, and should be between 2 and 15 characters long.  
+       "Usernames can only contain letters, digits, dashes and
+        underscores, and should be between 2 and 15 characters long.
         Please choose another."
       (username-taken user)
        "That username is taken. Please choose another."
       (or (no pw) (< (len pw) 4))
-       "Passwords should be a least 4 characters long.  Please 
+       "Passwords should be a least 4 characters long.  Please
         choose another."
        nil))
 
@@ -268,7 +269,7 @@
 
 (= formwid* 60 bigformwid* 80 numwid* 16 formatdoc-url* nil)
 
-; Eventually figure out a way to separate type name from format of 
+; Eventually figure out a way to separate type name from format of
 ; input field, instead of having e.g. toks and bigtoks
 
 (def varfield (typ id val)
@@ -278,9 +279,9 @@
        (gentag input type 'text name id value val size numwid*)
       (in typ 'users 'toks)
        (gentag input type 'text name id value (tostring (apply prs val))
-                     size formwid*)    
+                     size formwid*)
       (is typ 'sexpr)
-       (gentag input type 'text name id 
+       (gentag input type 'text name id
                      value (tostring (map [do (write _) (sp)] val))
                      size formwid*)
       (in typ 'syms 'text 'doc 'mdtext 'mdtext2 'lines 'bigtoks)
@@ -293,9 +294,9 @@
                      (no val)
                       ""
                      val)
-         (tag (textarea cols (if (is typ 'doc) bigformwid* formwid*) 
+         (tag (textarea cols (if (is typ 'doc) bigformwid* formwid*)
                         rows (needrows text formwid* 4)
-                        wrap 'virtual 
+                        wrap 'virtual
                         style (if (is typ 'doc) "font-size:8.5pt")
                         name id)
            (prn) ; needed or 1 initial newline gets chopped off
@@ -341,7 +342,7 @@
 ; even in the parsing of http requests, in the server.
 
 ; Need the calls to striptags so that news users can't get html
-; into a title or comment by editing it.  If want a form that 
+; into a title or comment by editing it.  If want a form that
 ; can take html, just create another typ for it.
 
 (def readvar (typ str (o fail nil))
@@ -372,41 +373,55 @@
     date    (or (errsafe (parse-date str)) fail)
             (err "unknown readvar type" typ)))
 
-(= fail* (uniq))
-  
-; Takes a list of fields of the form (type label value view modify) and 
-; a fn f and generates a form such that when submitted (f label newval) 
+; dates should be tagged date, and just redefine <
+
+(def varcompare (typ)
+  (if (in typ 'syms 'sexpr 'users 'toks 'bigtoks 'lines 'hexcol)
+       (fn (x y) (> (len x) (len y)))
+      (is typ 'date)
+       (fn (x y)
+         (or (no y) (and x (date< x y))))
+       (fn (x y)
+         (or (empty y) (and (~empty x) (< x y))))))
+
+
+; (= fail* (uniq))
+
+(def fail* ()) ; coudn't possibly come back from a form
+
+; Takes a list of fields of the form (type label value view modify) and
+; a fn f and generates a form such that when submitted (f label newval)
 ; will be called for each valid value.  Finally done is called.
 
 (def vars-form (user fields f done (o button "update") (o lasts))
-  (timed-aform lasts
-               (if (all [no (_ 4)] fields)
-                   (fn (req))
-                   (fn (req)
-                     (when-umatch user req
-                       (each (k v) req!args
-                         (let name (sym k)
-                           (awhen (find [is (cadr _) name] fields)
-                             ; added sho to fix bug
-                             (let (typ id val sho mod) it
-                               (when (and mod v)
-                                 (let newval (readvar typ v fail*)
-                                   (unless (is newval fail*)
-                                     (f name newval))))))))
-                       (done))))
+  (taform lasts
+          (if (all [no (_ 4)] fields)
+              (fn (req))
+              (fn (req)
+                (when-umatch user req
+                  (each (k v) req!args
+                    (let name (sym k)
+                      (awhen (find [is (cadr _) name] fields)
+                        ; added sho to fix bug
+                        (let (typ id val sho mod) it
+                          (when (and mod v)
+                            (let newval (readvar typ v fail*)
+                              (unless (is newval fail*)
+                                (f name newval))))))))
+                  (done))))
      (tab
        (showvars fields))
      (unless (all [no (_ 4)] fields)  ; no modifiable fields
        (br)
        (submit button))))
-                
+
 (def showvars (fields (o liveurls))
   (each (typ id val view mod question) fields
     (when view
       (when question
         (tr (td (prn question))))
       (tr (unless question (tag (td valign 'top)  (pr id ":")))
-          (td (if mod 
+          (td (if mod
                   (varfield typ id val)
                   (varline  typ id val liveurls))))
       (prn))))
@@ -414,7 +429,7 @@
 ; http://daringfireball.net/projects/markdown/syntax
 
 (def md-from-form (str (o nolinks))
-  (markdown (trim (rem #\return (esc<>& str)) 'end) 60 nolinks))
+  (markdown (trim (rem #\return (esc-tags str)) 'end) 60 nolinks))
 
 (def markdown (s (o maxurl) (o nolinks))
   (let ital nil
@@ -430,14 +445,14 @@
                       (do (unless (is i 0) (pr "<p>"))
                           (= i (- newi 1)))
                       (and (is (s i) #\*)
-                           (or ital 
-                               (atend i s) 
+                           (or ital
+                               (atend i s)
                                (and (~whitec (s (+ i 1)))
                                     (pos #\* s (+ i 1)))))
                        (do (pr (if ital "</i>" "<i>"))
                            (= ital (no ital)))
                       (and (no nolinks)
-                           (or (litmatch "http://" s i) 
+                           (or (litmatch "http://" s i)
                                (litmatch "https://" s i)))
                        (withs (n   (urlend s i)
                                url (clean-url (cut s i n)))
@@ -470,7 +485,7 @@
 
 (def next-parabreak (s i)
   (unless (atend i s)
-    (aif (parabreak s i) 
+    (aif (parabreak s i)
          (list i it)
          (next-parabreak s (+ i 1)))))
 
@@ -489,17 +504,17 @@
 ; Note that > immediately after a url (http://foo.com>) will cause
 ; an odd result, because the > gets escaped to something beginning
 ; with &, which is treated as part of the url.  Perhaps the answer
-; is just to esc<>& after markdown instead of before.
+; is just to esc-tags after markdown instead of before.
 
 ; Treats a delimiter as part of a url if it is (a) an open delimiter
-; not followed by whitespace or eos, or (b) a close delimiter 
+; not followed by whitespace or eos, or (b) a close delimiter
 ; balancing a previous open delimiter.
 
 (def urlend (s i (o indelim))
   (let c (s i)
     (if (atend i s)
-         (if ((orf punc whitec opendelim) c) 
-              i 
+         (if ((orf punc whitec opendelim) c)
+              i
              (closedelim c)
               (if indelim (+ i 1) i)
              (+ i 1))
@@ -513,7 +528,7 @@
                                   (and indelim (no (closedelim c)))))))))
 
 (def opendelim (c)  (in c #\< #\( #\[ #\{))
- 
+
 (def closedelim (c) (in c #\> #\) #\] #\}))
 
 
@@ -530,7 +545,7 @@
   (tostring
     (forlen i s
       (if (litmatch "<p>" s i)
-           (do (++ i 2) 
+           (do (++ i 2)
                (unless (is i 2) (pr "\n\n")))
           (litmatch "<i>" s i)
            (do (++ i 2) (pr #\*))
@@ -572,9 +587,9 @@
                  (if (in cleanlabel "am" "midnight")
                      0
                      12)
-                (is cleanlabel "pm")
-                 (+ h 12)
-                 h)
+                (is cleanlabel "am")
+                 h
+                 (+ h 12))
             60)
           m))))
 
@@ -625,14 +640,14 @@
          (withs ((ds ms ys) toks
                  d          (int ds))
            (aif (monthnum ms)
-                (list (or (errsafe (int ys)) ynow) 
+                (list (or (errsafe (int ys)) ynow)
                       it
                       d)
                 nil))
         (monthnum (car toks))
          (let (ms ds ys) toks
            (aif (errsafe (int ds))
-                (list (or (errsafe (int ys)) ynow) 
+                (list (or (errsafe (int ys)) ynow)
                       (monthnum (car toks))
                       it)
                 nil))
@@ -648,7 +663,7 @@
 (mac defopl (name parm . body)
   `(defop ,name ,parm
      (if (get-user ,parm)
-         (do ,@body) 
+         (do ,@body)
          (login-page 'both
                      "You need to be logged in to do that."
                      (list (fn (u ip))
