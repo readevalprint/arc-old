@@ -1,29 +1,102 @@
-    <div id="breadcrumb">apparel &lt; <a href="/">home</a></div>
+<script src="http://static.bubblefresh.com/js/jquery.min.js"></script>
+<script type="text/javascript" src="http://static.bubblefresh.com/js/fancyzoom.min.js"></script>
+
+
+<script type="text/javascript" charset="utf-8">
+    if(typeof console === "undefined") {
+    console = { log: function() { } };
+}
+$(document).ready(function() {
+  //  $('a.img').fancyZoom({directory: "http://127.0.0.1/images/",scaleImg: true, closeOnClick: true});
+    $('a.img').fancyZoom({directory: "http://static.bubblefresh.com/images/",scaleImg: true, closeOnClick: true});
+});
+</script>
+
+<div id="breadcrumb">apparel &lt; <a href="/">home</a></div>
 <ul>
   <li class="group">Leggings<div class="">Stand up and stand out with these fine leggings brought to you by Chicle de Anya.</div></li>
-  <li>
-    <a href="/apparel?yummy-anime-leggings">Yummy Anime</a>
-    <span class=""><img src="http://static.bubblefresh.com/img/leggings/P7228456-thumb.JPG"/>
-        <p>
-        Yes ladies,you know longer have to be jealous of those Harajuku girls! These limited edition leggings will no doubt cause you too attract some haters!
-        </p>
-    </span>
+  <li class="description">
+<h3>Yummy Anime Leggings</h3>
+
+    <p>
+
+        Yes ladies, you no longer have to be jealous of those Harajuku girls! These limited edition leggings will no doubt cause you too attract some haters!
+
+        <div id="img1" style="display:none;">
+        <img src="http://static.bubblefresh.com/img/leggings/anime1.jpg"/>
+        </div>
+        <a href="#img1" class="img"><img src="http://static.bubblefresh.com/img/leggings/anime1-thumb.jpg"></a>
+
+        <div id="img2" style="display:none;">
+        <img src="http://static.bubblefresh.com/img/leggings/P7228457.JPG"/>
+        </div>
+        <a href="#img2" class="img"><img src="http://static.bubblefresh.com/img/leggings/P7228457-thumb.JPG"></a>
+
+        <div id="img3" style="display:none;">
+        <img src="http://static.bubblefresh.com/img/leggings/P7228458.JPG"/>
+        </div>
+        <a href="#img3" class="img"><img src="http://static.bubblefresh.com/img/leggings/P7228458-thumb.JPG"></a>
+
+    </p>
+
+    <div class="price">
+        $34.00 + s&amp;h
+        </div>
+        <div class="">
+        <form action="https://checkout.google.com/api/checkout/v2/checkoutForm/Merchant/252004905562069" id="BB_BuyButtonForm" method="post" name="BB_BuyButtonForm">
+            <input name="item_name_1" type="hidden" value="Leggings 1"/>
+            <input name="item_description_1" type="hidden" value="Yes ladies,you know longer have to be jealous of those Harajuku girls! These limited edition leggings will no doubt cause you too attract some haters!"/>
+            <input name="item_quantity_1" type="hidden" value="1"/>
+            <input name="item_price_1" type="hidden" value="34.0"/>
+            <input name="item_currency_1" type="hidden" value="USD"/>
+            <input name="_charset_" type="hidden" value="utf-8"/>
+            <input type="image" src="https://checkout.google.com/buttons/buy.gif?merchant_id=252004905562069&amp;w=117&amp;h=48&amp;style=trans&amp;variant=text&amp;loc=en_US" alt=""/></form>
+            <div>Only 1 Left!</div>
+        </div>
+
   </li>
-  <li>
-    <a href="/apparel?downtown-81-leggings">Downtown 81</a>
-    <span class=""><img src="http://static.bubblefresh.com/img/leggings/graf2-thumb.jpg"/>
-        <p>
+  <li class="description">
+  <h3>Downtown 81</h3>
+    <p>
         These graffiti print leggings are mad cool to wear out-in-about town or put a twist to a formal event. Any girl super dope enough will not let these leggings pass by!
-        </p>
-    </span>
+
+        <div id="img1" style="display:none;">
+        <img src="http://static.bubblefresh.com/img/leggings/graf1.jpg"/>
+        </div>
+        <a href="#img1" class="img"><img src="http://static.bubblefresh.com/img/leggings/graf1-thumb.jpg"></a>
+
+        <div id="img2" style="display:none;">
+        <img src="http://static.bubblefresh.com/img/leggings/graf2.jpg"/>
+        </div>
+        <a href="#img2" class="img"><img src="http://static.bubblefresh.com/img/leggings/graf2-thumb.jpg"></a>
+
+
+
+        <div class="price">
+        $34.00 + s&amp;h
+        </div>
+        <div class="checkout">
+        <form action="https://checkout.google.com/api/checkout/v2/checkoutForm/Merchant/252004905562069" id="BB_BuyButtonForm" method="post" name="BB_BuyButtonForm">
+            <input name="item_name_1" type="hidden" value="Leggings 1"/>
+            <input name="item_description_1" type="hidden" value="These graffiti print leggings are mad cool to wear out-in-about town or put a twist to a formal event. Any girl super dope enough will not let these leggings pass by!"/>
+            <input name="item_quantity_1" type="hidden" value="1"/>
+            <input name="item_price_1" type="hidden" value="34.0"/>
+            <input name="item_currency_1" type="hidden" value="USD"/>
+            <input name="_charset_" type="hidden" value="utf-8"/>
+            <input type="image" src="https://checkout.google.com/buttons/buy.gif?merchant_id=252004905562069&amp;w=117&amp;h=48&amp;style=trans&amp;variant=text&amp;loc=en_US" alt=""/></form>
+            <div>Only 3 Left!</div>
+
+        </div>
+
+    </p>
   </li>
  <!-- <li>
     <a href="/apparel?beetle-bailey-leggings">Beetle Bailey</a>
     <span class="info"><img src="http://static.bubblefresh.com/img/leggings/P7228462-thumb.jpg"/>
         Always waiting for the bell to ring or to get off work? Amuse yourself with these comic strip leggings! Not only can you entertain yourself, you can to it with style!
     </span>
-  </li> -->
-  <li class="group">Shirts<div class="">Guaranteed to improve your love life while making you rich.</div></li>
+  </li>
+  <li class="group">Shirts<div class="">Guaranteed to improve your love life while making you rich.</div></li> -->
 </ul>
 
 
