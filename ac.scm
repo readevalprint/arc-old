@@ -26,6 +26,7 @@
         ((eq? (xcar s) 'if) (ac-if (cdr s) env))
         ((eq? (xcar s) 'fn) (ac-fn (cadr s) (cddr s) env))
         ((eq? (xcar s) 'assign) (ac-set (cdr s) env))
+        ((eq? (xcar s) 'mz) (cadr s))
         ; the next three clauses could be removed without changing semantics
         ; ... except that they work for macros (so prob should do this for
         ; every elt of s, not just the car)

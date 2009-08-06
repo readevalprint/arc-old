@@ -1,0 +1,104 @@
+
+.main {
+	margin-left: 15%;
+}
+
+.warning {
+	border: solid 1px black;
+	margin: 0.5em;
+	font-size: 90%;
+	background-color: #fff0c0;
+}
+
+.topinfo {
+	float: right
+}
+
+.topbar {
+	border-bottom: solid 1px black;
+	margin-left: 15%;
+}
+
+.topbar span  {
+	margin-left: 1em;
+	border-left: solid 1px black;
+	border-right: solid 1px black;
+	border-top: solid 1px black;
+}
+
+.topbar #selected {
+	border-bottom: solid 1px white;
+}
+
+.sidebar {
+	position: absolute;
+	left: 2px;
+	top: 2px;
+	width: 15%
+}
+
+a {
+	text-decoration: none
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+.deadlink {
+	color: red
+}
+
+h1 {
+	border-bottom: solid 1px black;
+	font-family: sans-serif;
+}
+
+h2 {
+	border-bottom: solid 1px black;
+	font-family: sans-serif;
+}
+
+h3 {
+	font-family: sans-serif;
+}
+
+h4 {
+	font-family: sans-serif;
+}
+
+pre {
+	padding: 1em;
+	border: 1px dashed blue;
+	background: #f8f8ff;
+}
+
+.small {
+	padding-left: 0.5em;
+	font-size: 80%;
+}
+
+.loginout {
+	margin-left: 0.5em;
+}
+
+
+.footnote {
+	color: #3f3f3f;
+	font-size: 75%;
+}
+
+.footnote .right {
+	float: right;
+	font-style: italic;
+}
+
+.footnote .left {
+	float: left;
+}
+
+.footnote .center {
+	text-align: center;
+}
+
+

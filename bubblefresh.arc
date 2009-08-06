@@ -1,5 +1,7 @@
 (load "ssdt.arc")
 (load "erp.arc")
+(load "score.arc")
+
 ;(load "bubblefresh.arc")(thread (asv))(init 'dev)
 (= bubblefresh-posts-dir* "arc/bubblefresh/posts/" )
 (= bubblefresh-comments-dir* "arc/bubblefresh/comments/" )
@@ -21,7 +23,8 @@
   (= maxpost* 0)
   (= maxcomment* 0)
   (load-comments)  
-  (load-posts))
+  (load-posts)
+  (= sortedposts* (sort-posts (post-scores) 1 1))) ;have to keep this last, since posts* is from 'load-posts
 
 (deftem 
   post 
@@ -204,6 +207,22 @@
 
 (def item-by (item)
   (tostring (spanclass "by"  (pr "by " (user-link item)))))
+
+
+(def comment-link (req parent href)
+   (if (get-user req)
+     (let user (get-user req)
+       (tostring 
+        (urform user req
+          (do
+            (new-comment
+              parent ;parent
+              (alref (req 'args) "text") 
+              user);by
+            href)
+          (pr "Comment:<input type=\"text\" value=\"\" size=\"30\" name=\"text\" \\>")
+          (submit))))
+          ""))
   
 (def comment-list (req items (o href ""))
   (iflet comment (comments* (car items))
@@ -235,8 +254,9 @@
   
 (def post-list (req)
   (accum accfn  
-    (each item posts* 
-      (withs (href (string "/news?id=" (item 0))
+    (each p sortedposts* ; ((post id) ..)
+      (withs (item (list (p 0) (posts* (string (p 0))))
+            href (string "/news?id=" (item 0))
             a (string "<a href=\""href"&"((item 1) 'title)"\" class=\""(link-class req item)"\">" ))
         (accfn (string 
                   a "<img src=\""(post-thumb item)"\"/> </a>"
@@ -345,21 +365,6 @@
           "You need to be logged in to do that."
           (list (fn (u ip))
                 (string 'submit (reassemble-args req))) )))
-
-(def comment-link (req parent href)
-   (if (get-user req)
-     (let user (get-user req)
-       (tostring 
-        (urform user req
-          (do
-            (new-comment
-              parent ;parent
-              (alref (req 'args) "text") 
-              user);by
-            href)
-          (pr "Comment:<input type=\"text\" value=\"\" size=\"30\" name=\"text\" \\>")
-          (submit))))
-          ""))
 
 
 (defop magazine req

@@ -10,10 +10,9 @@
   (nearest (- (p 1) (expt (* m (- maxpost* (p 0)) ) g)) .01))
 
 (def sort-weight (a b g m) ;g = gravity , m = multiplier of the post id
- (prn "(post-weight "a" "g" "m") :"(post-weight a g m)) 
- (or 
-  (> (post-weight a g m) (post-weight b g m))
-  (> (a 0) (b 0)))) 
+  (prn "(post-weight "a" "g" "m") :"(post-weight a g m)) 
+  (prn "(post-weight "b" "g" "m") :"(post-weight b g m)) 
+  (> (post-weight a g m) (post-weight b g m)))
 
 (def sort-best (a b)
  (> (a 1) (b 1)))
