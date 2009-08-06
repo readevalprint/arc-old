@@ -24,7 +24,8 @@
   (= maxcomment* 0)
   (load-comments)  
   (load-posts)
-  (= sortedposts* (sort-posts (post-scores) 1 1))) ;have to keep this last, since posts* is from 'load-posts
+  (sort-posts)) ;have to keep this last, since posts* is from 'load-posts
+
 
 (deftem 
   post 
@@ -72,9 +73,13 @@
       (= maxcomment* (max maxcomment* (coerce id 'int)))
       (= (comments* id) (temload 'post (string bubblefresh-comments-dir* id)))))
 
+(def sort-posts ()
+  (= sortedposts* (sort-posts (post-scores) 1 1)))
+
 (def save-post (item)
     (save-table (item 1) (string bubblefresh-posts-dir* (item 0)))
-    (= (posts* (item 0)) (item 1)))
+    (= (posts* (item 0)) (item 1))
+    (sort-posts))
 
 (def save-comment (item)
     (save-table (item 1) (string bubblefresh-comments-dir* (item 0)))

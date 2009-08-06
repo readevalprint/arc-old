@@ -1,2 +1,0 @@
-(prn "One")
-(prn "Two")

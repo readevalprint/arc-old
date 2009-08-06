@@ -1,1 +1,0 @@
-(ero "Hello" "World")
