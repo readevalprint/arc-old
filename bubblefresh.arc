@@ -329,8 +329,10 @@
           (list "<!--by-->"           (item-by item))
           (list "<!--title-->"        ((item 1) 'title) )
           (list "<!--comment-link-->" (comment-link req item (string "/news?id="(item 0)) ))
-          (list "<!--comments-->"     (tostring (comment-list req 
-                                                    (sort-items (item-scores ((item 1) 'children) comments*) g* m*) href)))
+          (list "<!--comments-->"     (if ((item 1) 'children)
+                                        (tostring (comment-list req 
+                                                    (sort-items (item-scores ((item 1) 'children) comments*) g* m*) href))
+                                        ""))
           (list "<!--body-->"         (string "<a href=\"" ((item 1) 'link) "\">" 
                                                 "<img src=\"" (post-img item) "\"/>"
                                               "</a>"
