@@ -19,9 +19,10 @@
     (= base-img-url* "http://static.bubblefresh.com/img/posts/"))
   (if (is env 'dev)
     (= base-img-url* "http://127.0.0.1/img/posts/"))
-
-  (= maxpost* 0)
-  (= maxcomment* 0)
+  (=  g* 1
+      m* 1
+      maxpost* 0
+      maxcomment* 0)
   (load-comments)  
   (load-posts)
   (update-sort-posts)) ;have to keep this last, since posts* is from 'load-posts
@@ -52,7 +53,7 @@
   profile
   user ""
   g 1
-  m 1
+  m .8
   posts '()
   comments '()
   warns '()
@@ -67,14 +68,19 @@
   (each id (map string (dir bubblefresh-posts-dir*))
       (= maxpost* (max maxpost* (coerce id 'int)))
       (= (posts* id) (temload 'post (string bubblefresh-posts-dir* id)))))
-      
+
+(def all-post-ids ()
+  (sort > (let y (list) (each x posts* (push (x 0) y)) y)))
+
+  
 (def load-comments ()
   (each id (map string (dir bubblefresh-comments-dir*))
       (= maxcomment* (max maxcomment* (coerce id 'int)))
       (= (comments* id) (temload 'post (string bubblefresh-comments-dir* id)))))
 
 (def update-sort-posts ()
-  (= sortedposts* (sort-posts (post-scores) 1 1)))
+  (= sortedposts* (sort-items (item-scores (all-post-ids) posts*) g* m*)))
+
 
 (def save-post (item)
     (save-table (item 1) (string bubblefresh-posts-dir* (item 0)))
@@ -225,18 +231,19 @@
               (alref (req 'args) "text") 
               user);by
             href)
-          (pr "Comment:<input type=\"text\" value=\"\" size=\"30\" name=\"text\" \\>")
+          (pr "Comment:<br /><textarea value=\"\"  name=\"text\" rows=\"3\" cols=\"60\"></textarea><br />")
           (submit))))
           ""))
   
 (def comment-list (req items (o href ""))
-  (iflet comment (comments* (car items))
-    (let item (list (car items) comment)
+  (iflet comment (comments* ((car items) 2))
+    (let item (list ((car items) 2) comment)
       (prn
        "<li id="(item 0)">"
         (vote-link req (string href"#"(item 0)) item) " "
         (score item) " "
         (item-by item) " "
+        "<a href=\"" href "#"(item 0)"\">link</a>"
         "<div>"
           (comment 'text) " "
         "</div>"
@@ -250,7 +257,7 @@
         (if (comment 'children)
           (string
             "<ul>"
-            (tostring (comment-list req (comment 'children) href))
+            (tostring (comment-list req (sort-items (item-scores (comment 'children) comments*) g* m*) href))
             "</ul>")
           "")
         "</li>")))
@@ -260,7 +267,7 @@
 (def post-list (req)
   (accum accfn  
     (each p sortedposts* ; ((post id) ..)
-      (withs (item (list (p 0) (posts* (string (p 0))))
+      (withs (item (list (p 2) (posts* (p 2)))
             href (string "/news?id=" (item 0))
             a (string "<a href=\""href"&"((item 1) 'title)"\" class=\""(link-class req item)"\">" ))
         (accfn (string 
@@ -322,7 +329,8 @@
           (list "<!--by-->"           (item-by item))
           (list "<!--title-->"        ((item 1) 'title) )
           (list "<!--comment-link-->" (comment-link req item (string "/news?id="(item 0)) ))
-          (list "<!--comments-->"     (tostring (comment-list req ((item 1) 'children) href)))
+          (list "<!--comments-->"     (tostring (comment-list req 
+                                                    (sort-items (item-scores ((item 1) 'children) comments*) g* m*) href)))
           (list "<!--body-->"         (string "<a href=\"" ((item 1) 'link) "\">" 
                                                 "<img src=\"" (post-img item) "\"/>"
                                               "</a>"
