@@ -1,42 +1,41 @@
-<script src="http://static.bubblefresh.com/js/jquery.min.js"></script>
 <script type="text/javascript" src="http://static.bubblefresh.com/js/fancyzoom.min.js"></script>
 
 
 <script type="text/javascript" charset="utf-8">
-    if(typeof console === "undefined") {
-    console = { log: function() { } };
-}
 $(document).ready(function() {
   //  $('a.img').fancyZoom({directory: "http://127.0.0.1/images/",scaleImg: true, closeOnClick: true});
-    $('a.img').fancyZoom({directory: "http://static.bubblefresh.com/images/",scaleImg: true, closeOnClick: true});
+    $('.apparel a.fancy').fancyZoom({directory: "http://static.bubblefresh.com/images/",scaleImg: true, closeOnClick: true});
+    $('.apparel a.fancy').click(function(){
+        pageTracker._trackPageview('apparel/fancyZoom/'+$(this).attr("href"));
+    })
 });
 </script>
 
 <div id="breadcrumb">apparel &lt; <a href="/">home</a></div>
 <ul>
   <li><h3>Leggings</h3>
-  <h4>Stand up and stand out with these fine leggings brought to you by Chicle de Anya.</h4></li>
+  <h4>Stand up and stand out with these fine leggings brought to you by <a class="external" target="blank" href="http://chicledeanya.com/">Chicle de Anya</a></h4></li>
   <li class="description">
 <h3>Yummy Anime Leggings</h3>
-
     <p>
 
-        Yes ladies, you no longer have to be jealous of those Harajuku girls! These limited edition leggings will no doubt cause you too attract some haters!
+        Yes ladies, you no longer have to be jealous of those
+        Harajuku girls! These limited edition leggings will no doubt cause you too attract some haters!
 
         <div id="anime1" style="display:none;">
         <img src="http://static.bubblefresh.com/img/leggings/anime1.jpg"/>
         </div>
-        <a href="#anime1" class="img"><img src="http://static.bubblefresh.com/img/leggings/anime1-thumb.jpg"></a>
+        <a href="#anime1" class="fancy"><img src="http://static.bubblefresh.com/img/leggings/anime1-thumb.jpg"></a>
 
         <div id="anime2" style="display:none;">
         <img src="http://static.bubblefresh.com/img/leggings/P7228457.JPG"/>
         </div>
-        <a href="#anime2" class="img"><img src="http://static.bubblefresh.com/img/leggings/P7228457-thumb.JPG"></a>
+        <a href="#anime2" class="fancy"><img src="http://static.bubblefresh.com/img/leggings/P7228457-thumb.JPG"></a>
 
         <div id="anime3" style="display:none;">
         <img src="http://static.bubblefresh.com/img/leggings/P7228458.JPG"/>
         </div>
-        <a href="#anime3" class="img"><img src="http://static.bubblefresh.com/img/leggings/P7228458-thumb.JPG"></a>
+        <a href="#anime3" class="fancy"><img src="http://static.bubblefresh.com/img/leggings/P7228458-thumb.JPG"></a>
 
     </p>
 
@@ -64,12 +63,12 @@ $(document).ready(function() {
         <div id="graf1" style="display:none;">
         <img src="http://static.bubblefresh.com/img/leggings/graf1.jpg"/>
         </div>
-        <a href="#graf1" class="img"><img src="http://static.bubblefresh.com/img/leggings/graf1-thumb.jpg"></a>
+        <a href="#graf1" class="fancy"><img src="http://static.bubblefresh.com/img/leggings/graf1-thumb.jpg"></a>
 
         <div id="graf2" style="display:none;">
         <img src="http://static.bubblefresh.com/img/leggings/graf2.jpg"/>
         </div>
-        <a href="#graf2" class="img"><img src="http://static.bubblefresh.com/img/leggings/graf2-thumb.jpg"></a>
+        <a href="#graf2" class="fancy"><img src="http://static.bubblefresh.com/img/leggings/graf2-thumb.jpg"></a>
 
 
 

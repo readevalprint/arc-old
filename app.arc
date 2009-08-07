@@ -133,7 +133,7 @@
   (save-table hpasswords* hpwfile*))
 
 (def hello-page (user ip)
-  (whitepage (prs "hello" user "at" ip)))
+  "")
 
 (defop login req (login-page 'login))
 

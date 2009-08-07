@@ -1,0 +1,17 @@
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+	    expando = function (e){
+		$(e).find("a").click(function(){
+		    $(this).hide().next("span").show()
+		}).next("span").hide();
+	    };
+	    expando($(".expando"));
+	});
+
+</script>
+<div class="expando">
+    Bubblefresh
+	<a>loves you.</a><span>loves <a>you</a><span>to give <a>to you</a><span>to you, happiness and sunshine,</span></span> as much as <a>it</a><span>it, being a legal entity,</span> <a>can.</a><span>can. <a>Which is a lot.</a><span>Which is a lot. Really.</span></span></span>
+</div>
+
+

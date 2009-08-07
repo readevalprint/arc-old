@@ -20,7 +20,7 @@
   (if (is env 'dev)
     (= base-img-url* "http://127.0.0.1/img/posts/"))
   (=  g* 1
-      m* 1
+      m* .8
       maxpost* 0
       maxcomment* 0)
   (load-comments)  
@@ -295,11 +295,10 @@
 (defop-raw || (str req) (w/stdout str
   (prn "Set-Cookie: ajax=0")
   (prn)
-  (with (content "" class "home")
-    (prn (render "html/index.html" 
-          (list "<!--content-->" content)
-          (list "<!--title-->" "")
-          (list "<!--class-->" class))))))
+  (prn (render "html/index.html" 
+        (list "<!--content-->" (render "html/expando/bubblefresh-loves-you.html"))
+        (list "<!--title-->" " Home")
+        (list "<!--class-->" "home")))))
 
 (defop-raw m (str req) (w/stdout str
   (prn "Set-Cookie: ajax=1")
@@ -375,11 +374,11 @@
                 (pr "<input type=\"hidden\" name=y value=0>")
                 (pr "<input type=\"hidden\" name=w value=0>")
                 (pr "<input type=\"hidden\" name=h value=0>")
-                (submit)))))))
-  (login-page req 'login
-          "You need to be logged in to do that."
-          (list (fn (u ip))
-                (string 'submit (reassemble-args req))) )))
+                (submit))))
+                  "news" " News" req)))
+      (render-content (tostring  
+                        (login-form "Login" 'login login-handler (list (fn (a b))  "submit")))
+                           "news" " News" req)))
 
 
 (defop magazine req
@@ -403,3 +402,13 @@
         (logout-user it)
           (render-content "Logged out." "home" " Logout" req) )
           (render-content "You were not logged in." "home" " Logout" req) ))
+          
+          
+(def failed-login (switch msg afterward)
+  (flink (fn ignore (render-content (tostring  
+            (login-form "Login" 'login login-handler afterward))
+              ) "login" " Login")))
+
+
+(def hello-page (user ip)
+  "")          
