@@ -3,13 +3,16 @@
 (load "score.arc")
 
 ;(load "bubblefresh.arc")(thread (asv))(init 'dev)
+
 (= bubblefresh-posts-dir* "arc/bubblefresh/posts/" )
 (= bubblefresh-comments-dir* "arc/bubblefresh/comments/" )
-
+  
+  
 (def bsv ()
   (init)(thread (asv 42697)))
   
 (def init ((o env 'live))
+  (= dead-msg* (string "\n" (tostring (render-content "Unknown or expired link."))))
   (= posts* (table) 
     comments* (table) 
     messages* '())
@@ -23,7 +26,7 @@
       m* .8
       maxpost* 0
       maxcomment* 0)
-  (load-comments)  
+  (load-comments)  ;need to sort on save not on page view
   (load-posts)
   (update-sort-posts)) ;have to keep this last, since posts* is from 'load-posts
 
@@ -44,7 +47,7 @@
   flag '()
   dead '()
   children '()
-  
+  time (seconds)
   pending #t
   )
 
@@ -58,6 +61,7 @@
   comments '()
   warns '()
   email ""
+  time (seconds)
   body "")
   
   
@@ -273,7 +277,10 @@
         (accfn (string 
                   a "<img src=\""(post-thumb item)"\"/> </a>"
                    "<span class=info>"
-                      ((item 1) 'title) 
+                      ((item 1) 'title) "<br/>"
+                      (score item) "<br />"
+                     (text-age:item-age (item 1)) "<br/>"
+                      (item-by item)
                     "</span>"
                  ))))))
 
@@ -285,12 +292,17 @@
   (pr (render  "html/index.html"
         (list "<!--content-->" content)
         (list "<!--title-->" title)
-        (list "<!--class-->" class)
-        (list "<!--message-->" messages*))))
+        (list "<!--class-->" class))))
+        
+
+
+(def hello-page (user ip)
+  "") 
+
         
 (def submit-link (req)
   (iflet user (get-user req)
-    "<li><a href=/submit>Add</a></li>"))
+    "<li style=\"width:150px;height:150px\"><a href=/submit>Add</a></li>"))
 ;==== pages ====          
 (defop-raw || (str req) (w/stdout str
   (prn "Set-Cookie: ajax=0")
@@ -406,7 +418,7 @@
 (defop register req
   (render-content 
    (render "html/register.html" 
-    (list "<!--body-->" ))
+    (list "<!--body-->" (tostring (aform (fn (req) (render-content "asdf")) (submit)))))
     "register" " Register" req))
                 
                 
@@ -415,7 +427,11 @@
   (flink (fn ignore (render-content (tostring  
             (login-form "Login" 'login login-handler afterward))
               ) "login" " Login")))
+              
+(def text-age (a)
+  (tostring
+    (if (>= a 1440) (pr (plural (trunc (/ a 1440)) "day")    " ago")
+        (>= a   60) (pr (plural (trunc (/ a 60))   "hour")   " ago")
+                    (pr (plural (trunc a)          "minute") " ago"))))
 
-
-(def hello-page (user ip)
-  "")          
+(def item-age (i) (minutes-since i!time))              
