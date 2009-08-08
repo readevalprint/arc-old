@@ -371,7 +371,7 @@
               (clean-int (alref (req 'args) "y"))
               (clean-int (alref (req 'args) "w"))
               (clean-int (alref (req 'args) "h")))
-            "news")
+            "submit")
           (render-content 
              (render "html/submit.html" 
               (list "<!--body-->" (tostring 
