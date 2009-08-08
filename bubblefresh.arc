@@ -179,7 +179,7 @@
   (let s (- (len ((item 1) 'up))
   (len ((item 1) 'down)))
   (tostring   
-    (spanclass "score" (pr s " points")))))
+    (spanclass "score" (pr (plural s " point"))))))
 
 (def user-link (item)
   (string "<a href=\"/profile?id="((item 1) 'by)"\" >"((item 1) 'by)"</a>"))

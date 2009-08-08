@@ -157,6 +157,15 @@ body.register div.content a:hover,body.register a.register, a.register:hover {
 	width:100%;
 	overflow:hidden;
     }
+
+    #newsitems .info {
+	padding:0;
+	position:fixed;
+	left:auto;
+	top:auto;
+	width:150px;
+
+    }
     .info {
 	background:transparent url(http://static.bubblefresh.com/img/bg.gif) repeat fixed 0 0;
 	color:#FFFFFF;
@@ -166,6 +175,7 @@ body.register div.content a:hover,body.register a.register, a.register:hover {
 	top:200px;
 	max-width:20em;
 	width:auto;
+	overflow:hidden;
     }
     .info img {
 	height: auto;
