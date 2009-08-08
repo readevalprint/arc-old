@@ -172,7 +172,7 @@ body.register div.content a:hover,body.register a.register, a.register:hover {
 	left:0;
 	padding:1em;
 	position:fixed;
-	top:200px;
+	top:230px;
 	max-width:20em;
 	width:auto;
 	overflow:hidden;

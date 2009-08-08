@@ -300,9 +300,6 @@
   "") 
 
         
-(def submit-link (req)
-  (iflet user (get-user req)
-    "<li style=\"width:150px;height:150px\"><a href=/submit>Add</a></li>"))
 ;==== pages ====          
 (defop-raw || (str req) (w/stdout str
   (prn "Set-Cookie: ajax=0")
@@ -354,7 +351,7 @@
     (render-content 
       (render "html/news.html" 
         (list "<!--breadcrumbs-->" "news &lt; <a href=/>home</a>")
-        (list "<!--body-->" (string "<ul>"(submit-link req) (apply li (post-list req)) "</ul>")))
+        (list "<!--body-->" (string "<ul>" (apply li (post-list req)) "</ul>")))
         "news" " News" req)))
 
 
@@ -390,7 +387,7 @@
                   "news" " News" req)))
       (render-content (tostring  
                         (login-form "Login" 'login login-handler (list (fn (a b))  "submit")))
-                           "news" " News" req)))
+                           "submit" " Submit" req)))
 
 
 (defop magazine req
