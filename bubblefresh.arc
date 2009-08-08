@@ -371,7 +371,7 @@
               (clean-int (alref (req 'args) "y"))
               (clean-int (alref (req 'args) "w"))
               (clean-int (alref (req 'args) "h")))
-            "submit")
+            "news")
           (render-content 
              (render "html/submit.html" 
               (list "<!--body-->" (tostring 
@@ -384,7 +384,7 @@
                 (pr "<input type=\"hidden\" name=w value=0>")
                 (pr "<input type=\"hidden\" name=h value=0>")
                 (submit))))
-                  "news" " News" req)))
+                  "news" " Submit" req)))
       (render-content (tostring  
                         (login-form "Login" 'login login-handler (list (fn (a b))  "submit")))
                            "submit" " Submit" req)))
