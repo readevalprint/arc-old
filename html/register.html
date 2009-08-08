@@ -1,0 +1,21 @@
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+	    expando = function (e){
+		$(e).find("a").click(function(){
+		    $(this).hide().next("span").show()
+		});
+	    };
+	    expando($(".expando"));
+	});
+
+</script>
+<div class="home">
+    <div class="expando">
+	So, you wanna join Bubblefresh? That's <a>cool.</a><span>really cool.</span>
+	<a>Tell us</a><span>Tell us your name and </span> <a>a little</a><span>a link that says a little</span> about <a>yourself.</a><span>yourself. And some of the things you've done.</span>
+    </div>
+    <br />
+    <a href="">&gt;&gt;&gt;&gt;</a>
+</div>
+
+

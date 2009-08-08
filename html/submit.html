@@ -1,7 +1,5 @@
-<script src="http://static.bubblefresh.com/js/jquery.min.js"></script>
-<script src="http://static.bubblefresh.com/js/jquery.Jcrop.js"></script>
 
-<script language="Javascript">
+<script type="text/javascript" charset="utf-8">
 
      function nothing(e) {
 	 e.stopPropagation();
@@ -39,7 +37,7 @@
 		onChange: showPreview,
 		onSelect: upDate,
 		aspectRatio: 1,
-		sideHandles: false});
+		sideHandles: true});
 	    console.log($("#cropbox").attr("width"));
 	};
     $("input[name=img]").focus(function () {

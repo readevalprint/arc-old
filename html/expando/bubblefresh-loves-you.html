@@ -3,7 +3,7 @@
 	    expando = function (e){
 		$(e).find("a").click(function(){
 		    $(this).hide().next("span").show()
-		}).next("span").hide();
+		});
 	    };
 	    expando($(".expando"));
 	});

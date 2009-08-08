@@ -242,14 +242,14 @@
        "<li id="(item 0)">"
         (vote-link req (string href"#"(item 0)) item) " "
         (score item) " "
-        (item-by item) " "
+        (item-by item) " | "
         "<a href=\"" href "#"(item 0)"\">link</a>"
         "<div>"
           (comment 'text) " "
         "</div>"
         (if (get-user req)
         (string "<div class=\"reply\">
-          <div class=\"over\">reply</div>"
+          <a href=\"#\" class=\"over\">reply</a>"
           "<div class=\"form\">"(comment-link req item (string href"#"(item 0)) )"</div>"
         "</div>"
         )
@@ -400,10 +400,17 @@
   (aif (get-user req)
      (do 
         (logout-user it)
-          (render-content "Logged out." "home" " Logout" req) )
-          (render-content "You were not logged in." "home" " Logout" req) ))
+          (render-content "Logged out." "home logout" " Logout" req) )
+          (render-content "You were not logged in." "home logout" " Logout" req) ))
           
-          
+(defop register req
+  (render-content 
+   (render "html/register.html" 
+    (list "<!--body-->" ))
+    "register" " Register" req))
+                
+                
+                
 (def failed-login (switch msg afterward)
   (flink (fn ignore (render-content (tostring  
             (login-form "Login" 'login login-handler afterward))

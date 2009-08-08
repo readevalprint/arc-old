@@ -1,0 +1,420 @@
+@media screen, projection {
+
+  div#photos                {overflow:auto;}
+  div.photo                 {float:left; display:inline; margin:0 20px 20px 0;}
+  div.photo a img           {border:1px solid; padding:1px;}
+  p#turtles_caption         {margin:5px 0 0;}
+
+  div#text a                {font-weight:bold;}
+
+  div#zoom h2               {margin:10px 0 10px;}
+  div#zoom p                {line-height:1.6;}
+
+	div#wrapper 							{background:#fff; width:560px; margin:0 auto; padding:20px; border:10px solid #bc8c46; border-width:0 10px;}
+	div#header								{position:relative; border-bottom:1px dotted; margin:0 0 10px; padding:0 0 10px;}
+	div#header p							{margin:0; padding:0;}
+	div#header h1							{margin:0; padding:0;}
+	ul#nav										{position:absolute; top:0; right:0; list-style:none; margin:0; padding:0;}
+	ul#nav li									{display:inline; padding:0 0 0 5px;}
+	ul#nav li a								{}
+	div#content								{}
+  div#content p             {line-height:1.6;}
+	div#footer								{clear:both; margin:40px 0 0; border-top:1px dotted; padding:10px 0 0;}
+}
+
+/* Fixes issue here http://code.google.com/p/jcrop/issues/detail?id=1 */
+.jcrop-holder { text-align: left; }
+
+.jcrop-vline, .jcrop-hline
+{
+	font-size: 0;
+	position: absolute;
+	background: white url('Jcrop.gif') top left repeat;
+}
+.jcrop-vline { height: 100%; width: 1px !important; }
+.jcrop-hline { width: 100%; height: 1px !important; }
+.jcrop-handle {
+	font-size: 1px;
+	width: 7px !important;
+	height: 7px !important;
+	border: 1px #eee solid;
+	background-color: #333;
+	*width: 9px;
+	*height: 9px;
+}
+
+.jcrop-tracker { width: 100%; height: 100%; }
+
+.custom .jcrop-vline,
+.custom .jcrop-hline
+{
+	background: yellow;
+}
+.custom .jcrop-handle
+{
+	border-color: black;
+	background-color: #C7BB00;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+/*
+dark yellow 	#808000
+light yellow	#ffff81
+
+dark magenta 	#800080
+light magenta	#ff81ff
+
+dark cyan 	#008080
+light cyan	#81ffff
+
+*/
+
+body {
+    background:transparent url(http://static.bubblefresh.com/img/bg2.gif) repeat fixed 0 0;
+    color:#FFFFFF;
+    margin:0;
+    text-align:left;
+    font-family:arial;
+    padding:1em;
+}
+a {
+    color:#fff;
+    text-decoration:none;
+}
+a:hover {
+    background: #fff;
+    color:#444
+}
+body.home div.content a, body.home a.home, a.home {
+	    color:#fff
+  }
+body.home div.content a:hover, body.home a.home, a.home:hover {
+	    background: #fff;
+	    color:#444
+}
+
+body.apparel div.content a,body.apparel a.apparel, a.apparel {
+    color:orange;
+}
+body.apparel div.content a:hover,body.apparel a.apparel, a.apparel:hover {
+    background: orange;
+    color:#444
+}
+  .apparel ul > li.group {
+  }
+
+body.news div.content a,body.news a.news, a.news {
+    color:cyan;
+}
+body.news div.content a:hover,body.news a.news, a.news:hover {
+    background: cyan;
+    color:#444
+}
+
+.news ul > li.group {
+    color: cyan;
+}
+
+
+body.magazine div.content a,body.magazine a.magazine, a.magazine{
+    color:magenta;
+}
+body.magazine div.content a:hover,body.magazine a.magazine, a.magazine:hover {
+    background: magenta;
+    color:#444
+}
+.magazine ul > li.group {
+    color: magenta;
+}
+
+
+body.bonus div.content a,body.bonus a.bonus, a.bonus{
+    color:#00ff00
+}
+body.bonus div.content a:hover,body.bonus a.bonus, a.bonus:hover {
+    background: #00ff00;
+    color:#444
+}
+
+
+body.register div.content a,body.register a.register, a.register{
+    color:#fff;
+}
+body.register div.content a:hover,body.register a.register, a.register:hover {
+    background: #fff;
+    color:#444;
+}
+
+  .bonus ul > li.group {
+    color: #00ff00;
+  }
+
+    ul{
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	width:100%;
+	overflow:hidden;
+    }
+    .info {
+	background:transparent url(http://static.bubblefresh.com/img/bg.gif) repeat fixed 0 0;
+	color:#FFFFFF;
+	left:0;
+	padding:1em;
+	position:fixed;
+	top:200px;
+	max-width:20em;
+	width:auto;
+    }
+    .info img {
+	height: auto;
+	border: auto;
+	float:right;
+	padding-left:1em;
+    }
+    #pageTitle {
+	float:left;
+	font-size:2.5em;
+	margin:0;
+    }
+
+
+
+    h2 {
+	background-color:#444444;
+	font-size:1em;
+	margin:0;
+	padding:1em;
+    }
+
+     .description{
+	background:transparent url(http://static.bubblefresh.com/img/bg.gif) repeat fixed 0 0;
+	font-size:16px;
+	letter-spacing:1px;
+	line-height:20px;
+	margin-bottom:1em;
+	overflow:hidden;
+	padding:1em;
+    }
+    h1 a {
+	/*font-size: 3em;*/
+    }
+    h1 {
+	letter-spacing: -1px;
+	color: #444;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	font-weight: bold;
+    }
+    .tagline {
+	color:#666666;
+	font-size:0.7em;
+    }
+    .tagline .get {
+     }
+    .tagline .stay {
+    }
+    .content {
+	margin:0 0 0 20em;
+	padding:0;
+
+    }
+	#magazine .sponser {
+	    color:#aaa;
+	    display:block;
+	    font-size:0.5em;
+	    padding:3px;
+	}
+	#magazine .sponser a {
+	    background-color:transparent;
+	}
+
+	.group {
+	    background-repeat:repeat;
+	    color:#FFFFFF;
+	    margin-top:0.5em;
+	}
+
+
+	.toolbar {
+	    margin-left:0em;
+	    margin-top:0em;
+	    float:left;
+	}
+	#home {
+	    margin:0;
+	    padding-left:0em;
+	    float:left;
+	    clear: left;
+	    font-size:1.5em;
+	}
+	.panel {
+
+	    color:#fff;
+	}
+	.option a {
+  	  background:transparent;
+
+  	}
+  	li .info {
+  	  display:none;
+  	}
+  	li:hover > .info, li.group .info {
+  	  display:block;
+  	}
+    .group > .info {
+      background:transparent none repeat scroll 0 0;
+      padding:0;
+      position:inherit;
+      width:auto;
+    }
+    .price{
+	float:left;
+	font-size:2em;
+	line-height:2em;
+	margin-right:1em;
+    }
+    .checkout {
+
+    }
+    .vote-link:hover span.up {
+	color:cyan;
+    }
+    .vote-link:hover span.down {
+	color:red;
+    }
+    .vote-link {
+    }
+    .news > .content ul > li {
+	overflow:hidden;
+	margin:.5em 0;
+	background-color: #222;
+    }
+    .news > .content ul > li li {
+	margin:.5em;
+	background-color: #262626;
+    }
+    .news > .content ul > li li li {
+	margin:.5em;
+	background-color: #2B2B2B;
+    }
+    .news > .content ul > li li li li{
+	margin:.5em;
+	background-color: #303030;
+    }
+    .news > .content ul > li li li li{
+	margin:.5em;
+	background-color: #353535;
+    }
+    .news > .content ul > li li li li li{
+	margin:.5em;
+	background-color: #3A3A3A;
+    }
+    .news > .content ul > li li li li li{
+	margin:.5em;
+	background-color: #404040;
+    }
+
+    img {
+	border:none;
+    }
+
+    span.vote>a>span{
+    }
+    a.link{
+    }
+    a.link > img {
+	width:150px;
+	height:150px;
+	border:none;
+    }
+    a#zoom_close {background:none;}
+
+#left {
+    float:left;
+    position:fixed;
+    overflow:hidden;
+    width:18em;
+}
+
+#newsitems li{
+    float:left;
+    margin:0.5em;
+}
+.reply {
+    background:transparent url(http://static.bubblefresh.com/img/bg.gif) repeat fixed 0 0;
+}
+.reply .form{
+    display:none;
+}
+.form form {
+    padding-right: 6px;
+}
+.reply .over{
+    display:block;
+    padding:2px;
+}
+.reply:hover .over{
+    display:none;
+}
+.reply:hover .form{
+    display:block;
+}
+.title {
+}
+.vote {
+    clear:left;
+}
+span.vote>a {
+    color:#fff	!important;
+}
+.vote>.down {
+    color:red;
+}
+.vote a:hover {
+    background:transparent;
+}
+.vote>a:hover>.down {
+    background-color:red;
+    color:white;
+}
+.vote>.up {
+    color:cyan;
+}
+.vote a:hover {
+    background:transparent;
+}
+.vote>a:hover>.up {
+    background-color:cyan;
+    color:white;
+}
+input {
+    border:none;
+}
+#comments {
+    width:500px;
+}
+#comments > form {
+    padding-right:6px;
+}
+
+#comments textarea {
+    border:3px solid #444444;
+    width:100%;
+}
+#comments .reply textarea {
+}
+.expando a {
+    cursor:pointer;
+    text-decoration:underline;
+}
+
+.home .expando {
+    color:#aaa;
+    font-size:5em;
+}
+.expando span {
+    display:none;
+}
+
