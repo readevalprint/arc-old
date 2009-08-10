@@ -74,7 +74,8 @@
       (= (posts* id) (temload 'post (string bubblefresh-posts-dir* id)))))
 
 (def all-post-ids ()
-  (sort > (let y (list) (each x posts* (push (x 0) y)) y)))
+  (sort (fn (a b)(> (coerce a 'int) (coerce b 'int))) 
+    (let y (list) (each x posts* (push (x 0) y)) y)))
 
   
 (def load-comments ()
@@ -101,7 +102,7 @@
             folder (clean-title folder))
       (ensure-dir (string "./static/img/posts/"folder))
       (system (string "cd ./static/img/posts/"folder";\
-        convert "from" \\( +clone -resize 500x500 -write orig.jpg +delete \\) -crop "w"x"h"+"x"+"y" -resize 150x150 thumb.jpg"))
+        convert "from" \\( +clone -resize 500x500 -write orig.jpg +delete \\) -crop "(clean-int w)"x"(clean-int h)"+"(clean-int x)"+"(clean-int y)" -resize 75x75 thumb.jpg"))
       folder)))
     
     
@@ -116,6 +117,7 @@
   (mz:regexp-replace* "[^A-Za-z0-9+]+" title "_")))
   
 (def new-post (parent title link body by img (o x 0) (o y 0) (o w 300) (o h 300))
+    (prn w h x y)
     (save-post 
       (let id (string (++ maxpost*))
         (list id (inst 'post 
@@ -345,7 +347,7 @@
                                                 "<img src=\"" (post-img item) "\"/>"
                                               "</a>"
                                               "<div>"
-                                                ((item 1) 'text)
+                                                ((item 1) 'body)
                                               "</div>")))
           "news" (string " News: " ((item 1) 'title)) req))
     (render-content 
@@ -358,36 +360,26 @@
 (defop submit req
    (if (get-user req)
      (let user (get-user req)
-       (urform user req
-          (do
-            (new-post 
-              'news
-              (alref (req 'args) "title") 
-              (alref (req 'args) "link") 
-              (alref (req 'args) "body") 
-              user
-              (alref (req 'args) "img") 
-              (clean-int (alref (req 'args) "x"))
-              (clean-int (alref (req 'args) "y"))
-              (clean-int (alref (req 'args) "w"))
-              (clean-int (alref (req 'args) "h")))
-            "news")
-          (render-content 
-             (render "html/submit.html" 
-              (list "<!--body-->" (tostring 
-                (inputs
-                  title "title" 30 ""
-                  link "source link" 30 "" 
-                  img "image url" 30 "")
-                (pr "<input type=\"hidden\" name=x value=0>")
-                (pr "<input type=\"hidden\" name=y value=0>")
-                (pr "<input type=\"hidden\" name=w value=0>")
-                (pr "<input type=\"hidden\" name=h value=0>")
-                (submit))))
-                  "news" " Submit" req)))
-      (render-content (tostring  
-                        (login-form "Login" 'login login-handler (list (fn (a b))  "submit")))
-                           "submit" " Submit" req)))
+        (render-content 
+           (render "html/submit.html" 
+              (list "<!--fnid-->"  (rflink (fn (req) 
+                                    (erp req)
+                                    (new-post 
+                                      0 
+                                      (arg req "title") 
+                                      (arg req "link")
+                                      (arg req "body")
+                                      user
+                                      (arg req "img")
+                                      (arg req "x")
+                                      (arg req "y")
+                                      (arg req "w")
+                                      (arg req "h"))
+                                    "news"))))
+                      "submit" " Submit" req))  
+          (render-content (tostring  
+                            (login-form "Login" 'login login-handler (list (fn (a b))  "submit")))
+                               "submit" " Submit" req)))
 
 
 (defop magazine req

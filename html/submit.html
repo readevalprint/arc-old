@@ -1,57 +1,152 @@
 
 <script type="text/javascript" charset="utf-8">
+    var data = [];
+    var current_link ='';
+    function getTitle(){
+	if(current_link != $("textarea[name=link]").attr('value')){
+	    current_link = $("textarea[name=link]").attr('value');
+	    $.getJSON("http://bubblefresh.com/static/ti.php?u="+current_link+"&callback=?"
+	    , function(d){
+		console.log(d['title']);
+		console.log(d['images']);
+		data = d;
+		var title = $("<div>"+data['title']+"</div>").html();
+		$("textarea[name=title]").val(title)
 
-     function nothing(e) {
-	 e.stopPropagation();
-	 e.preventDefault();
-	 return false;
-     };
+	    });
+	} else {
+	    var title = $("<div>"+data['title']+"</div>").html();
+	    $("textarea[name=title]").val(title)
+	}
+    };
+    function getImages(){
+	clearImages();
+	if(current_link != $("textarea[name=link]").attr('value')){
+	    current_link = $("textarea[name=link]").attr('value');
+	    $.getJSON("http://bubblefresh.com/static/ti.php?u="+current_link+"&callback=?"
+	    , function(d){
+		data = d;
+		for(i in d['images']){
+		    console.log(d['images'][i]);
+		    $("#page_images").append("<img style=\"max-width:200px;max-height:200px;\" src=\""+d['images'][i]+"\"/>")
 
-    // Remember to invoke within jQuery(window).load(...)
-    // If you don't, Jcrop may not initialize properly
+		};
+		sortImages();
+
+	    });
+	} else {
+	    for(i in data['images']){
+		console.log(data['images'][i]);
+		$("#page_images").append("<img src=\""+data['images'][i]+"\"/>")
+	    };
+	    sortImages();
+
+	}
+    }
+
+    function clearImages(){
+	$("#page_images").empty();
+	$(".jcrop-holder").remove();
+	$("#preview_holder").hide();
+
+    };
+    function sortImages(){
+	var remove = $("#page_images img");
+	for (var img in remove){
+	    if( remove[img].width < 200 && remove[img].height < 200){
+		$(remove[img]).remove();
+	    }
+	};
+	if($("#page_images img").length > 0){
+	    $("#preview_holder").show();
+	    $(".jcrop-holder").remove();
+	    $("#cropbox").show();
+	    $("#userimage").hide();
+	    initJcrop($("#page_images img")[0].src);
+	    $("#page_images img").click(function(){
+		$(".jcrop-holder").remove();
+		$("#cropbox").show();
+
+		initJcrop(this.src)
+	    });
+	   $("#userimage").hide();
+
+	} else {
+	   $("#userimage").show();
+	}
+
+    }
+
+    function initJcrop(url){
+	$("textarea[name=img]").attr("value", url)
+	$("#cropbox").attr("src", url);
+	$("#preview").attr("src", url);
+	console.log("url: "+url);
+	jcrop_api = $.Jcrop('#cropbox',{
+	    boxWidth: 500, boxHeight: 500,
+	    onChange: showPreview,
+	    onSelect: upDate,
+	    setSelect:   [ 50, 50, 200, 200 ],
+	    aspectRatio: 1,
+	    sideHandles: true});
+	console.log($("#cropbox").attr("width"));
+    };
+
+    var jcrop_api;
+    var i, ac;
+
     jQuery(window).load(function(){
 
-	$.getJSON("http://127.0.0.1/static/ti.php?u="+""+"&callback=?"
-	    , function(data){
-		console.log(data['title']);
-		console.log(data['images']);
-	    });
 
-	var jcrop_api;
-	var i, ac;
-	initJcrop();
-	var sleep = function(duration, callback) {
-	    if(!callback)callback=function(){return false;}
-	    $(this).animate({dummy:1}, duration, callback);
-	    return this;
-	};
-
-	function initJcrop(){
-	    console.log($('input[name=img]').attr("value"));
-	    console.log($("#cropbox").attr("width"));
-	    $("#cropbox").attr("src", $('input[name=img]').attr("value"));
-	    $("#preview").attr("src", $('input[name=img]').attr("value"));
-	    console.log($("#cropbox").attr("width"));
-	    jcrop_api = $.Jcrop('#cropbox',{
-		boxWidth: 500, boxHeight: 500,
-		onChange: showPreview,
-		onSelect: upDate,
-		aspectRatio: 1,
-		sideHandles: true});
-	    console.log($("#cropbox").attr("width"));
-	};
-    $("input[name=img]").focus(function () {
-	    $("#cropbox").show();
-	    $("#preview").hide();
-	    $(".jcrop-holder").remove();
-	    jcrop_api.destroy();
-    });
-
-	$("input[name=img]").blur(function () {
-	    $("#preview").show();
-
-	    initJcrop();
+	$("a.loadtitle").click(function(){
+	    getTitle();
 	});
+
+	$("a.clearlink").click(function(){
+	    current_link ='';
+	    var data = [];
+	    $("textarea[name=link]").attr("value", '');
+	});
+
+	$("a.cleartitle").click(function(){
+	    $("textarea[name=title]").attr("value", '');
+	});
+
+	$("a.loadtitle").click(function(){
+	    getTitle();
+	});
+	$("a.loadimages").click(function(){
+	    getImages();
+	});
+	$("a.clearimages").click(function(){
+	    clearImages();
+	    $("#userimage").hide();
+	    $("textarea[name=img]").attr("value", '');
+	});
+	$("a.showuserimage").click(function(){
+	    clearImages();
+	    $("#userimage").toggle();
+
+	})
+	$("a.loadaltimg").click(function(){
+	    var src = $("textarea[name=img]").attr('value');
+	    $("#preview_holder").show();
+	    $(".jcrop-holder").remove();
+	    $("#cropbox").show();
+	    initJcrop(src);
+
+	})
+
+	$(document).ready(function() {
+	    expando = function (e){
+		$(e).find("a").click(function(){
+		    $(this).hide().next("span").show()
+		});
+	    };
+	    expando($(".expando"));
+	});
+
+
     });
 
 
@@ -71,8 +166,8 @@
 	if (parseInt(coords.w) > 0)
 	{
 
-	    var rx = 150 / coords.w;
-	    var ry = 150 / coords.h;
+	    var rx = 75 / coords.w;
+	    var ry = 75 / coords.h;
 
 	    jQuery('#preview').css({
 		width: Math.round(rx * $("#cropbox").attr("width")) + 'px',
@@ -85,9 +180,63 @@
     }
 
 </script>
-<!--body-->
+<style>
+ #page_images > img {
+     max-width:200px;max-height:200px;
+     margin:1em;
+     border:#fff solid 3px;
+}
+ #page_images > img:hover {
+     max-width:200px;max-height:200px;
+     margin:1em;
+    border:#0f0 solid 3px;
+    cursor:pointer;
+}
+.instructions > li {
+    padding-bottom:2em;
+}
+ </style>
+ <form action="<!--fnid-->" method="post">
+<ol class="instructions">
+<li>
+    Hey there, Space cowboy! Go on and drop your link here: <span class="smaller"><a class="clearlink">clear</a></span><br />
+    <textarea id="link" name="link" ></textarea><br />
+</li>
+<li>
+How about a title? <span class="smaller"><a class="loadtitle">Get title from link</a> | <a class="cleartitle">clear</a></span><br>
+    <textarea id="title" name="title" ></textarea>
+</li>
+<li>
+Here are the images on the page. You can choose one...<br/><span class="smaller"><a class="loadimages">Load images from link</a> | <a class="clearimages">clear</a> | <a class="showuserimage">specify image</a></span><br />
+    <div id="page_images"></div>
+    <br />
+    <div id="userimage" style="display:none;"><span class="expando">... or you can <a>specify one in the following textbox</a><span>specify one by
+    <ol>
+	 <li>going to the image you want to use</li>
+	 <li>right-clicking on the image</li>
+	 <li>selecting "Copy Image Location" from the menu</li>
+	 <li>Paste that in the following textbox</li>
+     </ol>
+      :)</span></span><br/>
+    <textarea name="img"></textarea>
+    <span class="smaller">...and then <a class="loadaltimg">load</a> the image for cropping</span></div>
+</li>
+<li>
+    <input type="hidden" id="x" name="x" value="50"/>
+    <input type="hidden" id="y" name="y" value="50"/>
+    <input type="hidden" id="w" name="w" value="200"/>
+    <input type="hidden" id="h" name="h" value="200"/>
+    Choose the most interesting part for the thumbnail:<br />
+    <div id="preview_holder" style="display:none;width:75px;height:75px;overflow:hidden;">
+	    <img src="" id="preview" />
+    </div>
+    <img src="" id="cropbox" />
 
-<img src="" id="cropbox" />
-<div style="width:150px;height:150px;overflow:hidden;">
-	<img src="" id="preview" />
-</div>
+</li>
+<li>
+    And finally, tell a little about the link if needed.<br>
+    <textarea name="body" ></textarea>
+</li>
+<li><input type="submit" name="submit" value="Share the love"/></li>
+</ol>
+</form>
