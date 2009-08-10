@@ -84,7 +84,8 @@ a {
 }
 a:hover {
     background: #fff;
-    color:#444
+    color:#444;
+    cursor:pointer;
 }
 body.home div.content a, body.home a.home, a.home {
 	    color:#fff
@@ -146,6 +147,13 @@ body.register div.content a:hover,body.register a.register, a.register:hover {
     color:#444;
 }
 
+body.submit div.content a,body.submit a.submit, a.submit{
+    color:#00ff00
+}
+body.submit div.content a:hover,body.submit a.submit, a.submit:hover {
+    background: #00ff00;
+    color:#444
+}
   .bonus ul > li.group {
     color: #00ff00;
   }
@@ -159,15 +167,16 @@ body.register div.content a:hover,body.register a.register, a.register:hover {
     }
 
     #newsitems .info {
+	/*left:0;
 	padding:0;
-	position:fixed;
-	left:auto;
-	top:auto;
+	position:absolute;
+	bottom:0;
 	width:150px;
+	top:auto;*/
 
     }
     .info {
-	background:transparent url(http://static.bubblefresh.com/img/bg.gif) repeat fixed 0 0;
+	background:transparent url(http://static.bubblefresh.com/img/bg.png) repeat fixed 0 0;
 	color:#FFFFFF;
 	left:0;
 	padding:1em;
@@ -199,7 +208,7 @@ body.register div.content a:hover,body.register a.register, a.register:hover {
     }
 
      .description{
-	background:transparent url(http://static.bubblefresh.com/img/bg.gif) repeat fixed 0 0;
+	background:transparent url(http://static.bubblefresh.com/img/bg.png) repeat fixed 0 0;
 	font-size:16px;
 	letter-spacing:1px;
 	line-height:20px;
@@ -303,27 +312,43 @@ body.register div.content a:hover,body.register a.register, a.register:hover {
     }
     .news > .content ul > li li {
 	margin:.5em;
-	background-color: #262626;
+	background-color: #333;
     }
     .news > .content ul > li li li {
-	margin:.5em;
-	background-color: #2B2B2B;
+	background-color: #444;
     }
     .news > .content ul > li li li li{
-	margin:.5em;
-	background-color: #303030;
-    }
-    .news > .content ul > li li li li{
-	margin:.5em;
-	background-color: #353535;
+	background-color: #555;
     }
     .news > .content ul > li li li li li{
-	margin:.5em;
-	background-color: #3A3A3A;
+	background-color: #666;
     }
-    .news > .content ul > li li li li li{
-	margin:.5em;
-	background-color: #404040;
+    .news > .content ul > li li li li li li{
+	background-color: #777;
+    }
+    .news > .content ul > li li li li li li li{
+	background-color: #888;
+    }
+    .news > .content ul > li li li li li li li li{
+	background-color: #999;
+    }
+    .news > .content ul > li li li li li li li li li{
+	background-color: #aaa;
+    }
+    .news > .content ul > li li li li li li li li li li{
+	background-color: #bbb;
+    }
+    .news > .content ul > li li li li li li li li li li li{
+	background-color: #ccc;
+    }
+    .news > .content ul > li li li li li li li li li li li li{
+	background-color: #ddd;
+    }
+    .news > .content ul > li li li li li li li li li li li li li{
+	background-color: #eee;
+    }
+    .news > .content ul > li li li li li li li li li li li li li li{
+	background-color: #fff;
     }
 
     img {
@@ -348,12 +373,28 @@ body.register div.content a:hover,body.register a.register, a.register:hover {
     width:18em;
 }
 
+#newsitems li img {
+    max-width:75px;
+    max-height:75px;
+    float:left;
+    border:3px solid #FFFFFF;
+}
+
+
+#newsitems li a:visited img {
+    border:3px solid #444;
+}
+#newsitems li a:hover img {
+    border:3px solid cyan;
+}
 #newsitems li{
     float:left;
-    margin:0.5em;
+    margin:2em 2em 0 0;
+    position:relative;
+
 }
 .reply {
-    background:transparent url(http://static.bubblefresh.com/img/bg.gif) repeat fixed 0 0;
+    background:transparent url(http://static.bubblefresh.com/img/bg.png) repeat fixed 0 0;
 }
 .reply .form{
     display:none;
@@ -426,5 +467,21 @@ input {
 }
 .expando span {
     display:none;
+}
+.instructions {
+    font-size:1.5em;
+}
+ .instructions input, .instructions textarea  {
+    border:3px solid;
+    font-size:1em;
+    width:100%;
+}
+.submit textarea:focus, input:focus {
+    border: 3px solid #00ff00;
+    background-color: #FFF;
+}
+#comments textarea:focus, #comments  input:focus {
+    border: 3px solid cyan;
+    background-color: #FFF;
 }
 
