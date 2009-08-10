@@ -117,7 +117,6 @@
   (mz:regexp-replace* "[^A-Za-z0-9+]+" title "_")))
   
 (def new-post (parent title link body by img (o x 0) (o y 0) (o w 300) (o h 300))
-    (prn w h x y)
     (save-post 
       (let id (string (++ maxpost*))
         (list id (inst 'post 
@@ -363,8 +362,7 @@
         (render-content 
            (render "html/submit.html" 
               (list "<!--fnid-->"  (rflink (fn (req) 
-                                    (erp req)
-                                    (new-post 
+                                    (tostring (new-post 
                                       0 
                                       (arg req "title") 
                                       (arg req "link")
@@ -374,7 +372,7 @@
                                       (arg req "x")
                                       (arg req "y")
                                       (arg req "w")
-                                      (arg req "h"))
+                                      (arg req "h")))
                                     "news"))))
                       "submit" " Submit" req))  
           (render-content (tostring  
