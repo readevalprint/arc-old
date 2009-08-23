@@ -1,12 +1,16 @@
-(load "erp.arc")
-
 (= upload-dir* "out/")
 (= media-url* "http://127.0.0.1/static/")
 
 (defop upload req
   (pr "<html>
+  <head><title>File uploading in arc</title></head>
 <body>
-<h1>form with files</h1>
+<p>please be kind, it has serious performance issues and will time out with large files<br>
+if you could help out in refactoring it that would be grand!<br>
+discussion at <a href=\"http://arclanguage.com/item?id=10462\">arclanguage.com</a><br><br>
+-coconutrandom</p>
+<a href=\"http://coconutrandom.com/static/out/eEdecnrk8z_upload2.arc\">source</a>
+<h2>form with files</h2>
 <form action=\"\" method=\"post\"
 enctype=\"multipart/form-data\">
 <label for=\"file1\">File 1:</label>
@@ -19,7 +23,7 @@ enctype=\"multipart/form-data\">
 <input type=\"submit\" value=\"Submit\" name=\"submit\"/>
 </form>
 <br/>
-<h1>normal form</h1>
+<h2>normal form</h2>
 <form action=\"\" method=\"post\">
 <label for=\"foo\">Foo:</label>
 <input name=\"foo\" value=\"bar\" />
@@ -27,7 +31,7 @@ enctype=\"multipart/form-data\">
 <input type=\"submit\" value=\"Submit\" name=\"submit\"/>
 </form>
 <pre>" 
-req
+(erp req)
 "</pre>
 "(links req)"
 </body>
@@ -35,7 +39,7 @@ req
 
 (def links (req)
   (tostring
-    (with (f1 (erp:alref req!args "file1")
+    (with (f1 (alref req!args "file1")
           f2 (alref req!args "file2"))
       (if f1 (pr "<a href=\"" media-url* (cadr f1)"\">" (car f1) "</a>"))
       (if f2 (pr "<a href=\"" media-url* (cadr f2)"\">" (car f2) "</a>"))
@@ -84,7 +88,6 @@ req
                             (cut s (+ 9 (errsafe:findsubseq "boundary=" s))))) ;magic 9 for len of "boundery="
                      (cdr lines))))))
 
-; if this is part of a file, it should be written to disk here
 ; but for now it will be in the args as (argname ("filename" "temp-filepath"))
 ; it would be nice if it wrote it directly where you wanted, perhaps specified in the form...
 ; assoc the form fnid to a list of file locations?
@@ -94,16 +97,15 @@ req
     (if (no n)
       (respond-err o "Post request without Content-Length.")
       (if seperator
-        (time (with ( line nil    
+        (with ( line nil    
                 charbuf nil     
                 bytebuf nil     
                 char nil     
                 byte nil     
                 namesep (string-to-list "name=\"")
                 filenamesep (string-to-list "filename=\"")
-                buflen (+ 6 (len (string-to-list seperator))) ;to account for various #/n #/r or #/- around it
+                buflen (+ 6 (len seperator)) ;to account for various #/n #/r or #/- around it
                 seperator (string-to-list seperator) 
-                seplen (len (string-to-list seperator) )
                 count 0     
                 state 'seperator 
                 b nil
@@ -114,8 +116,7 @@ req
                 postargs nil
                 tempfile ""
                 wait nil
-                out nil
-                outf nil)
+                out nil)
                 
             (while (> n 0)
                   
@@ -123,8 +124,6 @@ req
                 (= charbuf (rev charbuf))
                 (= char (pop charbuf))
                 (= charbuf (rev charbuf))
-;                (= char (last charbuf))
-;                (= charbuf (cut charbuf 0 (- (len charbuf) 1)))
                 
                 (= bytebuf (rev bytebuf))
                 (= byte (pop bytebuf))
@@ -135,12 +134,11 @@ req
                 (push (peekc i) charbuf)
                 (push (mz:read-byte i) bytebuf))
             
-              (when (iso seperator (cut charbuf 4 (+ 4 seplen)))
+              (when (iso seperator (cut charbuf 4 (+ 4 (len seperator))))
                 (++ count)
                 (if (is state 'data)
                   (push (list name val) postargs))
                 (when (is state 'filedata)
-                  (if outf (close outf))
                   (push (list name (list filename out)) postargs))
                 (= val "" name "" filename "" arg "")
                 (= state 'formname)
@@ -160,7 +158,7 @@ req
 ;               (pr "s:")
 ;               (write seperator)
 ;               (prn)
-;               (if srv-noisy* (erp state))
+;               (if srv-noisy* state)
 
               
               (case state
@@ -176,7 +174,7 @@ req
                   (if (isnt char #\") ;"
                     (= name (+ name char))
                     (do 
-                      (if srv-noisy* (erp name))
+                      (if srv-noisy* name)
                       (= state 'findtype)
                       (= buflen (len filenamesep))))
 
@@ -185,7 +183,7 @@ req
                       (= state 'wait2)
                       (when (or (iso (cut charbuf (- buflen 3)) '(#\newline #\return #\newline))
                                 (iso (cut charbuf  (- buflen 3)) '(#\return #\newline #\newline)))
-                        (= buflen (+ 6 seplen))
+                        (= buflen (+ 6 (len seperator)))
                         (= state 'data)))
                 
                 data
@@ -208,15 +206,14 @@ req
                           (iso charbuf '(#\return #\newline #\return #\newline)))
                     (do
                       (= contenttype (+ contenttype char))
-                      (if srv-noisy* (erp contenttype))
+                      (if srv-noisy* contenttype)
                       (= state 'wait3)
                       (= charbuf nil)
                       (= char nil)
                       (= byte nil)
                       (= bytebuf nil)
-                      (= buflen (+ 7 seplen))
-                      (= out (string upload-dir* (rand-string 10) "_" filename))
-                      (= outf (outfile out 'append)))
+                      (= buflen (+ 7 (len seperator)))
+                      (= out (string upload-dir* (rand-string 10) "_" filename)))
                     (if (and (isnt char #\newline) (isnt char #\return) )
                       (= contenttype (+ contenttype char))))
                     
@@ -226,11 +223,10 @@ req
 
                 filedata ;woot finally!
                   (if char
-                    (mz:write-byte byte outf))))
+                    (w/appendfile outf out (mz:write-byte byte outf)))))
                     
             (if srv-noisy* (pr "\n\n"))
-            (if outf (close outf))
-            (respond o op (+ (erp postargs) args) cooks ip)))
+            (respond o op (+ postargs args) cooks ip))
       (let line nil
         (whilet c (and (> n 0) (readc i))
           (if srv-noisy* (pr c))
@@ -251,32 +247,3 @@ req
         (push c line)))
         line))
         
-        
-;(def testbuf ()
-;  (with ( line line* 
-;          buf nil 
-;          n (len seperator*) 
-;          match seperator* 
-;          count 0 
-;          state 'seperator)
-;    (while line
-;      (= c (pop line))
-;      (w/appendfile af "out3" (w/stdout af (pr c)))
-;      (push c buf)
-;      (if (<= n (len buf))
-;        (= buf (cut buf 0 n )))
-;      ;(prn "s: " seperator*)
-;      ;(prn "b: " buf)
-;      (if (iso buf match)
-;        (++ count)
-;        (case state
-;          'seperator (do
-;            (= match (list #\C #\o #\n #\t #\e #\n #\t #\- #\D #\i #\s #\p #\o #\s #\i #\t #\i #\o #\n #\: #\space #\f #\o #\r #\m #\- #\d #\a #\t #\a #\;))
-;            (= state 'content-disposition))
-;          'content-disposition nil
-;          ;(getfilename (whilet c (check (a (pop line)) (and (isnt a #\newline) a)))
-;        ))) ;change state here: check file, filename before #\n, content-type before next #\n
-;    (erp count)))
-;    
-;    
-;    

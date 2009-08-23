@@ -476,7 +476,7 @@ input {
     font-size:1em;
     width:100%;
 }
-.submit textarea:focus, input:focus {
+.submit textarea:focus,.submit input:focus {
     border: 3px solid #00ff00;
     background-color: #FFF;
 }

@@ -5,7 +5,7 @@
     function getTitle(){
 	if(current_link != $("textarea[name=link]").attr('value')){
 	    current_link = $("textarea[name=link]").attr('value');
-	    $.getJSON("http://bubblefresh.com/static/ti.php?u="+current_link+"&callback=?"
+	    $.getJSON("http://bubblefresh.com/static/ti.php?u="+escape(current_link)+"&callback=?"
 	    , function(d){
 		console.log(d['title']);
 		console.log(d['images']);
@@ -23,7 +23,7 @@
 	clearImages();
 	if(current_link != $("textarea[name=link]").attr('value')){
 	    current_link = $("textarea[name=link]").attr('value');
-	    $.getJSON("http://bubblefresh.com/static/ti.php?u="+current_link+"&callback=?"
+	    $.getJSON("http://bubblefresh.com/static/ti.php?u="+escape(current_link)+"&callback=?"
 	    , function(d){
 		data = d;
 		for(i in d['images']){
@@ -37,6 +37,7 @@
 	} else {
 	    for(i in data['images']){
 		console.log(data['images'][i]);
+		if(data['images'][i].indexOf("http"))
 		$("#page_images").append("<img src=\""+data['images'][i]+"\"/>")
 	    };
 	    sortImages();
@@ -140,7 +141,9 @@
 	$(document).ready(function() {
 	    expando = function (e){
 		$(e).find("a").click(function(){
-		    $(this).hide().next("span").show()
+		    $(this).hide().next("span").show();
+		    clicky.log('/submit','expando');
+
 		});
 	    };
 	    expando($(".expando"));
@@ -226,7 +229,7 @@ Here are the images on the page. You can choose one...<br/><span class="smaller"
     <input type="hidden" id="y" name="y" value="50"/>
     <input type="hidden" id="w" name="w" value="200"/>
     <input type="hidden" id="h" name="h" value="200"/>
-    Choose the most interesting part for the thumbnail:<br />
+    Choose a part for the thumbnail:<br />
     <div id="preview_holder" style="display:none;width:75px;height:75px;overflow:hidden;">
 	    <img src="" id="preview" />
     </div>
@@ -234,7 +237,7 @@ Here are the images on the page. You can choose one...<br/><span class="smaller"
 
 </li>
 <li>
-    And finally, tell a little about the link if needed.<br>
+    And finally, tell a little about the link if <span class="expando"><a>needed.</a><span>needed. Like, if you didn't put an image.</span><br>
     <textarea name="body" ></textarea>
 </li>
 <li><input type="submit" name="submit" value="Share the love"/></li>

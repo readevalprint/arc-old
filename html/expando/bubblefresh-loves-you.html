@@ -2,7 +2,8 @@
 	$(document).ready(function() {
 	    expando = function (e){
 		$(e).find("a").click(function(){
-		    $(this).hide().next("span").show()
+		    $(this).hide().next("span").show();
+		    clicky.log('/','expando');
 		});
 	    };
 	    expando($(".expando"));

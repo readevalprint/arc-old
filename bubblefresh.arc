@@ -110,7 +110,7 @@
   (coerce (mz:regexp-replace* "[^0-9]+" i "") 'int))
   
 (def clean-url (url)
-  (mz:regexp-replace* "[^A-Za-z0-9+/_:?#posts*&.]+" url "")) ;is this safe?
+  (mz:regexp-replace* "(-[^A-Za-z0-9+/_:?%&.])+" url "")) ;is this safe?
   
 (def clean-title (title)
 (let title (coerce title 'string)

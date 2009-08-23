@@ -359,7 +359,7 @@ Connection: close"))
   (w/stdout str 
     (aif (fns* (sym (arg req "fnid")))
          (it req)
-         (pr dead-msg*))))
+         (pr "oh no"))))
 
 (defopr-raw y (str req)
   (aif (fns* (sym (arg req "fnid")))
