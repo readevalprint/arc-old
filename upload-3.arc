@@ -1,5 +1,5 @@
 (load "erp.arc")
-
+(load "parseform.arc")
 (= maxpostsize* 5242880) ;5 megabytes
 (= upload-dir* "out/raw/")
 (= media-url* "http://127.0.0.1/static/")
@@ -97,20 +97,12 @@ req
       (if (> n maxpostsize*)
         (respond-err o (string "Post size too large. Maximum is: " maxpostsize*))
         (if seperator
-          (time (do
-            (with (charbuf nil bytebuf nil byte 1 out nil outf nil)
-              (erp:= out (string upload-dir* (rand-string 10)))
-              (erp:= outf (outfile out 'append))
-              (erp n)
-              (while (and (> n 0) byte)
-                (= byte (readb i))
-                (-- n)
-                (and byte (writeb byte outf)))
-              (erp n)
-              (close outf)
-              
-             
-            )))
+          (time (with (postargs nil out (string upload-dir* (rand-string 4)))
+            (w/outfile outf out
+              ; write the buffer to file
+              (mz:write-bytes (read-bytes n i) outf))
+            (= postargs (parseform out seperator)))
+            (respond o op (+ (erp postargs) args) cooks ip))))
         (let line nil
           (whilet c (and (> n 0) (readc i))
             (if srv-noisy* (pr c))
