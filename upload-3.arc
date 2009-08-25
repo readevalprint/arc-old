@@ -6,7 +6,9 @@
 
 (defop upload req
   (pr "<html>
+  <head><title>File uploading in Arc</title></head>
 <body>
+<p>give it your best shot!</p>
 <h1>form with files</h1>
 <form action=\"\" method=\"post\"
 enctype=\"multipart/form-data\">
