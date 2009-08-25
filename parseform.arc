@@ -20,7 +20,8 @@
       (whilet l (readlinebytes inf)
         (when (headmatch sep (car l))
           ;if new part, save last one
-          (if (is state 'data2)
+          (when (is state 'data2)
+            (= val (cut val 0 (- (len val) 2)))
             (push (list name val) args))
           (when filename
             (if out (close out))
@@ -42,12 +43,12 @@
                   (push (list name (list filename path)) args)))
               )))
             
-        (if (is (erp state) 'data1)
+        (if (is state 'data1)
           (do
             (readline inf)
             (= state 'data2))
           (if (is state 'data2)
-            (= val (+ val (erp:car l)))))
+            (= val (+ val (car l)))))
         (if (is state 'file1)
           (do
             (readline inf)

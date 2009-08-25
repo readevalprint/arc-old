@@ -40,7 +40,7 @@ req
 
 (def links (req)
   (tostring
-    (with (f1 (erp:alref req!args "file1")
+    (with (f1 (alref req!args "file1")
           f2 (alref req!args "file2"))
       (if f1 (pr "<a href=\"" media-url* (cadr f1)"\">" (car f1) "</a><br/>"))
       (if f2 (pr "<a href=\"" media-url* (cadr f2)"\">" (car f2) "</a>"))
