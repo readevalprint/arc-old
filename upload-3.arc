@@ -2,7 +2,7 @@
 (load "parseform.arc")
 (= maxpostsize* 5242880) ;5 megabytes
 (= upload-dir* "out/raw/")
-(= media-url* "http://127.0.0.1/static/")
+(= media-url* "/static/")
 
 (defop upload req
   (pr "<html>
