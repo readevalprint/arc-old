@@ -30,7 +30,7 @@
             (iflet i (findsubseq "name=\"" contdisp)
               (do
                 (= name (cut contdisp (+ 6 i) (findsubseq "\"" contdisp (+ 6 i) )))
-                (= state 'data1)))
+                (= state 'data1 val "")))
             (iflet i (findsubseq "filename=\"" contdisp)
               (do
                 (readline inf)
