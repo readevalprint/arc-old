@@ -111,9 +111,9 @@ req
         (whilet c (and (> n 0) (readc i))
           (if srv-noisy* (pr c))
           (-- n)
-          (push c line))))
+          (push c line))
         (if srv-noisy* (pr "\n\n"))
-        (respond o op (+ (parseargs (string (rev line))) args) cooks ip))))
+        (respond o op (+ (parseargs (string (rev line))) args) cooks ip))))))
           
 (def string-to-list (str)
   ;
