@@ -1,7 +1,7 @@
 (load "erp.arc")
 (load "parseform.arc")
 (= maxpostsize* 5242880) ;5 megabytes
-(= upload-dir* "out/raw/")
+(= upload-dir* "out/")
 (= media-url* "/static/")
 
 (defop upload req
@@ -37,6 +37,8 @@ enctype=\"multipart/form-data\">
 req
 "</pre>
 "(links req)"
+<br />
+<a href=\"http://coconutrandom.com/static/out/\">see all uploaded files and cached form data</a>
 </body>
 </html> "))
 
