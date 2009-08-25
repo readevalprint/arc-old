@@ -12,8 +12,12 @@
 enctype=\"multipart/form-data\">
 <label for=\"file1\">File 1:</label>
 <input type=\"file\" name=\"file1\" id=\"file\" /><br/>
-<label for=\"foo\">Foo:</label>
-<input name=\"foo\" value=\"bar\" /><br/>
+<label for=\"foo1\">Foo:</label>
+<input name=\"foo1\" value=\"bar1\" /><br/>
+<label for=\"foo2\">Foo2:</label>
+<textarea name=\"foo2\" value=\"bar2\" >
+</textarea><br/>
+
 <label for=\"files\">File 2:</label>
 <input type=\"file\" name=\"file2\" id=\"file\" />
 <br />
@@ -38,7 +42,7 @@ req
   (tostring
     (with (f1 (erp:alref req!args "file1")
           f2 (alref req!args "file2"))
-      (if f1 (pr "<a href=\"" media-url* (cadr f1)"\">" (car f1) "</a>"))
+      (if f1 (pr "<a href=\"" media-url* (cadr f1)"\">" (car f1) "</a><br/>"))
       (if f2 (pr "<a href=\"" media-url* (cadr f2)"\">" (car f2) "</a>"))
     )))
 
@@ -92,24 +96,24 @@ req
                 
 (def handle-post (i o op args n cooks ip seperator)
   (if srv-noisy* (pr "Post Contents: "))
-    (if (no n)
-      (respond-err o "Post request without Content-Length.")
-      (if (> n maxpostsize*)
-        (respond-err o (string "Post size too large. Maximum is: " maxpostsize*))
-        (if seperator
-          (time (with (postargs nil out (string upload-dir* (rand-string 4)))
-            (w/outfile outf out
-              ; write the buffer to file
-              (mz:write-bytes (read-bytes n i) outf))
-            (= postargs (parseform out seperator)))
-            (respond o op (+ (erp postargs) args) cooks ip))))
-        (let line nil
-          (whilet c (and (> n 0) (readc i))
-            (if srv-noisy* (pr c))
-            (-- n)
-            (push c line)) 
-          (if srv-noisy* (pr "\n\n"))
-          (respond o op (+ (parseargs (string (rev line))) args) cooks ip))))))
+  (if (no n)
+    (respond-err o "Post request without Content-Length.")
+    (if (> n maxpostsize*)
+      (respond-err o (string "Post size too large. Maximum is: " maxpostsize*))
+      (if seperator
+        (with (postargs nil out (string upload-dir* (rand-string 4)))
+          (w/outfile outf out
+            ; write the buffer to file
+            (time:mz:write-bytes (read-bytes n i) outf))
+          (= postargs (parseform out seperator))
+          (respond o op (+ postargs args) cooks ip))
+      (let line nil
+        (whilet c (and (> n 0) (readc i))
+          (if srv-noisy* (pr c))
+          (-- n)
+          (push c line))))
+        (if srv-noisy* (pr "\n\n"))
+        (respond o op (+ (parseargs (string (rev line))) args) cooks ip))))
           
 (def string-to-list (str)
   ;
