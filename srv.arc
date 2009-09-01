@@ -37,7 +37,7 @@
 ; to handle it. also arrange to kill that thread if it
 ; has not completed in threadlife* seconds.
 
-(= threadlife* 30  requests* 0  requests/ip* (table)  
+(= threadlife* 120  requests* 0  requests/ip* (table)  
    throttle-ips* (table)  ignore-ips* (table)  spurned* (table))
 
 (def handle-request (s breaksrv)
@@ -139,7 +139,7 @@
         (respond o op (+ (parseargs (string (rev line))) args) cooks ip))))
 
 (= header* "HTTP/1.1 200 OK
-Content-Type: text/html; charset=utf-8
+Content-Tsrv thread took too longype: text/html; charset=utf-8
 Connection: close")
 
 (= type-header* (table))

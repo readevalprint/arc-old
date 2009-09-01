@@ -1,6 +1,8 @@
+(def upsrv () (thread (asv 37379)))
+
 (load "erp.arc")
-(load "parseform.arc")
-(= maxpostsize* 5242880) ;5 megabytes
+(load "parseform-2.arc")
+(= maxpostsize* 102400000) ;5 megabytes
 (= upload-dir* "out/")
 (= media-url* "/static/")
 
@@ -8,7 +10,7 @@
   (pr "<html>
   <head><title>File uploading in Arc</title></head>
 <body>
-<p>give it your best shot!</p>
+<p>give it your best shot! 10mb limit</p>
 <h1>form with files</h1>
 <form action=\"\" method=\"post\"
 enctype=\"multipart/form-data\">
@@ -73,6 +75,8 @@ req
       (close i o)))
   (harvest-fnids))
 
+
+
 (def parseheader (lines)
   (let (type op args) (parseurl (car lines))
     (list type
@@ -102,22 +106,22 @@ req
   (if srv-noisy* (pr "Post Contents: "))
   (if (no n)
     (respond-err o "Post request without Content-Length.")
-    (if (> n maxpostsize*)
+    (if (erp:> n maxpostsize*)
       (respond-err o (string "Post size too large. Maximum is: " maxpostsize*))
       (if seperator
         (with (postargs nil out (string upload-dir* (rand-string 4)))
           (w/outfile outf out
             ; write the buffer to file
             (time:mz:write-bytes (read-bytes n i) outf))
-          (= postargs (parseform out seperator))
+          (= postargs (parseform out (erp seperator)))
           (respond o op (+ postargs args) cooks ip))
-      (let line nil
-        (whilet c (and (> n 0) (readc i))
-          (if srv-noisy* (pr c))
-          (-- n)
-          (push c line))
-        (if srv-noisy* (pr "\n\n"))
-        (respond o op (+ (parseargs (string (rev line))) args) cooks ip))))))
+        (let line nil
+          (whilet c (and (> n 0) (readc i))
+            (if srv-noisy* (pr c))
+            (-- n)
+            (push c line))
+          (if srv-noisy* (pr "\n\n"))
+          (erp:respond o op (+ (parseargs (string (rev line))) args) cooks ip))))))
           
 (def string-to-list (str)
   ;
@@ -160,3 +164,6 @@ req
 ;    
 ;    
 ;    
+;arc> (withs (raw "1dzW" seplines (tostring:system:string "cd out; grep -na ^`head -n 1 " raw " | head -c -2` " raw) seplist ;(tokens seplines)) seplist)
+
+

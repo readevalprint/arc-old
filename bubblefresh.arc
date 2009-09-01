@@ -1,6 +1,7 @@
 (load "ssdt.arc")
 (load "erp.arc")
 (load "score.arc")
+(load "upload-2.arc")
 
 ;(load "bubblefresh.arc")(thread (asv))(init 'dev)
 
@@ -116,7 +117,7 @@
 (let title (coerce title 'string)
   (mz:regexp-replace* "[^A-Za-z0-9+]+" title "_")))
   
-(def new-post (parent title link body by img (o x 0) (o y 0) (o w 300) (o h 300))
+(def new-post (parent title link body by img )
     (save-post 
       (let id (string (++ maxpost*))
         (list id (inst 'post 
@@ -127,7 +128,7 @@
                   'body (eschtml (striptags body))
                   'link (clean-url link)
                   'img (clean-url img)
-                  'folder (cache-img (clean-url img) x y w h id ))))))
+                  )))))
 
 (def new-comment (parent text by)
     (save-comment 
@@ -357,27 +358,13 @@
 
 
 (defop submit req
-   (if (get-user req)
      (let user (get-user req)
         (render-content 
            (render "html/submit.html" 
               (list "<!--fnid-->"  (rflink (fn (req) 
-                                    (tostring (new-post 
-                                      0 
-                                      (arg req "title") 
-                                      (arg req "link")
-                                      (arg req "body")
-                                      user
-                                      (arg req "img")
-                                      (arg req "x")
-                                      (arg req "y")
-                                      (arg req "w")
-                                      (arg req "h")))
+                                      (erp req)
                                     "news"))))
-                      "submit" " Submit" req))  
-          (render-content (tostring  
-                            (login-form "Login" 'login login-handler (list (fn (a b))  "submit")))
-                               "submit" " Submit" req)))
+                      "submit" " Submit" req)))
 
 
 (defop magazine req
