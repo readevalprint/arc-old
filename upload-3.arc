@@ -7,7 +7,7 @@
 (= media-url* "/static/")
 
 (defop upload req
-  (pr "<html>
+  (pr "
   <head><title>File uploading in Arc</title></head>
 <body>
 <p>give it your best shot! 10mb limit</p>
