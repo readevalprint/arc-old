@@ -7,7 +7,7 @@
 (= media-url* "/static/")
 
 (defop upload req
-  (pr "<head><title>File uploading in Arc</title></head>
+  (pr "<html><head><title>File uploading in Arc</title></head>
 <body>
 <p>give it your best shot! 10mb limit</p>
 <h1>form with files</h1>
@@ -41,7 +41,7 @@ req
 <br />
 <a href=\"/static/out/\">see all uploaded files and cached form data</a>
 </body>
-</html> "))
+</html>"))
 
 (def links (req)
   (tostring
