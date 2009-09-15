@@ -11,7 +11,7 @@
   (init)(thread (asv 42697)))
   
 (def init ((o env 'live))
-  (= base-url* "http://127.0.0.1/static/"))
+  (= base-url* "http://127.0.0.1/static/")
   (= bubblefresh-posts-dir* "/home/tim/sites/arc3.0/arc/bubblefresh/posts/" )
   (= bubblefresh-comments-dir* "/home/tim/sites/arc/3.0arc/bubblefresh/comments/" )
   (when (is env 'live)
