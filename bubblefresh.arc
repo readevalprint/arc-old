@@ -5,17 +5,19 @@
 
 ;(load "bubblefresh.arc")(thread (asv))(init 'dev)
 
-(= bubblefresh-posts-dir* "/home/tim/sites/arc3.0/arc/bubblefresh/posts/" )
-(= bubblefresh-comments-dir* "/home/tim/sites/arc/3.0arc/bubblefresh/comments/" )
-  
+
   
 (def bsv ()
   (init)(thread (asv 42697)))
   
 (def init ((o env 'live))
-  (if (is env 'live)
+  (= base-url* "http://127.0.0.1/static/"))
+  (= bubblefresh-posts-dir* "/home/tim/sites/arc3.0/arc/bubblefresh/posts/" )
+  (= bubblefresh-comments-dir* "/home/tim/sites/arc/3.0arc/bubblefresh/comments/" )
+  (when (is env 'live)
+    (= bubblefresh-posts-dir* "/home/bubblefresh/sites/arc3/arc/bubblefresh/posts/" )
+    (= bubblefresh-comments-dir* "/home/tim/sites/arc/3.0/arc/bubblefresh/comments/" )
     (= base-url* "http://static.bubblefresh.com/")
-    (= base-url* "http://127.0.0.1/static/"))
 
   (= posts* (table) 
     comments* (table) 
