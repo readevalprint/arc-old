@@ -16,8 +16,8 @@
   (= bubblefresh-comments-dir* "/home/tim/sites/arc/3.0arc/bubblefresh/comments/" )
   (when (is env 'live)
     (= bubblefresh-posts-dir* "/home/bubblefresh/sites/arc3/arc/bubblefresh/posts/" )
-    (= bubblefresh-comments-dir* "/home/tim/sites/arc/3.0/arc/bubblefresh/comments/" )
-    (= base-url* "http://static.bubblefresh.com/")
+    (= bubblefresh-comments-dir* "/home/tim/sites/arc/3.0/ arc/bubblefresh/comments/" )
+    (= base-url* "http://static.bubblefresh.com/"))
 
   (= posts* (table) 
     comments* (table) 
