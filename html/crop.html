@@ -1,0 +1,63 @@
+
+<script type="text/javascript" charset="utf-8">
+
+
+var jcrop_api;
+var i, ac;
+
+function initJcrop(url){
+	$("textarea[name=img]").attr("value", url)
+	$("#cropbox").attr("src", url);
+	$("#preview").attr("src", url);
+	console.log("url: "+url);
+	jcrop_api = $.Jcrop('#cropbox',{
+	    boxWidth: 500, boxHeight: 500,
+	    onChange: showPreview,
+	    onSelect: upDate,
+	    setSelect:   [ 50, 50, 200, 200 ],
+	    aspectRatio: 1,
+	    sideHandles: true});
+	console.log($("#cropbox").attr("width"));
+};
+
+jQuery(window).load(function(){
+  initJcrop(src);
+})
+
+
+
+// Our simple event handler, called from onChange and onSelect
+// event handlers, as per the Jcrop invocation above
+function upDate(coords){
+	showPreview(coords)
+	$('input[name=x]').attr("value",coords.x);
+	$('input[name=y]').attr("value",coords.y);
+	$('input[name=w]').attr("value",coords.w);
+	$('input[name=h]').attr("value",coords.h);
+}
+function showPreview(coords){
+	if (parseInt(coords.w) > 0){
+	    var rx = 75 / coords.w;
+	    var ry = 75 / coords.h;
+	    jQuery('#preview').css({
+		    width: Math.round(rx * $("#cropbox").attr("width")) + 'px',
+		    height: Math.round(ry * $("#cropbox").attr("height")) + 'px',
+		    marginLeft: '-' + Math.round(rx * coords.x) + 'px',
+		    marginTop: '-' + Math.round(ry * coords.y) + 'px'
+	    });
+	}
+}
+
+</script>
+<li>
+    <input type="hidden" id="x" name="x" value="50"/>
+    <input type="hidden" id="y" name="y" value="50"/>
+    <input type="hidden" id="w" name="w" value="200"/>
+    <input type="hidden" id="h" name="h" value="200"/>
+    Choose a part for the thumbnail:<br />
+    <div id="preview_holder" style="display:none;width:75px;height:75px;overflow:hidden;">
+	    <img src="" id="preview" />
+    </div>
+    <img src="" id="cropbox" />
+
+</li>

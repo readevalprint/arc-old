@@ -139,7 +139,7 @@
         (respond o op (+ (parseargs (string (rev line))) args) cooks ip))))
 
 (= header* "HTTP/1.1 200 OK
-Content-Tsrv thread took too longype: text/html; charset=utf-8
+Content-Type: text/html; charset=utf-8
 Connection: close")
 
 (= type-header* (table))

@@ -1,28 +1,29 @@
 (load "ssdt.arc")
 (load "erp.arc")
 (load "score.arc")
-(load "upload-2.arc")
+(load "upload-3.arc")
 
 ;(load "bubblefresh.arc")(thread (asv))(init 'dev)
 
-(= bubblefresh-posts-dir* "arc/bubblefresh/posts/" )
-(= bubblefresh-comments-dir* "arc/bubblefresh/comments/" )
+(= bubblefresh-posts-dir* "/home/tim/sites/arc3.0/arc/bubblefresh/posts/" )
+(= bubblefresh-comments-dir* "/home/tim/sites/arc/3.0arc/bubblefresh/comments/" )
   
   
 (def bsv ()
   (init)(thread (asv 42697)))
   
 (def init ((o env 'live))
-  (= dead-msg* (string "\n" (tostring (render-content "Unknown or expired link."))))
+  (if (is env 'live)
+    (= base-url* "http://static.bubblefresh.com/")
+    (= base-url* "http://127.0.0.1/static/"))
+
   (= posts* (table) 
     comments* (table) 
     messages* '())
   (ensure-dir bubblefresh-posts-dir*)
   (ensure-dir bubblefresh-comments-dir*)
-  (if (is env 'live)
-    (= base-img-url* "http://static.bubblefresh.com/img/posts/"))
-  (if (is env 'dev)
-    (= base-img-url* "http://127.0.0.1/img/posts/"))
+  (= base-img-url* (string base-url* "img/posts/"))
+  (= dead-msg* (string "\n" (tostring (render-content "Unknown or expired link."))))
   (=  g* 1
       m* .8
       maxpost* 0
@@ -49,7 +50,7 @@
   dead '()
   children '()
   time (seconds)
-  pending #t
+  published nil
   )
 
 
@@ -74,10 +75,20 @@
       (= maxpost* (max maxpost* (coerce id 'int)))
       (= (posts* id) (temload 'post (string bubblefresh-posts-dir* id)))))
 
+(def all-published-post-ids ()
+  (sort (fn (a b)(> (coerce a 'int) (coerce b 'int))) 
+    (let y (list) (each x posts* (if ((x 1) 'published) (push (x 0) y))) y)))
+
+(def all-pending-posts ()
+    (let y (list) (each x posts* (unless ((x 1) 'published) (push (list 0 0 (x 0)) y))) y))
+
 (def all-post-ids ()
   (sort (fn (a b)(> (coerce a 'int) (coerce b 'int))) 
     (let y (list) (each x posts* (push (x 0) y)) y)))
 
+(def publish-post (id)
+  (= ((posts* id) 'published) #t)
+  (erp:save-post (list id (erp:posts* id))))
   
 (def load-comments ()
   (each id (map string (dir bubblefresh-comments-dir*))
@@ -85,26 +96,23 @@
       (= (comments* id) (temload 'post (string bubblefresh-comments-dir* id)))))
 
 (def update-sort-posts ()
-  (= sortedposts* (sort-items (item-scores (all-post-ids) posts*) g* m*)))
-
+  (= sortedposts* (sort-items (item-scores (all-published-post-ids) posts*) g* m*)))
 
 (def save-post (item)
     (save-table (item 1) (string bubblefresh-posts-dir* (item 0)))
-    (= (posts* (item 0)) (item 1))
-    (update-sort-posts))
+    (= (posts* (item 0)) (erp:item 1))
+    (update-sort-posts)
+    (item 0))
 
 (def save-comment (item)
     (save-table (item 1) (string bubblefresh-comments-dir* (item 0)))
     (= (comments* (item 0)) (item 1)))
 
-(def cache-img (src x y w h (o folder (string (rand-string 20))))
-  (if (begins src "http://")
-    (with (from (cut src 0 (urlend src 0))
-            folder (clean-title folder))
+(def cache-img (src x y w h folder)
       (ensure-dir (string "./static/img/posts/"folder))
       (system (string "cd ./static/img/posts/"folder";\
-        convert "from" \\( +clone -resize 500x500 -write orig.jpg +delete \\) -crop "(clean-int w)"x"(clean-int h)"+"(clean-int x)"+"(clean-int y)" -resize 75x75 thumb.jpg"))
-      folder)))
+        convert "src" \\( +clone -resize 500x500 -write orig.jpg +delete \\) -crop "(clean-int w)"x"(clean-int h)"+"(clean-int x)"+"(clean-int y)" -resize 75x75 thumb.jpg"))
+      folder)
     
     
 (def clean-int (i)
@@ -117,7 +125,7 @@
 (let title (coerce title 'string)
   (mz:regexp-replace* "[^A-Za-z0-9+]+" title "_")))
   
-(def new-post (parent title link body by img )
+(def new-post (parent title link body by)
     (save-post 
       (let id (string (++ maxpost*))
         (list id (inst 'post 
@@ -127,7 +135,7 @@
                   'title (eschtml (striptags title))
                   'body (eschtml (striptags body))
                   'link (clean-url link)
-                  'img (clean-url img)
+                  'folder id
                   )))))
 
 (def new-comment (parent text by)
@@ -142,10 +150,6 @@
                   'by by
                   'text (eschtml (striptags text)))))))
 
-(def add-msg args
-  (ero args)
-  (pushnew args messages*)) ;TODO ... or not
-
 (def item-viewed (req item)
   (with (user (get-user req))
     (pushnew user ((item 1) 'view)))
@@ -157,12 +161,10 @@
   (with (user (get-user req))
     (if (some user ((item 1) 'down))
       (do 
-        (pull user ((item 1) 'down))
-        (add-msg user "your downvote was removed"))
+        (pull user ((item 1) 'down)))
       (if (no (some user ((item 1) 'up)))
         (do 
-          (pushnew user ((item 1) 'up))
-          (add-msg user "your upvote was added"))))
+          (pushnew user ((item 1) 'up)))))
         (if ((item 1) 'title)
       (save-post item)
       (save-comment item))))
@@ -270,11 +272,11 @@
     (if (cdr items)
       (comment-list req (cdr items) href)))
   
-(def post-list (req)
+(def post-list (req (o posts sortedposts*))
   (accum accfn  
-    (each p sortedposts* ; ((post id) ..)
+    (each p posts
       (withs (item (list (p 2) (posts* (p 2)))
-            href (string "/news?id=" (item 0))
+            href (string "?id=" (item 0))
             a (string "<a href=\""href"&"((item 1) 'title)"\" class=\""(link-class req item)"\">" ))
         (accfn (string 
                   a "<img src=\""(post-thumb item)"\"/> </a>"
@@ -294,7 +296,8 @@
   (pr (render  "html/index.html"
         (list "<!--content-->" content)
         (list "<!--title-->" title)
-        (list "<!--class-->" class))))
+        (list "<!--class-->" class)
+        (list "<!--base-->"  base-url*))))
         
 
 
@@ -309,12 +312,14 @@
   (prn (render "html/index.html" 
         (list "<!--content-->" (render "html/expando/bubblefresh-loves-you.html"))
         (list "<!--title-->" " Home")
-        (list "<!--class-->" "home")))))
+        (list "<!--class-->" "home")
+        (list "<!--base-->"  base-url*)))))
 
 (defop-raw m (str req) (w/stdout str
   (prn "Set-Cookie: ajax=1")
   (prn)
   (prn (render "html/mobile.html" 
+          (list "<!--base-->"  base-url*)
           (list "<!--news-->" (string "<ul title=\"News\" id=\"news\">" (apply li (post-list req)) "</ul>"))
           (list "<!--apparel-->" (string "<ul title=\"Apparel\" id=\"apparel\">" "<li><a href=\"\">123</a></li>" "</ul>"))))))
 
@@ -325,12 +330,9 @@
       (render-content (render "html/apparel.html") "apparel" " Apparel" req))))
   
 (defop news req
-  (aif (posts* (arg req "id"))
-    (withs (item (list (arg req "id") it)
+  (if (and (posts* (arg req "id")) ((posts* (arg req "id")) 'published))
+    (withs (item (list (arg req "id") (posts* (arg req "id")))
           href (string "/news?id=" (item 0) "&"((item 1) 'title)))
-     ;TODO: not needed now
-     ;(iflet user (get-user req)
-     ;   (item-viewed req item))
       (render-content 
         (render "html/news.html" 
           (list "<!--breadcrumbs-->"  (string ((item 1) 'title)" &lt; <a href=/news>news</a> &lt; <a href=/>home</a>"))
@@ -355,6 +357,28 @@
         (list "<!--breadcrumbs-->" "news &lt; <a href=/>home</a>")
         (list "<!--body-->" (string "<ul>" (apply li (post-list req)) "</ul>")))
         "news" " News" req)))
+  
+(defop pending req
+  (if (posts* (arg req "id"))
+    (withs (item (list (arg req "id") (posts* (arg req "id")))
+          href (string "/pending?id=" (item 0) "&"((item 1) 'title)))
+      (render-content 
+        (render "html/pending.html" 
+          (list "<!--breadcrumbs-->"  (string ((item 1) 'title)" &lt; <a href=/pending>pending</a> &lt; <a href=/>home</a>"))
+          (list "<!--by-->"           (item-by item))
+          (list "<!--title-->"        ((item 1) 'title) )
+          (list "<!--body-->"         (string "<a href=\"" ((item 1) 'link) "\">" 
+                                                "<img src=\"" (post-img item) "\"/>"
+                                              "</a>"
+                                              "<div>"
+                                                ((item 1) 'body)
+                                              "</div>")))
+          "news" (string " Pending: " ((item 1) 'title)) req))
+    (render-content 
+      (render "html/pending.html" 
+        (list "<!--breadcrumbs-->" "pending &lt; <a href=/>home</a>")
+        (list "<!--body-->" (string "<ul>" (apply li (post-list req (all-pending-posts))) "</ul>")))
+        "news" " Pending" req)))
 
 
 (defop submit req
@@ -362,10 +386,12 @@
         (render-content 
            (render "html/submit.html" 
               (list "<!--fnid-->"  (rflink (fn (req) 
-                                      (erp req)
+                                      (cache-img 
+                                        ((arg req "image") 1) 
+                                        "0" "0" "200" "200"
+                                        (new-post 0 (arg req "title") (arg req "link") (arg req "body") "guest"))
                                     "news"))))
                       "submit" " Submit" req)))
-
 
 (defop magazine req
   (render-content "<ul><li><a href=\"\">123</a></li></ul>" "magazine" " Magazine" req))

@@ -3,11 +3,14 @@
 (load "erp.arc")
 (load "parseform-2.arc")
 (= maxpostsize* 102400000) ;5 megabytes
-(= upload-dir* "out/")
+(= upload-dir* "/home/tim/sites/arc3.0/out/")
 (= media-url* "/static/")
 
 (defop upload req
-  (pr "<html><head><title>File uploading in Arc</title></head>
+  (pr "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\"
+\"http://www.w3.org/TR/html4/strict.dtd\">
+
+<html><head><title>File uploading in Arc</title></head>
 <body>
 <p>give it your best shot! 10mb limit</p>
 <h1>form with files</h1>
@@ -105,14 +108,14 @@ req
   (if srv-noisy* (pr "Post Contents: "))
   (if (no n)
     (respond-err o "Post request without Content-Length.")
-    (if (erp:> n maxpostsize*)
+    (if (> n maxpostsize*)
       (respond-err o (string "Post size too large. Maximum is: " maxpostsize*))
       (if seperator
         (with (postargs nil out (string upload-dir* (rand-string 4)))
           (w/outfile outf out
             ; write the buffer to file
             (time:mz:write-bytes (read-bytes n i) outf))
-          (= postargs (parseform out (erp seperator)))
+          (= postargs (parseform out seperator))
           (respond o op (+ postargs args) cooks ip))
         (let line nil
           (whilet c (and (> n 0) (readc i))
@@ -120,7 +123,7 @@ req
             (-- n)
             (push c line))
           (if srv-noisy* (pr "\n\n"))
-          (erp:respond o op (+ (parseargs (string (rev line))) args) cooks ip))))))
+          (respond o op (+ (parseargs (string (rev line))) args) cooks ip))))))
           
 (def string-to-list (str)
   ;
