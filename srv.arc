@@ -172,6 +172,7 @@ Connection: close"))
 ; to prn a blank line before anything meant to be part of the page.
 
 (mac defop-raw (name parms . body)
+  (prn (string "defop-raw:" name))
   (w/uniq t1
     `(= (srvops* ',name) 
         (fn ,parms 

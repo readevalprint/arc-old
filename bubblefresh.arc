@@ -11,13 +11,15 @@
   (init)(thread (asv 42697)))
   
 (def init ((o env 'live))
+  (= urls* '('('hi hi)
+                ))
   (= base-url* "http://127.0.0.1/static/")
   (= bubblefresh-posts-dir* "/home/tim/sites/arc3.0/arc/bubblefresh/posts/" )
   (= bubblefresh-comments-dir* "/home/tim/sites/arc/3.0/arc/bubblefresh/comments/" )
   (when (is env 'live)
-    (= base-url* "http://static.bubblefresh.com/"))
+    (= base-url* "http://static.bubblefresh.com/")
     (= bubblefresh-posts-dir* "/home/bubblefresh/sites/arc3/arc/bubblefresh/posts/" )
-    (= bubblefresh-comments-dir* "/home/bubblefresh/sites/arc3/arc/bubblefresh/comments/" )
+    (= bubblefresh-comments-dir* "/home/bubblefresh/sites/arc3/arc/bubblefresh/comments/" ))
 
   (= posts* (table) 
     comments* (table) 
@@ -33,6 +35,7 @@
   (load-comments)  ;need to sort on save not on page view
   (load-posts)
   (update-sort-posts)) ;have to keep this last, since posts* is from 'load-posts
+
 
 
 (deftem 
@@ -113,7 +116,8 @@
 (def cache-img (src x y w h folder)
       (ensure-dir (string "./static/img/posts/"folder))
       (system (string "cd ./static/img/posts/"folder";\
-        convert "src" \\( +clone -resize 500x500 -write orig.jpg +delete \\) -crop "(clean-int w)"x"(clean-int h)"+"(clean-int x)"+"(clean-int y)" -resize 75x75 thumb.jpg"))
+        convert "src" \\( +clone -resize 500x500 -write orig.jpg +delete \\) \
+        -resize 100x100^ -gravity center -extent 100x100 thumb.jpg"))
       folder)
     
     
@@ -331,34 +335,36 @@
       (render-content (render f) "apparel" (+ " Apparel: " (caar (req 'args))) req)
       (render-content (render "html/apparel.html") "apparel" " Apparel" req))))
   
-(defop news req
-  (if (and (posts* (arg req "id")) ((posts* (arg req "id")) 'published))
-    (withs (item (list (arg req "id") (posts* (arg req "id")))
-          href (string "/news?id=" (item 0) "&"((item 1) 'title)))
+(def news (str req)
+  (w/stdout str 
+    (prn)
+    (if (and (posts* (arg req "id")) ((posts* (arg req "id")) 'published))
+      (withs (item (list (arg req "id") (posts* (arg req "id")))
+            href (string "/news?id=" (item 0) "&"((item 1) 'title)))
+        (render-content 
+          (render "html/news.html" 
+            (list "<!--breadcrumbs-->"  (string ((item 1) 'title)" &lt; <a href=/news>news</a> &lt; <a href=/>home</a>"))
+            (list "<!--vote-->"         (vote-link req href item))
+            (list "<!--score-->"        (score item))
+            (list "<!--by-->"           (item-by item))
+            (list "<!--title-->"        ((item 1) 'title) )
+            (list "<!--comment-link-->" (comment-link req item (string "/news?id="(item 0)) ))
+            (list "<!--comments-->"     (if ((item 1) 'children)
+                                          (tostring (comment-list req 
+                                                      (sort-items (item-scores ((item 1) 'children) comments*) g* m*) href))
+                                          ""))
+            (list "<!--body-->"         (string "<a href=\"" ((item 1) 'link) "\">" 
+                                                  "<img src=\"" (post-img item) "\"/>"
+                                                "</a>"
+                                                "<div>"
+                                                  ((item 1) 'body)
+                                                "</div>")))
+            "news" (string " News: " ((item 1) 'title)) req))
       (render-content 
         (render "html/news.html" 
-          (list "<!--breadcrumbs-->"  (string ((item 1) 'title)" &lt; <a href=/news>news</a> &lt; <a href=/>home</a>"))
-          (list "<!--vote-->"         (vote-link req href item))
-          (list "<!--score-->"        (score item))
-          (list "<!--by-->"           (item-by item))
-          (list "<!--title-->"        ((item 1) 'title) )
-          (list "<!--comment-link-->" (comment-link req item (string "/news?id="(item 0)) ))
-          (list "<!--comments-->"     (if ((item 1) 'children)
-                                        (tostring (comment-list req 
-                                                    (sort-items (item-scores ((item 1) 'children) comments*) g* m*) href))
-                                        ""))
-          (list "<!--body-->"         (string "<a href=\"" ((item 1) 'link) "\">" 
-                                                "<img src=\"" (post-img item) "\"/>"
-                                              "</a>"
-                                              "<div>"
-                                                ((item 1) 'body)
-                                              "</div>")))
-          "news" (string " News: " ((item 1) 'title)) req))
-    (render-content 
-      (render "html/news.html" 
-        (list "<!--breadcrumbs-->" "news &lt; <a href=/>home</a>")
-        (list "<!--body-->" (string "<ul>" (apply li (post-list req)) "</ul>")))
-        "news" " News" req)))
+          (list "<!--breadcrumbs-->" "news &lt; <a href=/>home</a>")
+          (list "<!--body-->" (string "<ul>" (apply li (post-list req)) "</ul>")))
+          "news" " News" req))))
   
 (defop pending req
   (if (posts* (arg req "id"))
@@ -423,7 +429,8 @@
     (list "<!--body-->" (tostring (aform (fn (req) (render-content "asdf")) (submit)))))
     "register" " Register" req))
                 
-                
+(def hi (req)
+  (pr "hi"))        
                 
 (def failed-login (switch msg afterward)
   (flink (fn ignore (render-content (tostring  

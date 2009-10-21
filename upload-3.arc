@@ -61,7 +61,7 @@ req
         (if srv-noisy* (pr c))
         (if (is c #\newline)
             (if (is (++ nls) 2) 
-                (let (type op args n cooks seperator) (parseheader (rev lines))
+                (let (type op args n cooks seperator) (erp:parseheader (rev lines))
                   (let t1 (msec)
                     (case type
                       get  (respond o op args cooks ip)
@@ -80,6 +80,7 @@ req
 
 
 (def parseheader (lines)
+  (erp lines)
   (let (type op args) (parseurl (car lines))
     (list type
           op
@@ -124,6 +125,42 @@ req
             (push c line))
           (if srv-noisy* (pr "\n\n"))
           (respond o op (+ (parseargs (string (rev line))) args) cooks ip))))))
+        
+; arc> (mz:regexp-match #rx"^news/?([0-9]*)/?([0-9]*)/?$" "news/33/44/")
+
+(def urlmap (op)
+  (erp op)
+  (let op (string op)
+  (if (erp:mz:regexp-match #rx"news/?([0-9]*)/?" op)
+    news)))
+
+(def respond (str op args cooks ip)
+  (w/stdout str
+    (iflet f (erp:urlmap op)
+      (let req (inst 'request 'args args 'cooks cooks 'ip ip)
+        (do (prn header*)
+            (f str req)))
+      (iflet f (srvops* op)
+             (let req (inst 'request 'args args 'cooks cooks 'ip ip)
+               (if (redirector* op)
+                   (do (prn rdheader*)
+                       (prn "Location: " (f str req))
+                       (prn))
+                   (do (prn header*)
+                       (awhen (max-age* op)
+                         (prn "Cache-Control: max-age=" it))
+                       (f str req))))
+             (let filetype (static-filetype op)
+               (aif (and filetype (file-exists (string staticdir* op)))
+                    (do (prn (type-header* filetype))
+                        (awhen static-max-age*
+                          (prn "Cache-Control: max-age=" it))
+                        (prn)
+                        (w/infile i it
+                          (whilet b (readb i)
+                            (writeb b str))))
+                    (respond-err str unknown-msg*)))))))
+
           
 (def string-to-list (str)
   ;
@@ -137,35 +174,3 @@ req
         (push c line)))
         line))
         
-        
-;(def testbuf ()
-;  (with ( line line* 
-;          buf nil 
-;          n (len seperator*) 
-;          match seperator* 
-;          count 0 
-;          state 'seperator)
-;    (while line
-;      (= c (pop line))
-;      (w/appendfile af "out3" (w/stdout af (pr c)))
-;      (push c buf)
-;      (if (<= n (len buf))
-;        (= buf (cut buf 0 n )))
-;      ;(prn "s: " seperator*)
-;      ;(prn "b: " buf)
-;      (if (iso buf match)
-;        (++ count)
-;        (case state
-;          'seperator (do
-;            (= match (list #\C #\o #\n #\t #\e #\n #\t #\- #\D #\i #\s #\p #\o #\s #\i #\t #\i #\o #\n #\: #\space #\f #\o #\r #\m #\- #\d #\a #\t #\a #\;))
-;            (= state 'content-disposition))
-;          'content-disposition nil
-;          ;(getfilename (whilet c (check (a (pop line)) (and (isnt a #\newline) a)))
-;        ))) ;change state here: check file, filename before #\n, content-type before next #\n
-;    (erp count)))
-;    
-;    
-;    
-;arc> (withs (raw "1dzW" seplines (tostring:system:string "cd out; grep -na ^`head -n 1 " raw " | head -c -2` " raw) seplist ;(tokens seplines)) seplist)
-
-
